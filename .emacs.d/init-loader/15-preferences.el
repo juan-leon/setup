@@ -45,7 +45,7 @@
  server-window                      'switch-to-buffer-other-frame
  scroll-step                        1
  scroll-conservatively              1
- scroll-preserve-screen-position    t
+ scroll-preserve-screen-position    'in-place
  smex-save-file                     (concat user-emacs-directory ".smex-items")
  text-scale-mode-step               1.1
  track-eol                          t
@@ -81,4 +81,5 @@
 (back-button-mode         1)
 
 (require 'saveplace)
+(require 'scroll-in-place)
 (require 'uniquify)

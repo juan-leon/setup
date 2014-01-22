@@ -31,7 +31,7 @@
   '(progn
      (defun leon/dired-hide-hidden ()
        (interactive)
-       (let ((dired-actual-switches "-l"))
+       (let ((dired-actual-switches "--group-directories-first -l"))
          (revert-buffer)))
      (setq dired-copy-preserve-time nil
            dired-recursive-copies   'always)
@@ -214,5 +214,4 @@
 
 (eval-after-load "smex"
   '(progn
-     (smex-auto-update 60)
-     (setq smex-key-advice-ignore-menu-bar nil)))
+     (smex-auto-update 60)))

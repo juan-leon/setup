@@ -1,14 +1,3 @@
-* TODO Decide a scroll-in-place alternative
-
-  Options:
-
-** scroll-in-place obsolete package
-** scroll-preserve-screen-position variable (not good enough)
-** A more modern package from ELPA (smooth-scroll)
-
-*** TODO Take a look to on-screen packacge
-*** TODO Remove obsolete package if a better solutions appears
-
 * TODO Evaluate more maintainied alternatives to xcscope.el
 
 * TODO Evaluate more maintainied alternatives to analog.el
