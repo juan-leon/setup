@@ -19,9 +19,8 @@
                                  (setq c-basic-offset 4
                                        tab-width 4
                                        indent-tabs-mode t)))
-     (when (require 'xcscope nil t)
-       (add-hook 'c-mode-hook   'cscope-minor-mode)
-       (add-hook 'c++-mode-hook 'cscope-minor-mode))
+    (when (require 'xcscope nil t)
+      (cscope-setup))
      (when (require 'ctags nil t)
        (setq tags-revert-without-query t)
        (setq ctags-command

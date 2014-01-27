@@ -24,6 +24,7 @@
         button-lock
         color-theme-sanityinc-solarized
         ctags
+        diminish
         dired-efap
         edit-server
         epl
