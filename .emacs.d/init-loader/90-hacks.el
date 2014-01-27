@@ -16,3 +16,28 @@
      (if (comint-after-pmark-p)
          ad-do-it
        (backward-paragraph arg))))
+
+;;; Uncluttering modeline:
+
+(mapc (lambda (x)
+        (eval-after-load (car x)
+          `(diminish (quote ,(cdr x)))))
+      '(("autorevert"  . auto-revert-mode)
+        ("fixmee"      . fixmee-mode)
+        ("ws-trim"     . ws-trim-mode)
+        ("back-button" . back-button-mode)
+        ("button-lock" . button-lock-mode)
+        ("hideshow"    . hs-minor-mode)))
+
+(setq projectile-mode-line-lighter " Prj")
+
+(defadvice projectile-update-mode-line (around diminish activate)
+  "No modeline real state waste when not in a project"
+  (let ((projectile-require-project-root t))
+    (condition-case nil
+        (progn
+          (projectile-project-root)
+          ad-do-it)
+      (error nil))))
+
+(add-hook 'dired-mode-hook 'projectile-update-mode-line)

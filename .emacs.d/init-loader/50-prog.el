@@ -35,8 +35,8 @@
 
 (add-to-list 'auto-mode-alist '("\\.pp\\'" . ruby-mode))
 
-(setq projectile-switch-project-action 'projectile-dired)
-(setq projectile-tags-command "ctags-exuberant -Re %s --links=no")
+(setq projectile-switch-project-action 'projectile-dired
+      projectile-tags-command "ctags-exuberant -Re %s --links=no")
 (projectile-global-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

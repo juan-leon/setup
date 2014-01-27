@@ -151,7 +151,7 @@
 
 (eval-after-load "magit"
   '(define-key magit-status-mode-map (kbd "C-c C-r")
-     (command (magit-git-command "create-review"))))
+     (command (magit-git-command "create-review" (magit-get-top-dir)))))
 
 (eval-after-load "shell"
   '(progn

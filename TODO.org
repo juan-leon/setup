@@ -5,3 +5,4 @@
 * TODO Do I need counter.el?  Not used in some time.
 
 * TODO Evaluate jedi and elpy
+* TODO auto-complete or company?

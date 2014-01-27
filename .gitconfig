@@ -1,0 +1,47 @@
+[user]
+  name = Juan-Leon Lahoz
+  email = juanleon.lahoz@gmail.com
+
+[core]
+
+  editor = /usr/local/bin/emacsclient --alternate-editor /usr/local/bin/emacs
+  excludesfile = ~/.gitignore.global
+
+[color]
+
+  ui = auto
+  interactive = auto
+  branch = auto
+  status = auto
+  diff = auto
+
+[color.status]
+
+  current = green bold
+  local = green
+  remote = red bold
+  added = green bold
+  changed = yellow bold
+  untracked = red
+  branch = yellow
+
+[merge]
+
+  tool = meld
+
+[diff]
+
+  tool = meld
+
+[alias]
+
+  ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+  ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+  lds = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
+  ld = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
+  create-review = push gerrit HEAD:refs/for/develop
+  create-review-in-branch = "!f() { git push gerrit HEAD:refs/for/$1; }; f"
+
+  clone-from-gerrit = "!f() { git clone ssh://gerrit/$1.git $2; cd $2; cd $2; git checkout develop; git remote rename origin gerrit; }; f"
+
+  graph = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''%C(white)%s%C(reset) %C(bold white)— %an%C(reset)' --abbrev-commit
