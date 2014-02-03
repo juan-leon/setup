@@ -58,6 +58,8 @@
 (global-set-key [(control x) ?b]            'ido-switch-buffer)
 (global-set-key [(meta kp-5)]               'ido-switch-buffer)
 (global-set-key [(meta kp-begin)]           'ido-switch-buffer)
+(global-set-key [(super home)]              'rotate-layout)
+(global-set-key [(super end)]               'rotate-window)
 (global-set-key [(control l)]               'recenter)
 (global-set-key [(control ?x) (control ?d)] 'dired-jump)
 (global-set-key [C-tab]                     'complete-tag)

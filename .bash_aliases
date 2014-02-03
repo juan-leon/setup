@@ -1,3 +1,8 @@
+PS1='\[\033[01;30m\][\[\033[00m\]\[\033[35m\]\w\[\033[00m\]\[\033[01;30m\]]\[\033[00m\]: '
+
+export EMAIL="juanleon.lahoz@gmail.com"
+export EDITOR='/usr/local/bin/emacsclient --alternate-editor /usr/local/bin/emacs'
+
 psgrep()
 {
   local name

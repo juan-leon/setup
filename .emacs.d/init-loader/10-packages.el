@@ -59,6 +59,7 @@
         pkg-info
         popup
         projectile
+        rotate
         smartrep
         smex
         sr-speedbar
