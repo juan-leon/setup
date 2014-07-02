@@ -86,7 +86,7 @@
 
 ;; Fast bookmarks
 (global-set-key [(control meta ?1)] (command (find-file init-loader-directory)))
-(global-set-key [(control meta ?2)] (command (find-file "~/repos")))
+(global-set-key [(control meta ?2)] (command (find-file "~/www")))
 (global-set-key [(control meta ?3)] (command (find-file "~/Dropbox/org")))
 (global-set-key [(control meta ?4)] (command (find-file "/var/log/")))
 
@@ -95,6 +95,12 @@
 (global-set-key [(control x) ?k]          'kill-this-buffer) ; No more "¿which buffer?"
 (global-set-key [(control x) (control k)] 'kill-this-buffer) ; No more "no keyboard macro defined"
 (global-set-key [(control x) (control z)] 'shell)            ; fixme: reuse this
+;; (global-set-key [(meta o)]                'subword-downcase)
+;; (global-set-key [(meta h)]                'left-char)        ; VI movement with Meta
+;; (global-set-key [(meta j)]                'next-line)
+;; (global-set-key [(meta k)]                'previous-line)
+;; (global-set-key [(meta l)]                'right-char)
+
 
 ;; My randon functions
 (global-set-key [(super f2)]                'toggle-truncate-lines)
@@ -111,6 +117,7 @@
 (global-set-key [(super u)]                 'dired-recursive-by-extension)
 (global-set-key [(super U)]                 'dired-recursive-by-extension-no-target)
 (global-set-key [(control pause)]           'toggle-split)
+(global-set-key [(super backspace)]         'squealer-last-error)
 
 
 (global-set-key [(meta f5)]
@@ -130,6 +137,7 @@
 (global-set-key (kbd "M-X")             'smex-major-mode-commands)
 (global-set-key (kbd "C-c C-c M-x")     'execute-extended-command)
 (global-set-key [(super ?0)]            'magit-status)
+(global-set-key [(super ?q)]            'magit-status)
 (global-set-key [(control Scroll_Lock)] 'bm-toggle)
 (global-set-key [(shift Scroll_Lock)]   'bm-previous)
 (global-set-key [(Scroll_Lock)]         'bm-next)
@@ -152,8 +160,10 @@
      (define-key help-mode-map [(meta right)] 'help-go-forward)))
 
 (eval-after-load "magit"
-  '(define-key magit-status-mode-map (kbd "C-c C-r")
-     (command (magit-git-command "create-review" (magit-get-top-dir)))))
+  '(progn
+     (define-key magit-status-mode-map [(control ?c) (control ?r)]
+       (command (magit-git-command "create-review" (magit-get-top-dir))))
+     (define-key magit-status-mode-map [backspace] 'magit-in-supermodule)))
 
 (eval-after-load "shell"
   '(progn
@@ -183,6 +193,9 @@
 
 (add-hook 'java-mode-hook (lambda ()
                             (local-set-key [(f12)] 'browse-javadoc)))
+
+(add-hook 'php-mode-hook (lambda ()
+                            (local-set-key [(f12)] 'browse-php)))
 
 (add-hook 'prog-mode-hook (lambda ()
                             (local-set-key [(f3)]      'hs-show-block)

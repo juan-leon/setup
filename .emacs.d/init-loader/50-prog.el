@@ -24,7 +24,7 @@
      (when (require 'ctags nil t)
        (setq tags-revert-without-query t)
        (setq ctags-command
-             "find . -name  '*.[ch]' -o -name '*.java' -o -name '*.el' -o -name '*.py' | xargs etags"))
+             "find . -name  '*.[ch]' -o -name '*.java' -o -name '*.el' -o -name '*.php' -o -name '*.js' -o -name '*.py' | xargs etags"))
      (when (require 'etags-table nil t)
        (setq etags-table-search-up-depth 20))
      (c-set-offset 'case-label '+)
@@ -37,6 +37,28 @@
 (setq projectile-switch-project-action 'projectile-dired
       projectile-tags-command "ctags-exuberant -Re %s --links=no")
 (projectile-global-mode)
+
+;; fixme flymake fails more often than not (add-hook 'php-mode-hook 'flymake-mode)
+(add-hook 'php-mode-hook '(lambda () (setq require-final-newline t)))
+
+;; fixed!
+(eval-after-load "php-mode"
+  '(progn
+     (c-add-style
+      "pear"
+      '((c-basic-offset . 4)
+        (c-offsets-alist . ((block-open . -)
+                            (block-close . 0)
+                            (topmost-intro-cont . (first c-lineup-cascaded-calls
+                                                         php-lineup-arglist-intro))
+                            (brace-list-intro . +)
+                            (case-label . +)
+                            (brace-list-entry . c-lineup-cascaded-calls)
+                            (arglist-close . php-lineup-arglist-close)
+                            (arglist-intro . php-lineup-arglist-intro)
+                            (knr-argdecl . [0])
+                            (statement-cont . (first c-lineup-cascaded-calls +))))))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;
@@ -87,7 +109,7 @@
      (setq magit-gitk-executable "gitg"
            magit-save-some-buffers nil
            magit-completing-read-function 'magit-ido-completing-read
-           magit-diff-refine-hunk t)
+           magit-diff-refine-hunk nil)
      (add-hook 'magit-log-edit-mode-hook
                (lambda ()
                  (flyspell-mode 1)

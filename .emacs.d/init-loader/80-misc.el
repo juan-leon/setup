@@ -169,9 +169,8 @@
 (eval-after-load "org"
   '(progn
      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-     (setq org-agenda-files '("~/Dropbox/org/"))
-     (setq org-completion-use-ido t
-           org-log-done t)))
+     (setq org-agenda-files '("~/cases/"))
+     (setq org-completion-use-ido t)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -180,13 +179,14 @@
 
 (eval-after-load "sql"
   '(progn
+     (modify-syntax-entry ?\" "\"" sql-mode-syntax-table)
      (setq sql-connection-alist
-           '(("events"
+           '(("squealer"
               (sql-product  'mysql)
-              (sql-database "events")
-              (sql-server   "squid1")
-              (sql-user     "events")
-              (sql-password "events"))
+              (sql-database "squealer_dev")
+              (sql-server   "localhost")
+              (sql-user     "root")
+              (sql-password ""))
              ("users"
               (sql-product  'mysql)
               (sql-database "users")
@@ -215,3 +215,12 @@
 (eval-after-load "smex"
   '(progn
      (smex-auto-update 60)))
+
+
+(setq yas-prompt-functions '(yas-ido-prompt))
+(setq yas-snippet-dirs (list "~/.emacs.d/snippets"))
+(yas-reload-all)
+
+
+(add-hook 'php-mode-hook (lambda ()
+                           (yas-minor-mode 1)))

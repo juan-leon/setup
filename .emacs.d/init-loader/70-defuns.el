@@ -111,7 +111,7 @@
       (goto-char (point-min)))))
 
 (defun notify-compilation-end (comp-buffer result)
-  (unless (eq major-mode 'grep-mode)
+  (unless (or (eq major-mode 'grep-mode) (eq major-mode 'ack-and-a-half-mode))
     (start-process "notification" nil "notify-send" "-t" "60000"
                    "-i" "/usr/share/icons/hicolor/48x48/apps/emacs.png"
                    (concat "Compilation " result))))
@@ -171,6 +171,10 @@
               (browse-url url))
           (message "No class at point"))))))
 
+(defun browse-php (arg)
+  (interactive (list (read-from-minibuffer "Enter symbol: " (thing-at-point 'word))))
+  (browse-url (concat "http://us.php.net/manual-lookup.php?scope=quickref&pattern=" arg)))
+
 (defun toggle-theme ()
   "Toggle dark/light theme"
   (interactive)
@@ -198,4 +202,48 @@
            (progn
              (string-match "^/\\w*:" buffer-file-name)
              (replace-match "/sudo:" nil nil buffer-file-name))
-         (concat "/sudo:root@localhost:" buffer-file-name)))))
+         (concat "/sudo::" buffer-file-name)))))
+
+(defun squealer-last-error()
+  (interactive)
+  (let ((buf (get-buffer-create "*squealer*"))
+        (inhibit-read-only t))
+    (switch-to-buffer buf)
+    (erase-buffer)
+    (shell-command "echo \"SELECT description, stack FROM reportFullText ORDER BY reportId DESC LIMIT 1\" | mysql -u root squealer --pager=cat -r -s" buf buf)
+    (compilation-mode)
+    (make-local-variable 'compilation-error-regexp-alist)
+    (add-to-list 'compilation-error-regexp-alist '("^#[0-9]+ \\(/[^ ]*?\\)(\\([0-9]+\\)):" 1 2))
+    (add-to-list 'compilation-error-regexp-alist '("\\(/[^ ]*?\\):\\([0-9]+\\)$" 1 2))))
+
+(defun magit-in-supermodule()
+  (interactive)
+  (with-temp-buffer
+    (cd "..")
+    (if (magit-get-top-dir)
+        (magit-status default-directory))))
+
+(defun extended-word-at-point ()
+  (let ((underscore-syntax (if (= (char-syntax ?_) ?_) "_" "w"))
+        (dash-syntax (if (= (char-syntax ?-) ?_) "_" "w")))
+    (modify-syntax-entry ?_ "w")
+    (modify-syntax-entry ?- "w")
+    (prog1
+        (thing-at-point 'word)
+      (modify-syntax-entry ?_ underscore-syntax)
+      (modify-syntax-entry ?- dash-syntax))))
+
+(defun browse-zeal (arg lang)
+  (interactive (list
+                (read-from-minibuffer "Enter symbol: " (extended-word-at-point))
+                (cond
+                 ((eq major-mode 'emacs-lisp-mode) "emacs:")
+                 ((eq major-mode 'js-mode) "javascript:")
+                 ((eq major-mode 'php-mode) "php:")
+                 ((eq major-mode 'python-mode) "python:")
+                 ((eq major-mode 'sql-mode) "mysql:")
+                 ((eq major-mode 'sql-interactive-mode) "mysql:")
+                 ((eq major-mode 'sh-mode) "bash:")
+                 ((eq major-mode 'html-mode) "html:")
+                 ((eq major-mode 'css-mode) "css:"))))
+  (start-process "zeal" nil "zeal" "--query" (concat lang arg)))

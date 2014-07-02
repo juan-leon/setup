@@ -27,7 +27,7 @@
  ido-case-fold                      nil
  ido-enable-tramp-completion        nil
  ido-save-directory-list-file       (concat user-emacs-directory "history/ido")
- ido-auto-merge-delay-time          1
+ ido-auto-merge-delay-time          20
  ido-slow-ftp-host-regexps          '(".")
  inhibit-startup-message            t
  initial-scratch-message            nil
@@ -40,6 +40,7 @@
  message-log-max                    2500
  nxml-child-indent                  tab-width
  recentf-save-file                  (concat user-emacs-directory ".recentf")
+ require-final-newline              t
  save-place-file                    (concat user-emacs-directory "history/places")
  search-ring-max                    32
  server-window                      'switch-to-buffer-other-frame
@@ -80,6 +81,7 @@
 (global-ws-trim-mode      1)
 (back-button-mode         1)
 
+(require 'ack-and-a-half)
 (require 'saveplace)
 (require 'scroll-in-place)
 (require 'uniquify)

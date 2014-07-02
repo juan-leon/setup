@@ -41,3 +41,11 @@
       (error nil))))
 
 (add-hook 'dired-mode-hook 'projectile-update-mode-line)
+
+(setq ido-read-file-name-non-ido '(dired-create-directory))
+
+(require 'buffer-move)
+(global-set-key (kbd "<C-S-s-up>")     'buf-move-up)
+(global-set-key (kbd "<C-S-s-down>")   'buf-move-down)
+(global-set-key (kbd "<C-S-s-left>")   'buf-move-left)
+(global-set-key (kbd "<C-S-s-right>")  'buf-move-right)
