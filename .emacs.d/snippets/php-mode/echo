@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: echo
+# key: ec
+# --
+echo $0, "\n";
