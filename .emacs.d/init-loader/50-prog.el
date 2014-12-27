@@ -1,11 +1,14 @@
 
-(autoload 'fixmee-maybe-turn-on "fixmee")
+(setq fixme-mode-warning-words '("FIXME" "TODO" "fixme" "HACK" "NOCOMMIT"))
 
 (add-hook 'prog-mode-hook (lambda ()
-                            (subword-mode         1)
-                            (hs-minor-mode        1)
-                            (fixmee-maybe-turn-on 1)))
+                            (subword-mode  1)
+                            (fixme-mode    1)
+                            (hs-minor-mode 1)))
 
+
+(add-hook 'python-mode-hook (lambda ()
+                            (setq fill-column 79)))
 
 (eval-after-load "cc-mode"
   '(progn
@@ -33,6 +36,8 @@
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 (add-to-list 'auto-mode-alist '("\\.pp\\'" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.js.template\\'" . js-mode))
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
 (setq projectile-switch-project-action 'projectile-dired
       projectile-tags-command "ctags-exuberant -Re %s --links=no")
@@ -42,22 +47,22 @@
 (add-hook 'php-mode-hook '(lambda () (setq require-final-newline t)))
 
 ;; fixed!
-(eval-after-load "php-mode"
-  '(progn
-     (c-add-style
-      "pear"
-      '((c-basic-offset . 4)
-        (c-offsets-alist . ((block-open . -)
-                            (block-close . 0)
-                            (topmost-intro-cont . (first c-lineup-cascaded-calls
-                                                         php-lineup-arglist-intro))
-                            (brace-list-intro . +)
-                            (case-label . +)
-                            (brace-list-entry . c-lineup-cascaded-calls)
-                            (arglist-close . php-lineup-arglist-close)
-                            (arglist-intro . php-lineup-arglist-intro)
-                            (knr-argdecl . [0])
-                            (statement-cont . (first c-lineup-cascaded-calls +))))))))
+; (eval-after-load "php-mode"
+;   '(progn
+;      (c-add-style
+;       "pear"
+;       '((c-basic-offset . 4)
+;         (c-offsets-alist . ((block-open . -)
+;                             (block-close . 0)
+;                             (topmost-intro-cont . (first c-lineup-cascaded-calls
+;                                                          php-lineup-arglist-intro))
+;                             (brace-list-intro . +)
+;                             (case-label . +)
+;                             (brace-list-entry . c-lineup-cascaded-calls)
+;                             (arglist-close . php-lineup-arglist-close)
+;                             (arglist-intro . php-lineup-arglist-intro)
+;                             (knr-argdecl . [0])
+;                             (statement-cont . (first c-lineup-cascaded-calls +))))))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

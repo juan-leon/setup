@@ -97,14 +97,6 @@
                                            (if (eq major-mode 'fundamental-mode)
                                                (flyspell-mode 1)))))))
 
-(run-with-idle-timer 15 nil (lambda ()
-                              (when (require 'edit-server nil t)
-                                (edit-server-start)
-                                (define-key edit-server-edit-mode-map
-                                  [(meta return)]
-                                  (command (insert "<br>")
-                                           (newline))))))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;
@@ -170,6 +162,7 @@
   '(progn
      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
      (setq org-agenda-files '("~/cases/"))
+     (setq org-todo-keywords '((sequence "TODO" "WAITING" "BLOCKED" "ONGOING" "DONE")))
      (setq org-completion-use-ido t)))
 
 
@@ -179,20 +172,36 @@
 
 (eval-after-load "sql"
   '(progn
+     (add-to-list 'sql-product-alist
+                  '(MariaDB
+                    :name "MySQL"
+                    :free-software t
+                    :font-lock sql-mode-mysql-font-lock-keywords
+                    :sqli-program sql-mysql-program
+                    :sqli-options sql-mysql-options
+                    :sqli-login sql-mysql-login-params
+                    :sqli-comint-func sql-comint-mysql
+                    :list-all "SHOW TABLES;"
+                    :list-table "DESCRIBE %s;"
+                    :prompt-regexp "^MariaDB.*> "
+                    :prompt-length 6
+                    :prompt-cont-regexp "^    -> "
+                    :syntax-alist ((?# . "< b"))
+                    :input-filter sql-remove-tabs-filter))
      (modify-syntax-entry ?\" "\"" sql-mode-syntax-table)
      (setq sql-connection-alist
-           '(("squealer"
-              (sql-product  'mysql)
-              (sql-database "squealer_dev")
+           '(("iats"
+              (sql-product  'MariaDB)
+              (sql-database "iats")
               (sql-server   "localhost")
               (sql-user     "root")
               (sql-password ""))
-             ("users"
-              (sql-product  'mysql)
-              (sql-database "users")
+             ("squealer"
+              (sql-product  'MariaDB)
+              (sql-database "squealer")
               (sql-server   "localhost")
-              (sql-user     "users")
-              (sql-password "users")))
+              (sql-user     "root")
+              (sql-password "")))
            sql-input-ring-file-name (concat user-emacs-directory "history/sql"))
      (add-hook 'sql-interactive-mode-hook 'comint-write-input-ring nil t)
      (add-to-list 'same-window-buffer-names "*SQL*")))
@@ -219,8 +228,4 @@
 
 (setq yas-prompt-functions '(yas-ido-prompt))
 (setq yas-snippet-dirs (list "~/.emacs.d/snippets"))
-(yas-reload-all)
-
-
-(add-hook 'php-mode-hook (lambda ()
-                           (yas-minor-mode 1)))
+(yas-global-mode)

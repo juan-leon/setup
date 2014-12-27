@@ -4,6 +4,8 @@
      (interactive)
      ,@body))
 
+(global-set-key [(f2)] nil)
+
 ;;;; Global keys
 
 ;; Emacs functions
@@ -52,6 +54,8 @@
 (global-set-key [(control f6)]              'recompile)
 (global-set-key [(super f7)]                'previous-error)
 (global-set-key [(super f8)]                'next-error)
+(global-set-key [(super kp-8)]              'previous-error)
+(global-set-key [(super kp-2)]              'next-error)
 (global-set-key [(super meta f7)]           'previous-error-no-select)
 (global-set-key [(super meta f8)]           'next-error-no-select)
 (global-set-key [(f12)]                     'gdb)
@@ -87,7 +91,7 @@
 ;; Fast bookmarks
 (global-set-key [(control meta ?1)] (command (find-file init-loader-directory)))
 (global-set-key [(control meta ?2)] (command (find-file "~/www")))
-(global-set-key [(control meta ?3)] (command (find-file "~/Dropbox/org")))
+(global-set-key [(control meta ?3)] (command (find-file "~/cases")))
 (global-set-key [(control meta ?4)] (command (find-file "/var/log/")))
 
 ;; Changes in the default emacs behaviour
@@ -188,6 +192,9 @@
      (define-key dired-mode-map [(control return)] 'dired-find-alternate-file)
      (define-key dired-mode-map [(backspace)] 'dired-jump)
      (define-key dired-mode-map [(control backspace)] 'dired-unmark-backward)))
+
+(global-set-key [(super shift z)] 'browse-zeal)
+(global-set-key [(super return)] 'browse-zeal-fast)
 
 (setq projectile-keymap-prefix (kbd "C-p"))
 

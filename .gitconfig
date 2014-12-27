@@ -7,6 +7,10 @@
   editor = /usr/bin/emacsclient --alternate-editor /usr/bin/emacs
   excludesfile = ~/.gitignore.global
 
+[receive]
+
+  denyCurrentBranch = ignore
+
 [color]
 
   ui = auto
@@ -29,21 +33,30 @@
 
   tool = meld
 
+[push]
+
+  default = upstream
+
 [diff]
 
   tool = meld
 
 [alias]
 
+  # Reviewing commits
   ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
   ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
   lds = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short
   ld = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
-  create-review = push gerrit HEAD:refs/for/develop
-  create-review-in-branch = "!f() { git push gerrit HEAD:refs/for/$1; }; f"
-
-  clone-from-gerrit = "!f() { git clone ssh://gerrit/$1.git $2; cd $2; cd $2; git checkout develop; git remote rename origin gerrit; }; f"
-
   graph = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''%C(white)%s%C(reset) %C(bold white)— %an%C(reset)' --abbrev-commit
+#  create-review = push gerrit HEAD:refs/for/develop
+#  create-review-in-branch = "!f() { git push gerrit HEAD:refs/for/$1; }; f"
+#  clone-from-gerrit = "!f() { git clone ssh://gerrit/$1.git $2; cd $2; cd $2; git checkout develop; git remote rename origin gerrit; }; f"
 
+  # Pre commit
   fixme = diff-index --cached -u -Sfixme HEAD
+
+  # Debug
+  parents = rev-list -1 --merges --parents
+
+  olog = log --oneline --relative-date

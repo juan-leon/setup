@@ -1,13 +1,24 @@
+# -*- sh -*-
+
 PS1='\[\033[01;30m\][\[\033[00m\]\[\033[35m\]\w\[\033[00m\]\[\033[01;30m\]]\[\033[00m\]: '
 
 export EMAIL="juanleon.lahoz@gmail.com"
 export EDITOR='/usr/bin/emacsclient --alternate-editor /usr/bin/emacs'
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 psgrep()
 {
   local name
   for name in $* ; do 
     ps ax | grep $name | grep -v grep
+  done
+}
+
+pschilds()
+{
+  local name
+  for name in $* ; do
+    ps auxf | grep -A 6 $name
   done
 }
 
@@ -27,14 +38,18 @@ alias setgrep="set | grep"
 alias lrt='ls -lrt'
 alias emacs='emacs -mm'
 alias e='emacsclient --alternate-editor /usr/bin/emacs'
+alias eb='emacsclient -n --alternate-editor /usr/bin/emacs'
 alias down='http_proxy="http://localhost:3129/" wget -S -x --user-agent="Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:22.0) Gecko/20130328 Firefox/22.0"'
 alias downc='http_proxy="http://localhost:3129/" wget -S -x --user-agent="Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:22.0) Gecko/20130328 Firefox/22.0" --header="Accept-Encoding: gzip"'
 alias downt='http_proxy="http://localhost:3129/" wget -S -x'
 alias downp='http_proxy="http://10.0.3.151:3129" wget -S -x'
 alias screen='screen "-e^Xx"'
-#alias sssh='screen ssh'
 alias arc=/home/juanleon/bin/arcanist/arcanist/bin/arc
 alias iats='g iats code'
+alias gls='git --no-pager ls -6 ; echo'
+alias jscore='cd $HOME/www/iats/code/jscore'
+alias phpcore='cd $HOME/www/iats/code/jscore/phpcore'
+
 
 mkcd()
 {
@@ -46,7 +61,7 @@ mkcd()
 
 function cd() { builtin cd "$@" && printf '\033k%s\033\\' `git rev-parse --show-toplevel 2>/dev/null | rev | cut -d/ -f-1 | rev | grep [a-zA-Z]  || basename $PWD`; }
 
-go() {
+gob() {
    select branch in $(git branch | awk -F ' +' '! /\(no branch\)/ {print $2}') ; do git checkout  ${branch:=HEAD} ; git submodule update; break ; done
 }
 
@@ -82,4 +97,3 @@ _repodir()
     return 0
 } &&
 complete -F _repodir g
-

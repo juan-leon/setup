@@ -1,2 +1,0 @@
-* TODO Evaluate jedi and elpy
-* TODO auto-complete or company?
