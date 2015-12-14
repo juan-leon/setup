@@ -1,0 +1,80 @@
+#!/bin/bash -eu
+
+set -o pipefail
+readonly COMMAND=${1:---switch}
+readonly DEPTH=${2:-15}
+
+function usage {
+    cat <<EOF
+
+$0 [options]
+
+  -h|--help          : this help message
+  -s|--switch        : switch to local branch from list (default)
+  -u|--unmerged      : switch to unmerged local branch from list
+  -l|--last [DEPTH]  : switch to one of last local branches used
+  -S|--show-unmerged : show unmerged branches
+  --merge            : merge branch from list to last master in remote
+
+Branch switch tool
+EOF
+    exit 0
+}
+
+
+function branches {
+    local args="$@"
+    git branch $args | cut -c 3-
+}
+
+function last_branches {
+    local depth=$1
+    local i
+    for i in $(seq $depth) ; do
+        echo $(git name-rev --name-only --refs=refs/heads/* --no-undefined @{-$i} 2>/dev/null) | grep -v -E "(master|alpha|beta|stable)"
+    done
+}
+
+function do_switch_local {
+    iatsSwitch $(branches | peco)
+}
+
+function do_switch_unmerged {
+    iatsSwitch $(branches --no-merged origin/master | peco)
+}
+
+function do_switch_last {
+    local depth=$1
+    iatsSwitch $(last_branches $depth | peco)
+}
+
+function do_show_unmerged {
+    local branch
+    for branch in $(branches --no-merged origin/master); do
+        echo
+        echo $branch
+        git ls -10 origin/master..$branch
+    done
+}
+
+function do_merge {
+    iatsSwitch master
+    iatsPull
+    iatsMerge $(branches --no-merged origin/master | peco)
+}
+
+if [[ ${COMMAND:-} =~ ^(-h|--help)$ ]]; then
+    usage
+elif [[ ${COMMAND:-} =~ ^(-s|--switch)$ ]]; then
+    do_switch_local
+elif [[ ${COMMAND:-} =~ ^(-l|--last)$ ]]; then
+    do_switch_last $DEPTH
+elif [[ ${COMMAND:-} =~ ^(-u|--unmerged)$ ]]; then
+    do_switch_unmerged
+elif [[ ${COMMAND:-} =~ ^(-S|--show_unmerged)$ ]]; then
+    do_show_unmerged
+elif [[ ${COMMAND:-} =~ ^(--merge)$ ]]; then
+    do_merge
+else
+    usage
+fi

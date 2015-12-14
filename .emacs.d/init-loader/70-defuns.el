@@ -11,18 +11,17 @@
 (defun dired-at-repo ()
   "Open dired on the base directory on a git repo"
   (interactive)
-  (with-temp-buffer
-    (while (and (not (file-exists-p ".git/"))
-                (not (equal "/" default-directory)))
-      (cd ".."))
-    (dired default-directory)))
+  (let ((dir (locate-dominating-file default-directory ".git/")))
+    (if dir
+        (dired dir)
+      (message "Not in a git repo"))))
 
 (defun tmux-window-here ()
-  "Open a new window on juanleon session on current directory"
+  "Open a new window on first session on current directory"
   (interactive)
   (if default-directory
       (shell-command
-       (format "TMPDIR=/tmp/user/%d tmux new-window -t juanleon -c %s"
+       (format "TMPDIR=/tmp/user/%d tmux new-window -t 0 -c %s"
                (user-uid) default-directory))
     (error "This buffer has no directory")))
 
@@ -204,15 +203,20 @@
              (replace-match "/sudo:" nil nil buffer-file-name))
          (concat "/sudo::" buffer-file-name)))))
 
-(defun squealer-last-error()
-  (interactive)
+(defun squealer-last-error (&optional arg)
+  (interactive "p")
+  (or arg (setq arg 1))
   (let ((buf (get-buffer-create "*squealer*"))
         (inhibit-read-only t))
     (switch-to-buffer buf)
     (erase-buffer)
-    (shell-command "echo \"SELECT description, stack FROM reportFullText ORDER BY reportId DESC LIMIT 1\" | mysql -u root squealer --pager=cat -r -s" buf buf)
+    (shell-command
+     (format "echo \"SELECT description, stack FROM reportFullText ORDER BY reportId DESC LIMIT 1 OFFSET %d\" | mysql -u root squealer --pager=cat -r -s" (1- arg))
+     buf
+     buf)
     (compilation-mode)
     (make-local-variable 'compilation-error-regexp-alist)
+    (add-to-list 'compilation-error-regexp-alist '("^#[0-9] \\[\\(/[^ ]*?\\):\\([0-9]+\\)\\]" 1 2))
     (add-to-list 'compilation-error-regexp-alist '("^#[0-9]+ \\(/[^ ]*?\\)(\\([0-9]+\\)):" 1 2))
     (add-to-list 'compilation-error-regexp-alist '("\\(/[^ ]*?\\):\\([0-9]+\\)$" 1 2))))
 
@@ -220,7 +224,7 @@
   (interactive)
   (with-temp-buffer
     (cd "..")
-    (if (magit-get-top-dir)
+    (if (magit-toplevel)
         (magit-status default-directory))))
 
 (defun extended-word-at-point ()
@@ -246,6 +250,7 @@
                  ((eq major-mode 'sql-interactive-mode) "mysql:")
                  ((eq major-mode 'sh-mode) "bash:")
                  ((eq major-mode 'html-mode) "html:")
+                 ((eq major-mode 'ruby-mode) "ruby:")
                  ((eq major-mode 'css-mode) "css:"))
                 ))
   (start-process "zeal" nil "zeal" "--query" (concat lang arg)))
@@ -263,6 +268,7 @@
                  ((eq major-mode 'sql-interactive-mode) "mysql:")
                  ((eq major-mode 'sh-mode) "bash:")
                  ((eq major-mode 'html-mode) "html:")
+                 ((eq major-mode 'ruby-mode) "ruby:")
                  ((eq major-mode 'css-mode) "css:"))
                 ))
   (start-process "zeal" nil "zeal" "--query" (concat lang arg)))
@@ -270,3 +276,49 @@
 (defun json-beautify-on-region (beg end)
   (interactive "r")
   (shell-command-on-region beg end "python -m json.tool" nil t))
+
+(defun point-in-string-p (pt)
+  "Returns t if PT is in a string"
+  (eq 'string (syntax-ppss-context (syntax-ppss pt))))
+
+(defun beginning-of-string ()
+  "Moves to the beginning of a syntactic string"
+  (interactive)
+  (unless (point-in-string-p (point))
+    (error "You must be in a string for this command to work"))
+  (while (point-in-string-p (point))
+    (forward-char -1))
+  (point))
+
+(defun swap-quotes ()
+  "Swaps the quote symbols in a string"
+  (interactive)
+  (save-excursion
+    (let ((bos (save-excursion
+                 (beginning-of-string)))
+          (eos (save-excursion
+                 (beginning-of-string)
+                 (forward-sexp)
+                 (point)))
+          (replacement-char ?\'))
+      (goto-char bos)
+      ;; if the following character is a single quote then the
+      ;; `replacement-char' should be a double quote.
+      (when (eq (following-char) ?\')
+          (setq replacement-char ?\"))
+      (delete-char 1)
+      (insert replacement-char)
+      (goto-char eos)
+      (delete-char -1)
+      (insert replacement-char))))
+
+(defun direx-at-repo ()
+  "Open dired on the base directory on a git repo"
+  (interactive)
+  (let ((dir (locate-dominating-file default-directory ".git/")))
+    (if dir
+        (direx:find-directory dir)
+      (message "Not in a git repo"))))
+
+(global-set-key [(super ?<)]            'direx:jump-to-directory)
+(global-set-key [(control meta ?=)]     'direx-at-repo)

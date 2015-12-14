@@ -3,5 +3,6 @@
 /*.tgz
 .#*
 *~
+*.pyc
 IGNORE*
 .projectile

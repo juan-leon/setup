@@ -7,8 +7,21 @@
                             (hs-minor-mode 1)))
 
 
+(defun delete-trailing-blank-lines ()
+  "Deletes all blank lines at the end of the file."
+  (interactive)
+  (save-excursion
+    (save-restriction
+      (widen)
+      (goto-char (point-max))
+      (delete-blank-lines))))
+
+
 (add-hook 'python-mode-hook (lambda ()
-                            (setq fill-column 79)))
+                              (jedi:setup)
+                              (setq tab-width 4)
+                              (add-hook 'before-save-hook 'delete-trailing-blank-lines nil 'local)
+                              (setq fill-column 79)))
 
 (eval-after-load "cc-mode"
   '(progn
@@ -16,6 +29,7 @@
        (setq indicate-empty-lines t)
        (c-toggle-electric-state t)
        (c-toggle-hungry-state t)
+       (setq c-basic-offset 4)
        (setq ff-search-directories '("." "include" "../include")))
      (add-hook 'c-mode-common-hook 'leon/c-mode-setup)
      (add-hook 'java-mode-hook (lambda ()
@@ -35,12 +49,13 @@
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
-(add-to-list 'auto-mode-alist '("\\.pp\\'" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.pp\\'" . puppet-mode))
 (add-to-list 'auto-mode-alist '("\\.js.template\\'" . js-mode))
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
 (setq projectile-switch-project-action 'projectile-dired
-      projectile-tags-command "ctags-exuberant -Re %s --links=no")
+      projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name)))
+      projectile-tags-command "ctags-exuberant -Re -f \"%s\" %s")
 (projectile-global-mode)
 
 ;; fixme flymake fails more often than not (add-hook 'php-mode-hook 'flymake-mode)
@@ -111,16 +126,27 @@
 
 (eval-after-load "magit"
   '(progn
-     (setq magit-gitk-executable "gitg"
-           magit-save-some-buffers nil
+     (setq magit-save-some-buffers nil
            magit-completing-read-function 'magit-ido-completing-read
            magit-diff-refine-hunk nil)
-     (add-hook 'magit-log-edit-mode-hook
+     (add-hook 'commit-mode-hook
                (lambda ()
                  (flyspell-mode 1)
-                 (setq fill-column 70)))))
+                 (setq fill-column 70)))
+     (autoload 'magit-rockstar "magit-rockstar" nil t)
+     (autoload 'magit-reshelve "magit-rockstar" nil t)
+     (magit-define-popup-action 'magit-rebase-popup
+       ?R "Rockstar" 'magit-rockstar)
+     (magit-define-popup-action 'magit-commit-popup
+       ?n "Reshelve" 'magit-reshelve)
+     (defun magit-copy-buffer-revision (beg end &optional region)
+       (interactive (list (mark) (point)
+                          (prefix-numeric-value current-prefix-arg)))
+       (kill-ring-save beg end region))
+     (setq magit-push-always-verify nil)
+     (setq git-commit-summary-max-length 70)))
 
-(add-hook 'git-commit-kill-buffer-hook
-          '(lambda ()
-             (make-local-variable 'server-done-hook)
-             (remove-hook 'server-done-hook 'delete-frame t)))
+; (add-hook 'git-commit-kill-buffer-hook
+;           '(lambda ()
+;              (make-local-variable 'server-done-hook)
+;              (remove-hook 'server-done-hook 'delete-frame t)))

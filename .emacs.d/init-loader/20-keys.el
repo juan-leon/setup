@@ -9,6 +9,8 @@
 ;;;; Global keys
 
 ;; Emacs functions
+(global-set-key [(insert)]                  'yank)
+(global-set-key [(super insert)]            'overwrite-mode)
 (global-set-key [(super a)]                 'align)
 (global-set-key [(super A)]                 'align-regexp)
 (global-set-key [(control f11)]             'kmacro-start-macro-or-insert-counter)
@@ -67,6 +69,11 @@
 (global-set-key [(control l)]               'recenter)
 (global-set-key [(control ?x) (control ?d)] 'dired-jump)
 (global-set-key [C-tab]                     'complete-tag)
+(global-set-key (kbd "<C-S-s-up>")          'buf-move-up)
+(global-set-key (kbd "<C-S-s-down>")        'buf-move-down)
+(global-set-key (kbd "<C-S-s-left>")        'buf-move-left)
+(global-set-key (kbd "<C-S-s-right>")       'buf-move-right)
+(global-set-key [(super ?\")]               'swap-quotes)
 
 
 (global-set-key [(control backspace)] (command (kill-line 0)))
@@ -93,17 +100,14 @@
 (global-set-key [(control meta ?2)] (command (find-file "~/www")))
 (global-set-key [(control meta ?3)] (command (find-file "~/cases")))
 (global-set-key [(control meta ?4)] (command (find-file "/var/log/")))
+(global-set-key [(control meta ?5)] (command (find-file "~/www/iats/code")))
+(global-set-key [(control meta ?6)] (command (find-file "~/hacks")))
 
 ;; Changes in the default emacs behaviour
 (global-set-key [(control z)]             'undo)             ; I really hate to minimize emacs:
 (global-set-key [(control x) ?k]          'kill-this-buffer) ; No more "¿which buffer?"
 (global-set-key [(control x) (control k)] 'kill-this-buffer) ; No more "no keyboard macro defined"
 (global-set-key [(control x) (control z)] 'shell)            ; fixme: reuse this
-;; (global-set-key [(meta o)]                'subword-downcase)
-;; (global-set-key [(meta h)]                'left-char)        ; VI movement with Meta
-;; (global-set-key [(meta j)]                'next-line)
-;; (global-set-key [(meta k)]                'previous-line)
-;; (global-set-key [(meta l)]                'right-char)
 
 
 ;; My randon functions
@@ -165,8 +169,6 @@
 
 (eval-after-load "magit"
   '(progn
-     (define-key magit-status-mode-map [(control ?c) (control ?r)]
-       (command (magit-git-command "create-review" (magit-get-top-dir))))
      (define-key magit-status-mode-map [backspace] 'magit-in-supermodule)))
 
 (eval-after-load "shell"

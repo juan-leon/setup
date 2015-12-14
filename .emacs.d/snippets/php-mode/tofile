@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: tofile
-# key: tof
-# --
-file_put_contents("/tmp/foofile$1", $0, FILE_APPEND);

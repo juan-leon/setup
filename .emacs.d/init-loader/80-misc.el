@@ -86,7 +86,7 @@
 ;;;;
 ;;;; Server
 
-(add-hook 'server-done-hook 'delete-frame)
+;; (add-hook 'server-done-hook 'delete-frame)
 
 (run-with-idle-timer 5 nil (lambda ()
                              (require 'server)

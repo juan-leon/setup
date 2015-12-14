@@ -5,7 +5,8 @@
                '("marmalade" . "http://marmalade-repo.org/packages/") t)
   (add-to-list 'package-archives
                '("melpa" . "http://melpa.milkbox.net/packages/") t)
-  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t))
+  ;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+  )
 
 (defun install-base-packages ()
   (interactive)
@@ -21,7 +22,6 @@
         bm
         browse-kill-ring
         buffer-stack
-        button-lock
         color-theme-sanityinc-solarized
         ctags
         diminish
@@ -32,14 +32,10 @@
         etags-table
         everything
         expand-region
-        fill-column-indicator
-        fixmee
         flx
         flx-ido
         flycheck
-        git-commit-mode
         git-gutter
-        git-rebase-mode
         htmlize
         init-loader
         ipython

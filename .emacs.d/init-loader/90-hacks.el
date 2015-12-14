@@ -1,4 +1,4 @@
-
+(setenv "PATH" "/home/juanleon/bin/git/bin:$PATH" t)
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (defadvice x-set-selection (after replicate-selection (type data) activate)
@@ -10,11 +10,13 @@
   "Do not beep when no suitable window is found."
   (condition-case () ad-do-it (error nil)))
 
+
 (eval-after-load "comint"
   '(defadvice comint-previous-input (around move-free (arg) activate)
      "No more 'Not at command line'"
      (if (comint-after-pmark-p)
-         ad-do-it
+         (progn
+           ad-do-it)
        (backward-paragraph arg))))
 
 ;;; Uncluttering modeline:
@@ -24,71 +26,12 @@
           `(diminish (quote ,(cdr x)))))
       '(("autorevert"  . auto-revert-mode)
         ("ws-trim"     . ws-trim-mode)
+        ("anzu"        . anzu-mode)
         ("back-button" . back-button-mode)
         ("button-lock" . button-lock-mode)
+        ("button-lock" . button-lock-mode)
+        ;; ("magit" . magit-auto-revert-mode)
         ("hideshow"    . hs-minor-mode)))
-
-(setq projectile-mode-line-lighter " Prj")
-
-;; (defadvice projectile-update-mode-line (around diminish activate)
-;;   "No modeline real state waste when not in a project"
-;;   (let ((projectile-require-project-root t))
-;;     (condition-case nil
-;;         (progn
-;;           (projectile-project-root)
-;;           ad-do-it)
-;;       (error nil))))
-;;
-;; (add-hook 'dired-mode-hook 'projectile-update-mode-line)
-
-(setq ido-read-file-name-non-ido '(dired-create-directory))
-
-(require 'buffer-move)
-(global-set-key (kbd "<C-S-s-up>")     'buf-move-up)
-(global-set-key (kbd "<C-S-s-down>")   'buf-move-down)
-(global-set-key (kbd "<C-S-s-left>")   'buf-move-left)
-(global-set-key (kbd "<C-S-s-right>")  'buf-move-right)
-
-
-
-(defun point-in-string-p (pt)
-  "Returns t if PT is in a string"
-  (eq 'string (syntax-ppss-context (syntax-ppss pt))))
-
-(defun beginning-of-string ()
-  "Moves to the beginning of a syntactic string"
-  (interactive)
-  (unless (point-in-string-p (point))
-    (error "You must be in a string for this command to work"))
-  (while (point-in-string-p (point))
-    (forward-char -1))
-  (point))
-
-(defun swap-quotes ()
-  "Swaps the quote symbols in a string"
-  (interactive)
-  (save-excursion
-    (let ((bos (save-excursion
-                 (beginning-of-string)))
-          (eos (save-excursion
-                 (beginning-of-string)
-                 (forward-sexp)
-                 (point)))
-          (replacement-char ?\'))
-      (goto-char bos)
-      ;; if the following character is a single quote then the
-      ;; `replacement-char' should be a double quote.
-      (when (eq (following-char) ?\')
-          (setq replacement-char ?\"))
-      (delete-char 1)
-      (insert replacement-char)
-      (goto-char eos)
-      (delete-char -1)
-      (insert replacement-char))))
-
-(global-set-key [(super ?\")] 'swap-quotes)
-
-(setq pylint-options "--rcfile ~/.pylint *")
 
 
 (defun tasks ()
@@ -150,3 +93,70 @@
         (newline)))))
 (global-set-key (kbd "C-c \\") 'select-git-repository-from-list)
 
+(key-chord-mode 1)
+(key-chord-define-global "º1" 'ace-jump-line-mode)
+(key-chord-define-global "<z" 'ace-jump-char-mode)
+(key-chord-define-global "zx" 'ace-jump-word-mode)
+(setq ace-jump-mode-scope 'frame)
+
+(setq jedi:tooltip-method nil)
+
+(and (fboundp 'cycle-spacing) (global-set-key (kbd "M-SPC") 'cycle-spacing))
+
+(desktop-save-mode 1)
+
+
+(defun dired-at-other-repo ()
+  (interactive)
+  (with-temp-buffer
+    (cd "~/www")
+    (ido-dired)))
+
+(global-set-key [(control meta ?')] 'dired-at-other-repo)
+
+
+
+(defun recreate-tags()
+  (interactive)
+  (projectile-with-default-dir (projectile-project-root)
+    (ctags-create-or-update-tags-table)))
+
+(global-set-key [(super T)] 'recreate-tags)
+
+
+(setq projectile-make-test-cmd "tools/runUnitTests")
+
+(add-hook 'comint-mode-hook (lambda () (ws-trim-mode 0)))
+
+(add-hook 'git-commit-mode-hook (lambda () (flyspell-mode 1)))
+
+
+
+
+(defun open-test-file ()
+  (interactive)
+  (let* ((lang (completing-read "Language: " '("py" "php" "sh" "ruby")))
+         (filename
+          (replace-regexp-in-string
+           "\n$" "" (shell-command-to-string (concat "test-file " lang)))))
+    (find-file filename)))
+
+
+(add-hook 'inferior-python-mode-hook
+          (lambda nil
+            (load-theme-buffer-local 'tango-dark (current-buffer))))
+
+(add-hook 'shell-mode-hook
+          (lambda nil
+            (load-theme-buffer-local leon-dark-theme (current-buffer))))
+
+(add-hook 'sql-interactive-mode
+          (lambda nil
+            (load-theme-buffer-local 'tango-dark (current-buffer))))
+
+
+(global-set-key [(super ?-)] 'goto-last-change)
+(global-set-key [(super ?_)] 'goto-last-change-reverse)
+(global-set-key [(super ?ñ)] 'er/expand-region)
+(global-set-key [(super ?j)] 'avy-goto-word-1)
+(global-anzu-mode)
