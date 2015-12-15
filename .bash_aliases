@@ -28,13 +28,21 @@ export EMAIL=juanleon.lahoz@gmail.com
 
 PATH=/home/juanleon/bin/git/bin:"$PATH"
 PS1='\[\e[01;30m\][\[\e[00m\e[35m\]\w\[\e[00m\e[01;30m\]]\[\e[00m\]: '
+# For root: PS1='\[\e[01;30m\][\[\e[00m\e[01;07;31m\]ROOT:\[\e[00m\e[31m\]\w\[\e[00m\e[01;30m\]]\[\e[00m\]: '
+
+GREP_COLORS="ms=01;31:mc=01;31:sl=:cx=34:fn=35:ln=32:bn=32:se=36"
 
 
 REPODIR=/home/juanleon/www
 
 cd ()
 {
-    builtin cd "$@" && printf '\033k%s\033\\' `git rev-parse --show-toplevel 2>/dev/null | rev | cut -d/ -f-1 | rev | grep [a-zA-Z]  || basename "$PWD"`
+    if test "$TERM" = dumb; then
+        builtin cd "$@"
+    else
+        builtin cd "$@" &&\
+            printf '\033k%s\033\\' `git rev-parse --show-toplevel 2>/dev/null | rev | cut -d/ -f-1 | rev | grep [a-zA-Z]  || basename "$PWD"`
+    fi
 }
 
 g ()
@@ -84,7 +92,7 @@ pschilds ()
     local name;
     for name in $*;
     do
-        ps auxf | grep --color=auto -v grep | grep --color=auto -A 8 $name;
+        ps auxf | grep -v grep | grep --color=auto -A 8 $name;
     done
 }
 
@@ -93,7 +101,7 @@ psgrep ()
     local name;
     for name in $*;
     do
-        ps ax | grep --color=auto $name | grep --color=auto -v grep;
+        ps ax | grep -v grep | grep --color=auto $name;
     done
 }
 
