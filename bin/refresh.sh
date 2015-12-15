@@ -6,6 +6,7 @@ readonly FILES="
   .gitignore.global
   .screenrc
   .tmux.conf
+  .multitailrc
   bin/bt
   bin/wm.py
   .emacs.d/init.el
