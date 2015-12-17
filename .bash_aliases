@@ -26,7 +26,7 @@ alias revagrant='vagrant destroy -f && vagrant up | tee up.log ; notify-send "VA
 export EDITOR='/usr/bin/emacsclient --alternate-editor /usr/bin/emacs'
 export EMAIL=juanleon.lahoz@gmail.com
 
-PATH=/home/juanleon/bin/git/bin:"$PATH"
+PATH=/home/juanleon/bin/git/bin:/home/juanleon/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/lightdm/lightdm
 PS1='\[\e[01;30m\][\[\e[00m\e[35m\]\w\[\e[00m\e[01;30m\]]\[\e[00m\]: '
 # For root: PS1='\[\e[01;30m\][\[\e[00m\e[01;07;31m\]ROOT:\[\e[00m\e[31m\]\w\[\e[00m\e[01;30m\]]\[\e[00m\]: '
 
@@ -37,11 +37,11 @@ REPODIR=/home/juanleon/www
 
 cd ()
 {
-    if test "$TERM" = dumb; then
-        builtin cd "$@"
-    else
+    if test "$TERM" = "screen-256color"; then
         builtin cd "$@" &&\
             printf '\033k%s\033\\' `git rev-parse --show-toplevel 2>/dev/null | rev | cut -d/ -f-1 | rev | grep [a-zA-Z]  || basename "$PWD"`
+    else
+        builtin cd "$@"
     fi
 }
 
