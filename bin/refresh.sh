@@ -9,9 +9,11 @@ readonly FILES="
   .multitailrc
   bin/bt
   bin/wm.py
+  bin/test-file
   .emacs.d/init.el
   .emacs.d/init-loader
   .emacs.d/packages
+  hacks/templates
 "
 
 if test "$(git rev-parse --show-toplevel)" != $(pwd); then

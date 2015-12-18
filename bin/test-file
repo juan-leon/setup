@@ -1,0 +1,72 @@
+#!/usr/bin/python
+
+from collections import namedtuple
+import glob
+import os
+import re
+import argparse
+import shutil
+
+BASE_DIR = os.path.join(os.getenv('HOME'), 'hacks')
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+
+class TestFile(namedtuple('TestFile', 'extension subdirectory')):
+
+    @property
+    def directory(self):
+        return os.path.join(BASE_DIR, self.subdirectory)
+
+    @property
+    def template(self):
+        return os.path.join(TEMPLATE_DIR, 'template.' + self.extension)
+
+python = TestFile('py', 'python')
+php = TestFile('php', 'php')
+bash = TestFile('sh', 'sh')
+rb = TestFile('rb', 'rb')
+
+template_map = {
+    'py': python,
+    'python': python,
+    'php': php,
+    'sh': bash,
+    'bash': bash,
+    'rb': rb,
+}
+
+def find_next(extension, directory):
+    regexp = re.compile(extension + '([0-9]*)\.' + extension + '$')
+    files = glob.glob(
+        os.path.join(directory, extension + '[0-9]*.' + extension)
+    )
+    numbers = [0]
+    for name in files:
+        matches = regexp.search(name)
+        if matches:
+            numbers.append(int(matches.group(1)))
+    return os.path.join(
+        directory, '%s%s.%s' % (extension, sorted(numbers)[-1] + 1, extension)
+    )
+
+
+
+parser = argparse.ArgumentParser(description='Create a test file')
+parser.add_argument('language', help='Programming language')
+parser.add_argument(
+    '--client', action='store_true', help='Open emacsclient'
+)
+args = parser.parse_args()
+language = args.language
+client = args.client
+
+if language not in template_map:
+    print '%s is not supported' % language
+    exit(1)
+
+test_file = template_map[language]
+next_file = find_next(test_file.extension, test_file.directory)
+shutil.copy(test_file.template, next_file)
+if client:
+    os.execlp('emacsclient', '-n', next_file)
+else:
+    print next_file,
