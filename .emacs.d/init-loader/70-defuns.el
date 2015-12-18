@@ -184,14 +184,9 @@
         (enable-theme leon-light-theme)
       (enable-theme leon-dark-theme))))
 
-(defun dired-recursive-by-extension (extension &optional no-target)
+(defun dired-recursive-by-extension (extension)
   (interactive (list (read-string "Extension: ")))
-  (let ((target (if no-target " ! -path \"*target*\" " "")))
-    (find-dired default-directory (concat "-name \"*." extension "\"" target))))
-
-(defun dired-recursive-by-extension-no-target (extension)
-  (interactive (list (read-string "Extension: ")))
-  (dired-recursive-by-extension extension t))
+  (find-dired default-directory (concat "-name '*." extension "'")))
 
 (defun sudo-powerup ()
   (interactive)

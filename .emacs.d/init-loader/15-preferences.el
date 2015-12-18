@@ -26,6 +26,7 @@
  ediff-split-window-function        'split-window-horizontally
  ediff-diff-options                 " -bB "
  garbage-collection-messages        t
+ git-messenger:show-detail          t
  ido-case-fold                      nil
  ido-enable-tramp-completion        nil
  ido-save-directory-list-file       (concat user-emacs-directory "history/ido")
@@ -86,6 +87,9 @@
 (global-ws-trim-mode      1)
 (back-button-mode         1)
 (electric-pair-mode       1)
+(global-anzu-mode         1)
+(desktop-save-mode        1)
+
 
 (require 'ack-and-a-half)
 (require 'saveplace)

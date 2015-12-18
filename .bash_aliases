@@ -24,7 +24,10 @@ alias wlog='multitail -n 500 -CS wire'
 alias revagrant='vagrant destroy -f && vagrant up | tee up.log ; notify-send "VAGRANT FINISHED"'
 
 export EDITOR='/usr/bin/emacsclient --alternate-editor /usr/bin/emacs'
-export EMAIL=juanleon.lahoz@gmail.com
+if test -f ~/.domainname; then
+    export EMAIL=juanleon.lahoz@$(cat ~/.domainname)
+fi
+
 
 PATH=/home/juanleon/bin/git/bin:/home/juanleon/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/lightdm/lightdm
 PS1='\[\e[01;30m\][\[\e[00m\e[35m\]\w\[\e[00m\e[01;30m\]]\[\e[00m\]: '

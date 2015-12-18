@@ -138,7 +138,7 @@ class Window(object):
         time.sleep(0.4)
         self.unmaximize()
         time.sleep(0.4)
-        self.wmctrl('-e', ['0', x, y, '-1', '-1'])
+        self.wmctrl('-e', ['0', x, y, '1800', '900'])
         time.sleep(0.4)
         self.maximize()
         time.sleep(0.4)

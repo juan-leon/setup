@@ -123,7 +123,6 @@
 (global-set-key [(super f1)]                'leon/toggle-underscore-syntax)
 (global-set-key [(control ?x) (control ?r)] 'sudo-powerup)
 (global-set-key [(super u)]                 'dired-recursive-by-extension)
-(global-set-key [(super U)]                 'dired-recursive-by-extension-no-target)
 (global-set-key [(control pause)]           'toggle-split)
 (global-set-key [(super backspace)]         'squealer-last-error)
 
@@ -150,6 +149,11 @@
 (global-set-key [(shift Scroll_Lock)]   'bm-previous)
 (global-set-key [(Scroll_Lock)]         'bm-next)
 (global-set-key [(super f12)]           'ctags-create-or-update-tags-table)
+(global-set-key [(control ?x) ?v ?p]    'git-messenger:popup-message)
+(global-set-key [(super ?-)]            'goto-last-change)
+(global-set-key [(super ?_)]            'goto-last-change-reverse)
+(global-set-key [(super ?ñ)]            'er/expand-region)
+(global-set-key [(super ?j)]            'avy-goto-word-1)
 
 ;;;; Local maps
 (define-key isearch-mode-map [(control t)]    'isearch-toggle-case-fold)
@@ -170,6 +174,10 @@
 (eval-after-load "magit"
   '(progn
      (define-key magit-status-mode-map [backspace] 'magit-in-supermodule)))
+
+(eval-after-load "git-messenger"
+  '(progn
+     (define-key git-messenger-map (kbd "m") 'git-messenger:copy-message)))
 
 (eval-after-load "shell"
   '(progn
