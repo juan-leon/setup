@@ -1,3 +1,5 @@
+# -*- mode: sh -*-
+
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias dc='cd'
 alias down='http_proxy="http://localhost:3129/" wget -S -x --user-agent="Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:22.0) Gecko/20130328 Firefox/22.0"'
@@ -38,60 +40,40 @@ GREP_COLORS="ms=01;31:mc=01;31:sl=:cx=34:fn=35:ln=32:bn=32:se=36"
 
 REPODIR=/home/juanleon/www
 
-cd ()
-{
+function cd {
     if test "$TERM" = "screen-256color"; then
-        builtin cd "$@" &&\
-            printf '\033k%s\033\\' `git rev-parse --show-toplevel 2>/dev/null | rev | cut -d/ -f-1 | rev | grep [a-zA-Z]  || basename "$PWD"`
+        builtin cd "$@" && printf '\033k%s\033\\' $(basename $(git rev-parse --show-toplevel 2>/dev/null || echo $PWD))
     else
         builtin cd "$@"
     fi
 }
 
-g ()
-{
+function g {
     if [ -d $REPODIR/$1/$2 ]; then
-        cd $REPODIR/$1/$2;
+        cd $REPODIR/$1/$2
     else
-        cd $REPODIR/$1;
+        cd $REPODIR/$1
     fi
 }
 
-git-find-merge ()
-{
+function git-find-merge {
     git rev-list $1..$2 --ancestry-path | grep --color=auto -f <(git rev-list $1..$2 --first-parent --merges) | tail -1
 }
 
-gob ()
-{
-    select branch in $(git branch | awk -F ' +' '! /\(no branch\)/ {print $2}');
-    do
-        git checkout ${branch:=HEAD};
-        git submodule update;
-        break;
-    done
+function i {
+    cd /var/www/vhosts/iatsSites/$1;
 }
 
-i ()
-{
-    local instance_dir=/var/www/vhosts/iatsSites;
-    local instance=${1:-/};
-    cd $instance_dir/$1
-}
-
-mkcd ()
-{
+function mkcd {
     mkdir -p $1;
     cd $1
 }
 
-ppgrep ()
-{
+function ppgrep {
     pgrep "$@" | xargs -r ps fp
 }
 
-pschilds ()
-{
+function pschilds {
     local name;
     for name in $*;
     do
@@ -99,8 +81,7 @@ pschilds ()
     done
 }
 
-psgrep ()
-{
+function psgrep {
     local name;
     for name in $*;
     do
@@ -108,8 +89,7 @@ psgrep ()
     done
 }
 
-pskill ()
-{
+function pskill {
     local pid name;
     for name in $*;
     do
@@ -120,8 +100,7 @@ pskill ()
     done
 }
 
-_repodir ()
-{
+function _repodir {
     local cur prev;
     COMPREPLY=();
     _get_comp_words_by_ref cur prev;
@@ -134,3 +113,12 @@ _repodir ()
     return 0
 }
 complete -F _repodir g
+
+
+function revagrant {
+    vagrant destroy -f "$1" && vagrant up "$1" | tee "$1-up.log" ; notify-send "VAGRANT FINISHED"
+}
+
+function reprovision {
+    vagrant provision "$1" | tee "$1-provision.log" ; notify-send "VAGRANT FINISHED"
+}
