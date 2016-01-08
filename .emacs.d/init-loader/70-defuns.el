@@ -317,3 +317,39 @@
 
 (global-set-key [(super ?<)]            'direx:jump-to-directory)
 (global-set-key [(control meta ?=)]     'direx-at-repo)
+
+
+(defun cases()
+  (interactive)
+  (let ((buf (get-buffer-create "*cases*"))
+        (inhibit-read-only t))
+    (switch-to-buffer buf)
+    (erase-buffer)
+    (shell-command "cases.sh" buf buf)
+    (cases-mode)))
+
+(defvar cases-mode-map
+  (let ((m (make-sparse-keymap)))
+    (define-key m [return] 'cases-browse-by-id)
+    m)
+  "Keymap for `cases-mode'.")
+
+(define-minor-mode cases-mode
+  "Browse my opened cases.
+
+\\{cases-mode-map}"
+  :init-value nil
+  :keymap 'cases-mode-map
+  :lighter "<cases>"
+  (read-only-mode 1))
+
+(defun cases-browse-by-id ()
+  (interactive)
+  (save-excursion
+    (save-restriction
+        (move-beginning-of-line 1)
+        (if (re-search-forward "|.*?|\\([0-9]*\\)\s*|" nil t)
+            (let ((browse-url-browser-function 'browse-url-default-browser)
+                  (url (concat "https://teg.avature.net/#Case/" (match-string 1))))
+              (browse-url url))
+          (message "No case in this line")))))

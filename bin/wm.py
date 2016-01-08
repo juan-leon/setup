@@ -135,13 +135,13 @@ class Window(object):
         y = str(self.desktop.y * Geometry.work_area.height)
         # This is the hack to workaoud the bug
         self.wmctrl('-e', ['0', x, y, '-1', '-1'])
-        time.sleep(0.4)
+        time.sleep(0.1)
         self.unmaximize()
-        time.sleep(0.4)
+        time.sleep(0.1)
         self.wmctrl('-e', ['0', x, y, '1800', '900'])
-        time.sleep(0.4)
+        time.sleep(0.1)
         self.maximize()
-        time.sleep(0.4)
+        time.sleep(0.1)
         self.wmctrl('-e', ['0', x, y, '-1', '-1'])
 
     def is_relevant(self):
@@ -238,7 +238,6 @@ def parse_args():
 
 
 Geometry.load()
-print(Monitor.number())
 parse_args()
 
 # virtualenv -p /usr/bin/python3 py3env

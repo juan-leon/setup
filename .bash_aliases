@@ -23,7 +23,6 @@ alias screen='screen "-e^Xx"'
 alias setgrep='set | grep'
 alias wire-log='multitail -n 500 -cS wire /var/log/wire/wire.log'
 alias wlog='multitail -n 500 -CS wire'
-alias revagrant='vagrant destroy -f && vagrant up | tee up.log ; notify-send "VAGRANT FINISHED"'
 
 export EDITOR='/usr/bin/emacsclient --alternate-editor /usr/bin/emacs'
 if test -f ~/.domainname; then
