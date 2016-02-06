@@ -331,6 +331,9 @@
 (defvar cases-mode-map
   (let ((m (make-sparse-keymap)))
     (define-key m [return] 'cases-browse-by-id)
+    (define-key m [?c]     'cases-copy-url)
+    (define-key m [?g]     'cases)
+    (define-key m [?q]     'bury-buffer)
     m)
   "Keymap for `cases-mode'.")
 
@@ -343,13 +346,28 @@
   :lighter "<cases>"
   (read-only-mode 1))
 
-(defun cases-browse-by-id ()
-  (interactive)
+(defun cases-case-url ()
   (save-excursion
     (save-restriction
-        (move-beginning-of-line 1)
-        (if (re-search-forward "|.*?|\\([0-9]*\\)\s*|" nil t)
-            (let ((browse-url-browser-function 'browse-url-default-browser)
-                  (url (concat "https://teg.avature.net/#Case/" (match-string 1))))
-              (browse-url url))
-          (message "No case in this line")))))
+      (search-backward "|----" nil t)
+      (if (re-search-forward "|.*?|\\([0-9]+\\)\s*|" nil t)
+          (concat "https://teg.avature.net/#Case/" (match-string 1))))))
+
+(defun cases-browse-by-id ()
+  (interactive)
+  (let ((browse-url-browser-function 'browse-url-default-browser)
+        (url (cases-case-url)))
+    (if url
+        (progn
+          (message (format "Opening %s" url))
+          (browse-url url))
+      (message "No case in this line"))))
+
+(defun cases-copy-url ()
+  (interactive)
+  (let ((url (cases-case-url)))
+    (if url
+        (kill-new url)
+      (message "No case in this line"))))
+
+

@@ -7,6 +7,7 @@
    (quote
     ("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
  '(magit-log-arguments (quote ("--graph" "--decorate" "-n256")))
+ '(magit-rebase-arguments (quote ("--keep-empty")))
  '(org-agenda-files nil)
  '(safe-local-variable-values
    (quote
