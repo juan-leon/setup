@@ -1,5 +1,6 @@
 (use-package magit
-  :bind ([(super ?0)] . magit-status)
+  :bind (([(super ?0)] . magit-status)
+         ([(super ?q)] . magit-status))
   :ensure t
   :init
   (setq magit-completing-read-function 'magit-ido-completing-read

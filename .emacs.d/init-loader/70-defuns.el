@@ -8,13 +8,6 @@
         (t
          (call-interactively 'find-file-at-point))))
 
-(defun dired-at-repo ()
-  "Open dired on the base directory on a git repo"
-  (interactive)
-  (let ((dir (locate-dominating-file default-directory ".git/")))
-    (if dir
-        (dired dir)
-      (message "Not in a git repo"))))
 
 (defun tmux-window-here ()
   "Open a new window on first session on current directory"
@@ -184,9 +177,6 @@
         (enable-theme leon-light-theme)
       (enable-theme leon-dark-theme))))
 
-(defun dired-recursive-by-extension (extension)
-  (interactive (list (read-string "Extension: ")))
-  (find-dired default-directory (concat "-name '*." extension "'")))
 
 (defun sudo-powerup ()
   (interactive)
@@ -307,16 +297,6 @@
       (delete-char -1)
       (insert replacement-char))))
 
-(defun direx-at-repo ()
-  "Open dired on the base directory on a git repo"
-  (interactive)
-  (let ((dir (locate-dominating-file default-directory ".git/")))
-    (if dir
-        (direx:find-directory dir)
-      (message "Not in a git repo"))))
-
-(global-set-key [(super ?<)]            'direx:jump-to-directory)
-(global-set-key [(control meta ?=)]     'direx-at-repo)
 
 
 (defun cases()

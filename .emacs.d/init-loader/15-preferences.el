@@ -60,8 +60,7 @@
  warning-suppress-types             '((undo discard-info))
  whitespace-line-column             100
  x-select-enable-primary            t
- x-select-enable-clipboard          t
- yascroll:delay-to-hide             nil)
+ x-select-enable-clipboard          t)
 
 (setq ibuffer-formats '((mark modified read-only
                               " " (name 35 35)
@@ -78,7 +77,6 @@
 (size-indication-mode     1)
 (file-name-shadow-mode    1)
 (temp-buffer-resize-mode  1)
-(global-yascroll-bar-mode 1)
 (ido-mode                 1)
 (ido-everywhere           1)
 (flx-ido-mode             1)
@@ -155,7 +153,7 @@
          ([(meta kp-down)]  . buffer-stack-bury)
          ([(meta kp-8)]     . buffer-stack-untrack)
          ([(meta kp-up)]    . buffer-stack-untrack))
-  :init
+  :config
   (add-to-list 'buffer-stack-untracked "*Backtrace*")
   (defvar buffer-stack-mode)
   (defun buffer-op-by-mode (op &optional mode)
@@ -188,4 +186,12 @@
   (defadvice windmove-do-window-select (around silent-windmove activate)
     "Do not beep when no suitable window is found."
     (condition-case () ad-do-it (error nil))))
+
+
+(use-package yascroll
+  :ensure t
+  :init
+  (setq yascroll:delay-to-hide nil)
+  :config
+  (global-yascroll-bar-mode 1))
 

@@ -23,31 +23,7 @@
                            (holiday-fixed 11 9  "Almudena"))))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;
-;;;; Dired stuff
 
-(eval-after-load "dired"
-  '(progn
-     (defun leon/dired-hide-hidden ()
-       (interactive)
-       (let ((dired-actual-switches "--group-directories-first -l"))
-         (revert-buffer)))
-     (setq dired-copy-preserve-time nil
-           dired-recursive-copies   'always)
-     (autoload 'dired-efap "dired-efap")
-     (autoload 'dired-efap-click "dired-efap")
-     (setq dired-listing-switches "--group-directories-first -al")
-     (require 'dired-x)))
-
-(add-hook 'dired-mode-hook (lambda () (dired-omit-mode t)))
-
-(add-hook 'dired-after-readin-hook
-          (lambda ()
-            (set (make-local-variable 'frame-title-format)
-                 (abbreviate-file-name (dired-current-directory)))))
-
-(autoload 'dired-jump "dired")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;

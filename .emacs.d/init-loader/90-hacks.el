@@ -57,16 +57,6 @@
 
 
 
-(defun dired-at-other-repo ()
-  (interactive)
-  (with-temp-buffer
-    (cd "~/www")
-    (ido-dired)))
-
-(global-set-key [(control meta ?')] 'dired-at-other-repo)
-
-
-
 (setq projectile-make-test-cmd "tools/runUnitTests")
 
 (add-hook 'comint-mode-hook (lambda () (ws-trim-mode 0)))
