@@ -6,10 +6,6 @@
   (if (equal type 'CLIPBOARD)
       (x-set-selection 'PRIMARY data)))
 
-(defadvice windmove-do-window-select (around silent-windmove activate)
-  "Do not beep when no suitable window is found."
-  (condition-case () ad-do-it (error nil)))
-
 (eval-after-load "comint"
   '(defadvice comint-previous-input (around move-free (arg) activate)
      "No more 'Not at command line'"
@@ -24,10 +20,8 @@
         (eval-after-load (car x)
           `(diminish (quote ,(cdr x)))))
       '(("autorevert"  . auto-revert-mode)
-        ("ws-trim"     . ws-trim-mode)
         ("anzu"        . anzu-mode)
         ("back-button" . back-button-mode)
-        ("button-lock" . button-lock-mode)
         ("button-lock" . button-lock-mode)
         ("hideshow"    . hs-minor-mode)))
 
@@ -59,8 +53,6 @@
 (key-chord-define-global "zx" 'ace-jump-word-mode)
 (setq ace-jump-mode-scope 'frame)
 
-(setq jedi:tooltip-method nil)
-
 (and (fboundp 'cycle-spacing) (global-set-key (kbd "M-SPC") 'cycle-spacing))
 
 
@@ -78,7 +70,6 @@
 (setq projectile-make-test-cmd "tools/runUnitTests")
 
 (add-hook 'comint-mode-hook (lambda () (ws-trim-mode 0)))
-(add-hook 'git-commit-mode-hook (lambda () (flyspell-mode 1)))
 
 
 (defun open-test-file ()
@@ -88,4 +79,16 @@
           (replace-regexp-in-string
            "\n$" "" (shell-command-to-string (concat "test-file " lang)))))
     (find-file filename)))
+
+
+
+(use-package discover-my-major
+  :ensure t
+  :bind ("C-h C-m" . discover-my-major))
+
+(use-package server
+  :init (setq server-window 'switch-to-buffer-other-frame)
+  :config (unless (server-running-p)
+            (server-start)))
+
 

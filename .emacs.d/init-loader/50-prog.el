@@ -17,11 +17,6 @@
       (delete-blank-lines))))
 
 
-(add-hook 'python-mode-hook (lambda ()
-                              (jedi:setup)
-                              (setq tab-width 4)
-                              (add-hook 'before-save-hook 'delete-trailing-blank-lines nil 'local)
-                              (setq fill-column 79)))
 
 (eval-after-load "cc-mode"
   '(progn
@@ -61,24 +56,6 @@
 ;; fixme flymake fails more often than not (add-hook 'php-mode-hook 'flymake-mode)
 (add-hook 'php-mode-hook '(lambda () (setq require-final-newline t)))
 
-;; fixed!
-; (eval-after-load "php-mode"
-;   '(progn
-;      (c-add-style
-;       "pear"
-;       '((c-basic-offset . 4)
-;         (c-offsets-alist . ((block-open . -)
-;                             (block-close . 0)
-;                             (topmost-intro-cont . (first c-lineup-cascaded-calls
-;                                                          php-lineup-arglist-intro))
-;                             (brace-list-intro . +)
-;                             (case-label . +)
-;                             (brace-list-entry . c-lineup-cascaded-calls)
-;                             (arglist-close . php-lineup-arglist-close)
-;                             (arglist-intro . php-lineup-arglist-intro)
-;                             (knr-argdecl . [0])
-;                             (statement-cont . (first c-lineup-cascaded-calls +))))))))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;
@@ -90,63 +67,3 @@
 
 (add-hook 'compilation-finish-functions 'notify-compilation-end)
 
-;; Remove maven false positives
-(add-hook 'compilation-mode-hook
-          (lambda ()
-            (font-lock-add-keywords nil
-               '(("^\\[?INFO.*"
-                  (0 '(face nil font-lock-face nil
-                       compilation-message nil help-echo nil mouse-face nil) t))
-                 ("^	.*)$"
-                  (0 '(face nil font-lock-face nil
-                            compilation-message nil help-echo nil mouse-face nil) t)))
-               'append)))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;
-;;;; Debugging
-
-
-(eval-after-load "gdb-mi"
-  '(add-hook 'gdb-mode-hook
-             (lambda ()
-               (setq comint-input-ring-file-name (concat user-emacs-directory "history/gdb"))
-               (comint-read-input-ring t)
-               (add-hook 'kill-buffer-hook 'comint-write-input-ring nil t))))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;
-;;;; Git
-
-
-(add-to-list 'load-path "/usr/share/git-core/emacs" t)
-(autoload 'git-blame-mode "git-blame" nil t)
-
-(eval-after-load "magit"
-  '(progn
-     (setq magit-save-some-buffers nil
-           magit-completing-read-function 'magit-ido-completing-read
-           magit-diff-refine-hunk nil)
-     (add-hook 'commit-mode-hook
-               (lambda ()
-                 (flyspell-mode 1)
-                 (setq fill-column 70)))
-     (autoload 'magit-rockstar "magit-rockstar" nil t)
-     (autoload 'magit-reshelve "magit-rockstar" nil t)
-     (magit-define-popup-action 'magit-rebase-popup
-       ?R "Rockstar" 'magit-rockstar)
-     (magit-define-popup-action 'magit-commit-popup
-       ?n "Reshelve" 'magit-reshelve)
-     (defun magit-copy-buffer-revision (beg end &optional region)
-       (interactive (list (mark) (point)
-                          (prefix-numeric-value current-prefix-arg)))
-       (kill-ring-save beg end region))
-     (setq magit-push-always-verify nil)
-     (setq git-commit-summary-max-length 70)))
-
-; (add-hook 'git-commit-kill-buffer-hook
-;           '(lambda ()
-;              (make-local-variable 'server-done-hook)
-;              (remove-hook 'server-done-hook 'delete-frame t)))

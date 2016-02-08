@@ -82,21 +82,6 @@
             (setq tab-width 4)))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;
-;;;; Server
-
-;; (add-hook 'server-done-hook 'delete-frame)
-
-(run-with-idle-timer 5 nil (lambda ()
-                             (require 'server)
-                             (unless (server-running-p)
-                               (server-start)
-                               (add-hook 'server-visit-hook
-                                         (lambda ()
-                                           (if (eq major-mode 'fundamental-mode)
-                                               (flyspell-mode 1)))))))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;
@@ -220,10 +205,6 @@
                               (require 'midnight)
                               (setq clean-buffer-list-delay-general 3)
                               (midnight-delay-set 'midnight-delay "1:10pm")))
-
-(eval-after-load "smex"
-  '(progn
-     (smex-auto-update 60)))
 
 
 (setq yas-prompt-functions '(yas-ido-prompt))

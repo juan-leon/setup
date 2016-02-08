@@ -1,10 +1,3 @@
-;; For shorter keybindings
-(defmacro command (&rest body)
-  `(lambda ()
-     (interactive)
-     ,@body))
-
-(global-set-key [(f2)] nil)
 
 ;;;; Global keys
 
@@ -64,8 +57,6 @@
 (global-set-key [(control x) ?b]            'ido-switch-buffer)
 (global-set-key [(meta kp-5)]               'ido-switch-buffer)
 (global-set-key [(meta kp-begin)]           'ido-switch-buffer)
-(global-set-key [(super home)]              'rotate-layout)
-(global-set-key [(super end)]               'rotate-window)
 (global-set-key [(control l)]               'recenter)
 (global-set-key [(control ?x) (control ?d)] 'dired-jump)
 (global-set-key [C-tab]                     'complete-tag)
@@ -126,30 +117,13 @@
 (global-set-key [(control pause)]           'toggle-split)
 (global-set-key [(super backspace)]         'squealer-last-error)
 
-
-(global-set-key [(meta f5)]
-                (command (java-compile "pom.xml" "mvn clean install")))
-(global-set-key [(meta f6)]
-                (command (java-compile "build.xml" "ant undeploy ; mvn clean install && ant deploy")))
-(global-set-key [(meta f7)]
-                (command (java-compile "pom.xml" "mvn install")))
-(global-set-key [(meta f8)]
-                (command (java-compile "build.xml" "ant undeploy ; mvn install && ant deploy")))
-
 ;; Functions for loaded packages
 (global-set-key [(super s)]             'sr-speedbar-toggle)
 (global-set-key (kbd "C-S-<mouse-1>")   'mc/add-cursor-on-click)
 (global-set-key [(super ?1)]            'er/expand-region)
-(global-set-key (kbd "M-x")             'smex)
-(global-set-key (kbd "M-X")             'smex-major-mode-commands)
 (global-set-key (kbd "C-c C-c M-x")     'execute-extended-command)
-(global-set-key [(super ?0)]            'magit-status)
 (global-set-key [(super ?q)]            'magit-status)
-(global-set-key [(control Scroll_Lock)] 'bm-toggle)
-(global-set-key [(shift Scroll_Lock)]   'bm-previous)
-(global-set-key [(Scroll_Lock)]         'bm-next)
 (global-set-key [(super f12)]           'ctags-create-or-update-tags-table)
-(global-set-key [(control ?x) ?v ?p]    'git-messenger:popup-message)
 (global-set-key [(super ?-)]            'goto-last-change)
 (global-set-key [(super ?_)]            'goto-last-change-reverse)
 (global-set-key [(super ?ñ)]            'er/expand-region)
@@ -160,24 +134,6 @@
 (define-key isearch-mode-map [(control up)]   'isearch-ring-retreat)
 (define-key isearch-mode-map [(control down)] 'isearch-ring-advance)
 
-(eval-after-load "winner"
-  '(progn
-     (define-key winner-mode-map [(super prior)] 'winner-undo)
-     (define-key winner-mode-map [(super next)]  'winner-redo)))
-
-(eval-after-load "help-mode"
-  '(progn
-     (define-key help-mode-map [backspace]    'help-go-back)
-     (define-key help-mode-map [(meta left)]  'help-go-back)
-     (define-key help-mode-map [(meta right)] 'help-go-forward)))
-
-(eval-after-load "magit"
-  '(progn
-     (define-key magit-status-mode-map [backspace] 'magit-in-supermodule)))
-
-(eval-after-load "git-messenger"
-  '(progn
-     (define-key git-messenger-map (kbd "m") 'git-messenger:copy-message)))
 
 (eval-after-load "shell"
   '(progn
@@ -218,39 +174,6 @@
                             (local-set-key [(f3)]      'hs-show-block)
                             (local-set-key [(meta f3)] 'hs-hide-block)))
 
-;; Fast switching buffers in same window
-(if (require 'buffer-stack nil t)
-    (progn
-      (add-to-list 'buffer-stack-untracked "*Backtrace*")
-      (global-set-key [(meta kp-4)]     'buffer-stack-up)
-      (global-set-key [(meta kp-left)]  'buffer-stack-up)
-      (global-set-key [(meta kp-6)]     'buffer-stack-down)
-      (global-set-key [(meta kp-right)] 'buffer-stack-down)
-      (global-set-key [(meta kp-2)]     'buffer-stack-bury)
-      (global-set-key [(meta kp-down)]  'buffer-stack-bury)
-      (global-set-key [(meta kp-8)]     'buffer-stack-untrack)
-      (global-set-key [(meta kp-up)]    'buffer-stack-untrack)
-      (defvar buffer-stack-mode)
-      (defun buffer-op-by-mode (op &optional mode)
-        (let ((buffer-stack-filter 'buffer-stack-filter-by-mode)
-              (buffer-stack-mode (or mode major-mode)))
-          (funcall op)))
-      (defun buffer-stack-filter-by-mode (buffer)
-        (with-current-buffer buffer
-          (equal major-mode buffer-stack-mode)))
-      (global-set-key [(meta kp-7)]
-                      (command (buffer-op-by-mode 'buffer-stack-up)))
-      (global-set-key [(meta kp-9)]
-                      (command (buffer-op-by-mode 'buffer-stack-down)))
-      (global-set-key [(meta kp-3)]
-                      (command (buffer-op-by-mode 'buffer-stack-down 'dired-mode)))
-      (global-set-key [(meta kp-1)]
-                      (command (buffer-op-by-mode 'buffer-stack-up 'dired-mode))))
-  (progn
-    (global-set-key [(meta kp-4)]     'bury-buffer)
-    (global-set-key [(meta kp-6)]     'bury-buffer)
-    (global-set-key [(meta kp-left)]  'bury-buffer)
-    (global-set-key [(meta kp-right)] 'bury-buffer)))
 
 (defvar compare-map
   (let ((map (make-sparse-keymap)))
@@ -262,25 +185,3 @@
     map))
 (global-set-key [(control ?=)] compare-map)
 
-(eval-after-load "gdb-mi"
-  '(progn
-     (global-set-key [(f5)]      'leon/gud-print)
-     (global-set-key [(meta f5)] 'leon/gud-print-ref)
-     (global-set-key [(f6)]      'leon/gud-up)
-     (global-set-key [(meta f6)] 'leon/gud-down)
-     (global-set-key [(f7)]      'leon/gud-next)
-     (global-set-key [(meta f7)] 'leon/gud-step)
-     (gud-def leon/gud-print      "print %e"   nil)
-     (gud-def leon/gud-print-ref  "print * %e" nil)
-     (gud-def leon/gud-next       "next"       nil)
-     (gud-def leon/gud-step       "step"       nil)
-     (gud-def leon/gud-cont       "cont"       nil)
-     (gud-def leon/gud-run        "run"        nil)
-     (gud-def leon/gud-up         "up"         nil)
-     (gud-def leon/gud-down       "down"       nil)
-     (add-hook 'gdb-mode-hook
-               (lambda ()
-                 (local-set-key  [(f4)]      'gdb-many-windows)
-                 (local-set-key  [(meta f4)] 'gdb-restore-windows)
-                 (local-set-key  [(f8)]      'leon/gud-cont)
-                 (local-set-key  [(meta f8)] 'leon/gud-run)))))

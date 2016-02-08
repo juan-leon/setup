@@ -61,3 +61,83 @@
     (ctags-create-or-update-tags-table)))
 
 (global-set-key [(super T)] 'recreate-tags)
+
+
+;; I am not using gdb nowadays
+
+(eval-after-load "gdb-mi"
+  '(progn
+     (global-set-key [(f5)]      'leon/gud-print)
+     (global-set-key [(meta f5)] 'leon/gud-print-ref)
+     (global-set-key [(f6)]      'leon/gud-up)
+     (global-set-key [(meta f6)] 'leon/gud-down)
+     (global-set-key [(f7)]      'leon/gud-next)
+     (global-set-key [(meta f7)] 'leon/gud-step)
+     (gud-def leon/gud-print      "print %e"   nil)
+     (gud-def leon/gud-print-ref  "print * %e" nil)
+     (gud-def leon/gud-next       "next"       nil)
+     (gud-def leon/gud-step       "step"       nil)
+     (gud-def leon/gud-cont       "cont"       nil)
+     (gud-def leon/gud-run        "run"        nil)
+     (gud-def leon/gud-up         "up"         nil)
+     (gud-def leon/gud-down       "down"       nil)
+     (add-hook 'gdb-mode-hook
+               (lambda ()
+                 (local-set-key  [(f4)]      'gdb-many-windows)
+                 (local-set-key  [(meta f4)] 'gdb-restore-windows)
+                 (local-set-key  [(f8)]      'leon/gud-cont)
+                 (local-set-key  [(meta f8)] 'leon/gud-run)))))
+
+
+(eval-after-load "gdb-mi"
+  '(add-hook 'gdb-mode-hook
+             (lambda ()
+               (setq comint-input-ring-file-name (concat user-emacs-directory "history/gdb"))
+               (comint-read-input-ring t)
+               (add-hook 'kill-buffer-hook 'comint-write-input-ring nil t))))
+
+
+;; I am not using java/maven nowadays
+
+
+
+(global-set-key [(meta f5)]
+                (command (java-compile "pom.xml" "mvn clean install")))
+(global-set-key [(meta f6)]
+                (command (java-compile "build.xml" "ant undeploy ; mvn clean install && ant deploy")))
+(global-set-key [(meta f7)]
+                (command (java-compile "pom.xml" "mvn install")))
+(global-set-key [(meta f8)]
+                (command (java-compile "build.xml" "ant undeploy ; mvn install && ant deploy")))
+
+;; Remove maven false positives
+(add-hook 'compilation-mode-hook
+          (lambda ()
+            (font-lock-add-keywords nil
+               '(("^\\[?INFO.*"
+                  (0 '(face nil font-lock-face nil
+                       compilation-message nil help-echo nil mouse-face nil) t))
+                 ("^	.*)$"
+                  (0 '(face nil font-lock-face nil
+                            compilation-message nil help-echo nil mouse-face nil) t)))
+               'append)))
+
+
+
+;; This is fixed, but my faith on PHP mode is not great
+(eval-after-load "php-mode"
+  '(progn
+     (c-add-style
+      "pear"
+      '((c-basic-offset . 4)
+        (c-offsets-alist . ((block-open . -)
+                            (block-close . 0)
+                            (topmost-intro-cont . (first c-lineup-cascaded-calls
+                                                         php-lineup-arglist-intro))
+                            (brace-list-intro . +)
+                            (case-label . +)
+                            (brace-list-entry . c-lineup-cascaded-calls)
+                            (arglist-close . php-lineup-arglist-close)
+                            (arglist-intro . php-lineup-arglist-intro)
+                            (knr-argdecl . [0])
+                            (statement-cont . (first c-lineup-cascaded-calls +))))))))
