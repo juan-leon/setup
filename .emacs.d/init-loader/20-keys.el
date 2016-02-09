@@ -39,14 +39,6 @@
 (global-set-key [(control f3)   ]           'ff-find-other-file)
 (global-set-key [(super ?+)]                'imenu-add-menubar-index)
 (global-set-key [(control f4)]              'calendar)
-(global-set-key [(f8)]                      'compile)
-(global-set-key [(control f6)]              'recompile)
-(global-set-key [(super f7)]                'previous-error)
-(global-set-key [(super f8)]                'next-error)
-(global-set-key [(super kp-8)]              'previous-error)
-(global-set-key [(super kp-2)]              'next-error)
-(global-set-key [(super meta f7)]           'previous-error-no-select)
-(global-set-key [(super meta f8)]           'next-error-no-select)
 (global-set-key [(f12)]                     'gdb)
 (global-set-key [(control x) ?b]            'ido-switch-buffer)
 (global-set-key [(meta kp-5)]               'ido-switch-buffer)
@@ -62,9 +54,6 @@
 
 (global-set-key [(control backspace)] (command (kill-line 0)))
 (global-set-key [(super r)   ]        (command (revert-buffer nil t)))
-(global-set-key [(control f8)]        (command
-                                       (let ((buf (get-buffer "*compilation*")))
-                                         (and buf (switch-to-buffer buf)))))
 (global-set-key [(control menu)]      (command
                                        (menu-bar-mode (if menu-bar-mode 0 1))))
 (global-set-key [(super ?9)]
@@ -117,7 +106,7 @@
 (global-set-key [(super ?-)]            'goto-last-change)
 (global-set-key [(super ?_)]            'goto-last-change-reverse)
 (global-set-key [(super ?ñ)]            'er/expand-region)
-(global-set-key [(super ?j)]            'avy-goto-word-1)
+
 
 ;;;; Local maps
 (define-key isearch-mode-map [(control t)]    'isearch-toggle-case-fold)
@@ -140,8 +129,6 @@
 
 (global-set-key [(super shift z)] 'browse-zeal)
 (global-set-key [(super return)] 'browse-zeal-fast)
-
-(setq projectile-keymap-prefix (kbd "C-p"))
 
 (add-hook 'java-mode-hook (lambda ()
                             (local-set-key [(f12)] 'browse-javadoc)))

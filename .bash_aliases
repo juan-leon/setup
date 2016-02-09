@@ -29,7 +29,6 @@ if test -f ~/.domainname; then
     export EMAIL=juanleon.lahoz@$(cat ~/.domainname)
 fi
 
-
 PATH=/home/juanleon/bin/git/bin:/home/juanleon/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/lightdm/lightdm
 PS1='\[\e[01;30m\][\[\e[00m\e[35m\]\w\[\e[00m\e[01;30m\]]\[\e[00m\]: '
 # For root: PS1='\[\e[01;30m\][\[\e[00m\e[01;07;31m\]ROOT:\[\e[00m\e[31m\]\w\[\e[00m\e[01;30m\]]\[\e[00m\]: '

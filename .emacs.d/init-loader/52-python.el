@@ -8,7 +8,7 @@
                          (jedi:setup)
                          (setq tab-width 4)
                          ;; fixme add juanleon to function below
-                         (add-hook 'before-save-hook 'delete-trailing-blank-lines nil 'local)
+                         (add-hook 'before-save-hook 'juanleon/delete-trailing-blank-lines nil 'local)
                          (setq fill-column 79))))
 
 (use-package jedi-core

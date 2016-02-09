@@ -1,4 +1,5 @@
 (use-package dired
+  :bind ([(control ?x) (control ?d)] . dired-jump)
   :config
   (require 'dired-x)
 
@@ -25,11 +26,7 @@
   (define-key dired-mode-map [(backspace)] 'dired-jump)
   (define-key dired-mode-map [(control backspace)] 'dired-unmark-backward))
 
-(use-package dired-x
-  :ensure t
-  :bind ([(control ?x) (control ?d)] . dired-jump))
-
-(use-package diredx
+(use-package direx
   :ensure t
   :bind ([(super ?<)] . direx:jump-to-directory)
   :config

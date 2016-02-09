@@ -1,4 +1,8 @@
-(setenv "PATH" "/home/juanleon/bin/git/bin:$PATH" t)
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (exec-path-from-shell-initialize))
+
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (defadvice x-set-selection (after replicate-selection (type data) activate)
@@ -22,7 +26,6 @@
       '(("autorevert"  . auto-revert-mode)
         ("anzu"        . anzu-mode)
         ("back-button" . back-button-mode)
-        ("button-lock" . button-lock-mode)
         ("hideshow"    . hs-minor-mode)))
 
 
@@ -47,11 +50,6 @@
                            (local-set-key [(?º)] (command (insert "$")))))
 
 
-(key-chord-mode 1)
-(key-chord-define-global "º1" 'ace-jump-line-mode)
-(key-chord-define-global "<z" 'ace-jump-char-mode)
-(key-chord-define-global "zx" 'ace-jump-word-mode)
-(setq ace-jump-mode-scope 'frame)
 
 (and (fboundp 'cycle-spacing) (global-set-key (kbd "M-SPC") 'cycle-spacing))
 
@@ -60,6 +58,8 @@
 (setq projectile-make-test-cmd "tools/runUnitTests")
 
 (add-hook 'comint-mode-hook (lambda () (ws-trim-mode 0)))
+
+
 
 
 (defun open-test-file ()
@@ -78,7 +78,25 @@
 
 (use-package server
   :init (setq server-window 'switch-to-buffer-other-frame)
+  :defer 5
   :config (unless (server-running-p)
             (server-start)))
 
 
+(use-package key-chord
+  :ensure t
+  :config
+  (key-chord-mode 1)
+  (key-chord-define-global "º1" 'ace-jump-line-mode)
+  (key-chord-define-global "<z" 'ace-jump-char-mode)
+  (key-chord-define-global "zx" 'ace-jump-word-mode))
+
+(use-package ace-jump-mode
+  :ensure t
+  :defer t
+  :config
+  (setq ace-jump-mode-scope 'frame))
+
+(use-package avy
+  :ensure t
+  :bind ([(super ?j)] . avy-goto-word-1))

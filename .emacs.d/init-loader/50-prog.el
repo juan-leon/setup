@@ -1,5 +1,18 @@
 
-(setq fixme-mode-warning-words '("FIXME" "TODO" "fixme" "HACK" "NOCOMMIT"))
+
+(use-package fixme-mode
+  :ensure t
+  :defer t
+  :init (setq fixme-mode-warning-words '("FIXME" "TODO" "fixme" "HACK" "NOCOMMIT")))
+
+(use-package puppet-mode
+  :ensure t
+  :mode ("\\.pp\\'" . puppet-mode))
+
+(use-package go-mode
+  :ensure t
+  :mode ("\\.go\\'" . go-mode))
+
 
 (add-hook 'prog-mode-hook (lambda ()
                             (subword-mode  1)
@@ -7,7 +20,7 @@
                             (hs-minor-mode 1)))
 
 
-(defun delete-trailing-blank-lines ()
+(defun juanleon/delete-trailing-blank-lines ()
   "Deletes all blank lines at the end of the file."
   (interactive)
   (save-excursion
@@ -20,19 +33,17 @@
 
 (eval-after-load "cc-mode"
   '(progn
-     (defun leon/c-mode-setup ()
+     (defun juanleon/c-mode-setup ()
        (setq indicate-empty-lines t)
        (c-toggle-electric-state t)
        (c-toggle-hungry-state t)
        (setq c-basic-offset 4)
        (setq ff-search-directories '("." "include" "../include")))
-     (add-hook 'c-mode-common-hook 'leon/c-mode-setup)
+     (add-hook 'c-mode-common-hook 'juanleon/c-mode-setup)
      (add-hook 'java-mode-hook (lambda ()
                                  (setq c-basic-offset 4
                                        tab-width 4
                                        indent-tabs-mode t)))
-    (when (require 'xcscope nil t)
-      (cscope-setup))
      (when (require 'ctags nil t)
        (setq tags-revert-without-query t)
        (setq ctags-command
@@ -44,26 +55,39 @@
 
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
-(add-to-list 'auto-mode-alist '("\\.pp\\'" . puppet-mode))
 (add-to-list 'auto-mode-alist '("\\.js.template\\'" . js-mode))
-(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
-(setq projectile-switch-project-action 'projectile-dired
-      projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name)))
-      projectile-tags-command "ctags-exuberant -Re -f \"%s\" %s")
-(projectile-global-mode)
 
 ;; fixme flymake fails more often than not (add-hook 'php-mode-hook 'flymake-mode)
-(add-hook 'php-mode-hook '(lambda () (setq require-final-newline t)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;
 ;;;; Compilation
 
-(setq compilation-scroll-output t
-      next-error-highlight-no-select 2.0
-      next-error-highlight 'fringe-arrow)
+(use-package compile
+  :bind (([(f8)]            . compile)
+         ([(control f6)]    . recompile)
+         ([(super f7)]      . previous-error)
+         ([(super f8)]      . next-error)
+         ([(super kp-8)]    . previous-error)
+         ([(super kp-2)]    . next-error)
+         ([(super meta f7)] . previous-error-no-select)
+         ([(super meta f8)] . next-error-no-select))
+  :init
+  (setq compilation-scroll-output t
+        next-error-highlight 'fringe-arrow)
+  (global-set-key [(control f8)] (command
+                                  (let ((buf (get-buffer "*compilation*")))
+                                    (and buf (switch-to-buffer buf)))))
+  :config
+  (add-hook 'compilation-finish-functions 'juanleon/notify-compilation-end))
 
-(add-hook 'compilation-finish-functions 'notify-compilation-end)
-
+(use-package projectile
+  :init
+  (setq projectile-keymap-prefix         (kbd "C-p")
+        projectile-switch-project-action 'projectile-dired
+        projectile-mode-line             '(:eval (format " P[%s]" (projectile-project-name)))
+        projectile-tags-command          "ctags-exuberant -Re -f \"%s\" %s")
+  :config
+  (projectile-global-mode))

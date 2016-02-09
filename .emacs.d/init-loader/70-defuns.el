@@ -102,7 +102,7 @@
           (goto-char (or (and pos (1+ pos)) (point-min))))
       (goto-char (point-min)))))
 
-(defun notify-compilation-end (comp-buffer result)
+(defun juanleon/notify-compilation-end (comp-buffer result)
   (unless (or (eq major-mode 'grep-mode) (eq major-mode 'ack-and-a-half-mode))
     (start-process "notification" nil "notify-send" "-t" "60000"
                    "-i" "/usr/share/icons/hicolor/48x48/apps/emacs.png"
