@@ -6,7 +6,16 @@
 
 (global-set-key [(f2)] nil)
 
-
+(use-package projectile
+  :ensure t
+  :preface (setq projectile-keymap-prefix (kbd "C-p"))
+  :init
+  (setq projectile-keymap-prefix         (kbd "C-p")
+        projectile-switch-project-action 'projectile-dired
+        projectile-mode-line             '(:eval (format " P[%s]" (projectile-project-name)))
+        projectile-tags-command          "ctags-exuberant -Re -f \"%s\" %s")
+  :config
+  (projectile-global-mode))
 
 (setq-default
  indent-tabs-mode                   nil
@@ -29,12 +38,6 @@
  confirm-kill-emacs                 'y-or-n-p ; "Fast fingers protection"
  disabled-command-function          nil ; Warnings already read
  garbage-collection-messages        t
- ido-case-fold                      nil
- ido-enable-tramp-completion        nil
- ido-save-directory-list-file       (concat user-emacs-directory "history/ido")
- ido-auto-merge-delay-time          20
- ido-slow-ftp-host-regexps          '(".")
- ido-read-file-name-non-ido         '(dired-create-directory)
  inhibit-startup-message            t
  initial-scratch-message            nil
  isearch-allow-scroll               t
@@ -77,13 +80,10 @@
 (size-indication-mode     1)
 (file-name-shadow-mode    1)
 (temp-buffer-resize-mode  1)
-(ido-mode                 1)
-(ido-everywhere           1)
-(flx-ido-mode             1)
 (back-button-mode         1)
 (electric-pair-mode       1)
 (global-anzu-mode         1)
-; fixme (desktop-save-mode        1)
+;; fixme (desktop-save-mode        1)
 
 
 (require 'saveplace)
@@ -194,4 +194,37 @@
   (setq yascroll:delay-to-hide nil)
   :config
   (global-yascroll-bar-mode 1))
+
+
+(use-package ido
+  :ensure t
+  :defer nil
+  :bind (([(control x) ?b] . ido-switch-buffer)
+         ([(meta kp-5)]    . ido-switch-buffer)
+         ([(meta kp-begin)]. ido-switch-buffer))
+  :init
+  (setq ido-case-fold                nil
+        ido-enable-tramp-completion  nil
+        ido-save-directory-list-file (concat user-emacs-directory "history/ido")
+        ido-auto-merge-delay-time    20
+        ido-slow-ftp-host-regexps    '(".")
+        ido-read-file-name-non-ido   '(dired-create-directory))
+  :config
+  (ido-mode 1)
+  (ido-everywhere 1))
+
+(use-package flx-ido
+  :ensure t
+  :config (flx-ido-mode 1))
+
+
+(use-package ido
+  :ensure t
+  :bind (([(super ?1)] . er/expand-region)
+         ([(super ?ñ)] . er/expand-region)))
+
+(use-package goto-chg
+  :ensure t
+  :bind (([(super ?-)]. goto-last-change)
+         ([(super ?_)]. goto-last-change-reverse)))
 

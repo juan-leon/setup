@@ -183,6 +183,8 @@
                               (midnight-delay-set 'midnight-delay "1:10pm")))
 
 
-(setq yas-prompt-functions '(yas-ido-prompt))
-(setq yas-snippet-dirs (list "~/.emacs.d/snippets"))
-(yas-global-mode)
+(use yasnippet
+     :ensure t
+     :init (setq yas-prompt-functions '(yas-ido-prompt))
+     :config (yas-global-mode))
+

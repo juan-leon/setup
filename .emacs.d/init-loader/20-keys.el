@@ -40,9 +40,6 @@
 (global-set-key [(super ?+)]                'imenu-add-menubar-index)
 (global-set-key [(control f4)]              'calendar)
 (global-set-key [(f12)]                     'gdb)
-(global-set-key [(control x) ?b]            'ido-switch-buffer)
-(global-set-key [(meta kp-5)]               'ido-switch-buffer)
-(global-set-key [(meta kp-begin)]           'ido-switch-buffer)
 (global-set-key [(control l)]               'recenter)
 (global-set-key [C-tab]                     'complete-tag)
 (global-set-key (kbd "<C-S-s-up>")          'buf-move-up)
@@ -100,12 +97,8 @@
 ;; Functions for loaded packages
 (global-set-key [(super s)]             'sr-speedbar-toggle)
 (global-set-key (kbd "C-S-<mouse-1>")   'mc/add-cursor-on-click)
-(global-set-key [(super ?1)]            'er/expand-region)
 (global-set-key (kbd "C-c C-c M-x")     'execute-extended-command)
 (global-set-key [(super f12)]           'ctags-create-or-update-tags-table)
-(global-set-key [(super ?-)]            'goto-last-change)
-(global-set-key [(super ?_)]            'goto-last-change-reverse)
-(global-set-key [(super ?ñ)]            'er/expand-region)
 
 
 ;;;; Local maps
@@ -118,14 +111,6 @@
   '(progn
      (define-key shell-mode-map [(meta kp-up)] 'shell-rename)
      (define-key shell-mode-map [(meta kp-8)]  'shell-rename)))
-
-(add-hook 'ido-mode-hook
-          (lambda ()
-            (define-key ido-file-completion-map [(shift left)]  'ido-prev-work-file)
-            (define-key ido-file-completion-map [(shift right)] 'ido-next-work-file)
-            (define-key ido-file-completion-map [(shift up)]    'ido-prev-work-directory)
-            (define-key ido-file-completion-map [(shift down)]  'ido-next-work-directory)
-            (define-key ido-file-completion-map [(~)]           (command (insert "~/")))))
 
 (global-set-key [(super shift z)] 'browse-zeal)
 (global-set-key [(super return)] 'browse-zeal-fast)

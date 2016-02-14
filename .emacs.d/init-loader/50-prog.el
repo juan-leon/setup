@@ -83,11 +83,3 @@
   :config
   (add-hook 'compilation-finish-functions 'juanleon/notify-compilation-end))
 
-(use-package projectile
-  :init
-  (setq projectile-keymap-prefix         (kbd "C-p")
-        projectile-switch-project-action 'projectile-dired
-        projectile-mode-line             '(:eval (format " P[%s]" (projectile-project-name)))
-        projectile-tags-command          "ctags-exuberant -Re -f \"%s\" %s")
-  :config
-  (projectile-global-mode))

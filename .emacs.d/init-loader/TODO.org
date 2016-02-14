@@ -1,0 +1,4 @@
+* heml, helm-dash, helm-projectile, helm-git
+* Why (setq projectile-globally-ignored-files nil)?
+
+* projectile non-git
