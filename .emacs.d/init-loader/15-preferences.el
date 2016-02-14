@@ -23,7 +23,6 @@
  fill-column                        80
  case-fold-search                   nil
  search-ring-update                 t
- save-place                         t
  truncate-lines                     t)
 
 (setq
@@ -33,8 +32,6 @@
  browse-url-browser-function        'browse-url-chromium
  calendar-week-start-day            1
  calendar-mark-holidays-flag        t
- comint-input-ignoredups            t
- comint-use-prompt-regexp           nil  ; Weird bugs otherwise
  confirm-kill-emacs                 'y-or-n-p ; "Fast fingers protection"
  disabled-command-function          nil ; Warnings already read
  garbage-collection-messages        t
@@ -73,24 +70,28 @@
                         (mark " " (name 30 -1) " " filename)))
 
 
-(column-number-mode       1)
-(recentf-mode             1)
-(auto-image-file-mode     1)
-(show-paren-mode          1)
-(size-indication-mode     1)
-(file-name-shadow-mode    1)
-(temp-buffer-resize-mode  1)
-(back-button-mode         1)
-(electric-pair-mode       1)
-(global-anzu-mode         1)
-;; fixme (desktop-save-mode        1)
+(column-number-mode      1)
+(recentf-mode            1)
+(auto-image-file-mode    1)
+(show-paren-mode         1)
+(size-indication-mode    1)
+(file-name-shadow-mode   1)
+(temp-buffer-resize-mode 1)
+(back-button-mode        1)
+(electric-pair-mode      1)
+(global-anzu-mode        1)
+;; (desktop-save-mode       1)
 
 
-(require 'saveplace)
-(require 'scroll-in-place)
-(require 'buffer-move)
+(use-package saveplace
+  :init (setq-default  save-place t))
 
-
+(use-package buffer-move
+  :ensure t
+  :bind (((kbd "<C-S-s-up>")    . buf-move-up)
+         ((kbd "<C-S-s-down>")  . buf-move-down)
+         ((kbd "<C-S-s-left>")  . buf-move-left)
+         ((kbd "<C-S-s-right>") . buf-move-right)))
 
 (use-package ws-trim
   :ensure t

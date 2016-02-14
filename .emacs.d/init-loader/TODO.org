@@ -1,4 +1,16 @@
 * heml, helm-dash, helm-projectile, helm-git
 * Why (setq projectile-globally-ignored-files nil)?
 
-* projectile non-git
+* projectile non-git... example emacs, hacks.
+* tramp multihop (vagrant & production)
+
+  http://stackoverflow.com/questions/2177687/open-file-via-ssh-and-sudo-with-emacs
+
+  (add-to-list 'tramp-default-proxies-alist
+               '(nil "\\`root\\'" "/ssh:%h:"))
+  (add-to-list 'tramp-default-proxies-alist
+               '((regexp-quote (system-name)) nil nil))
+  (add-to-list 'tramp-default-proxies-alist
+               '("localhost" nil nil))
+* leverage Org mode agenda
+

@@ -14,51 +14,49 @@
   :mode ("\\.go\\'" . go-mode))
 
 
-(add-hook 'prog-mode-hook (lambda ()
-                            (subword-mode  1)
-                            (fixme-mode    1)
-                            (hs-minor-mode 1)))
+(use-package prog-mode
+  :defer t
+  :config
+  (add-hook 'prog-mode-hook (lambda ()
+                              (subword-mode  1)
+                              (fixme-mode    1)
+                              (hs-minor-mode 1)
+                              (local-set-key [(meta f3)] 'hs-show-block)
+                              (local-set-key [(f3)]      'hs-hide-block))))
+
+(use-package cc-mode
+  :defer t
+  :config
+  (c-set-offset 'case-label '+)
+  (c-set-offset 'substatement-open 0)
+  (defun juanleon/c-mode-setup ()
+    (setq indicate-empty-lines t)
+    (c-toggle-electric-state t)
+    (c-toggle-hungry-state t)
+    (setq c-basic-offset 4)
+    (setq ff-search-directories '("." "include" "../include")))
+  (add-hook 'c-mode-common-hook 'juanleon/c-mode-setup)
+  (add-hook 'java-mode-hook (lambda ()
+                              (setq c-basic-offset 4
+                                    tab-width 4
+                                    indent-tabs-mode t))))
+
+(use-package ctags
+  :ensure t
+  :bind ([(super f12)] . ctags-create-or-update-tags-table)
+  :config
+  (setq tags-revert-without-query t)
+  (setq ctags-command
+        "find . -name  '*.[ch]' -o -name '*.java' -o -name '*.el' -o -name '*.php' -o -name '*.js' -o -name '*.py' | xargs etags"))
+
+(use-package ctags
+  :ensure t
+  :init (setq etags-table-search-up-depth 20))
+
+(use-package js
+  :mode ("\\.js\\.template\\'" . js-mode))
 
 
-(defun juanleon/delete-trailing-blank-lines ()
-  "Deletes all blank lines at the end of the file."
-  (interactive)
-  (save-excursion
-    (save-restriction
-      (widen)
-      (goto-char (point-max))
-      (delete-blank-lines))))
-
-
-
-(eval-after-load "cc-mode"
-  '(progn
-     (defun juanleon/c-mode-setup ()
-       (setq indicate-empty-lines t)
-       (c-toggle-electric-state t)
-       (c-toggle-hungry-state t)
-       (setq c-basic-offset 4)
-       (setq ff-search-directories '("." "include" "../include")))
-     (add-hook 'c-mode-common-hook 'juanleon/c-mode-setup)
-     (add-hook 'java-mode-hook (lambda ()
-                                 (setq c-basic-offset 4
-                                       tab-width 4
-                                       indent-tabs-mode t)))
-     (when (require 'ctags nil t)
-       (setq tags-revert-without-query t)
-       (setq ctags-command
-             "find . -name  '*.[ch]' -o -name '*.java' -o -name '*.el' -o -name '*.php' -o -name '*.js' -o -name '*.py' | xargs etags"))
-     (when (require 'etags-table nil t)
-       (setq etags-table-search-up-depth 20))
-     (c-set-offset 'case-label '+)
-     (c-set-offset 'substatement-open 0)))
-
-(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
-
-(add-to-list 'auto-mode-alist '("\\.js.template\\'" . js-mode))
-
-
-;; fixme flymake fails more often than not (add-hook 'php-mode-hook 'flymake-mode)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

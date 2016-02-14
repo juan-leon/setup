@@ -1,3 +1,12 @@
+(defun juanleon/delete-trailing-blank-lines ()
+  "Deletes all blank lines at the end of the file."
+  (interactive)
+  (save-excursion
+    (save-restriction
+      (widen)
+      (goto-char (point-max))
+      (delete-blank-lines))))
+
 (defun find-anything-at-point ()
   "Find the variable or function or file at point."
   (interactive)
@@ -149,23 +158,6 @@
         (split-window-vertically)
       (split-window-horizontally))
     (set-window-buffer (next-window) buff-b)))
-
-(defun browse-javadoc ()
-  (interactive)
-  (let ((class (thing-at-point 'word)))
-    (save-excursion
-      (save-restriction
-        (goto-char (point-min))
-        (if (re-search-forward (concat "^import\s+\\(.*\\." class  "\\);$") nil t)
-            (let ((url (concat "http://www.google.es/search?q=javadoc+"
-                               (match-string 1)
-                               "+overview+frames&btnI=")))
-              (browse-url url))
-          (message "No class at point"))))))
-
-(defun browse-php (arg)
-  (interactive (list (read-from-minibuffer "Enter symbol: " (thing-at-point 'word))))
-  (browse-url (concat "http://us.php.net/manual-lookup.php?scope=quickref&pattern=" arg)))
 
 (defun toggle-theme ()
   "Toggle dark/light theme"

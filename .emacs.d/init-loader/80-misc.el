@@ -4,6 +4,7 @@
 ;;;;
 ;;;; This year's calendar calendar
 
+
 (setq calendar-holidays (append
                          ;; Fixed
                          '((holiday-fixed 1 1 "New Year's Day")
@@ -29,25 +30,32 @@
 ;;;;
 ;;;; Minimize keystrokes for writing
 
-(setq hippie-expand-try-functions-list
-      '(try-expand-dabbrev
-        try-complete-file-name-partially
-        try-complete-file-name
-        try-expand-all-abbrevs
-        try-expand-dabbrev-all-buffers
-        try-expand-dabbrev-from-kill
-        try-complete-lisp-symbol-partially
-        try-complete-lisp-symbol
-        try-expand-line
-        try-expand-list))
+(use-package hippie-exp
+  :config
+  (setq hippie-expand-try-functions-list
+        '(try-expand-dabbrev
+          try-complete-file-name-partially
+          try-complete-file-name
+          try-expand-all-abbrevs
+          try-expand-dabbrev-all-buffers
+          try-expand-dabbrev-from-kill
+          try-complete-lisp-symbol-partially
+          try-complete-lisp-symbol
+          try-expand-line
+          try-expand-list)))
 
-(if (require 'auto-complete-config nil t)
-    (ac-config-default))
+
+(use-package auto-complete
+  :ensure t
+  :config (ac-config-default))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;
 ;;;; Text stuff
+
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
 
 (add-hook 'text-mode-hook
           (lambda ()
@@ -63,109 +71,111 @@
 ;;;;
 ;;;; Spelling
 
-(defvar juanleon/main-dictionary      "english")
-(defvar juanleon/secondary-dictionary "castellano8")
-
-(setq ispell-dictionary     juanleon/main-dictionary
-      ispell-silently-savep t)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;
-;;;; Searchs
-
-(add-hook 'isearch-mode-end-hook
-          (lambda () (if interprogram-cut-function
-                         (funcall interprogram-cut-function isearch-string))))
-
-(add-hook 'occur-mode-hook 'turn-on-occur-x-mode)
-
-(eval-after-load "grep"
-  '(progn
-     (setq grep-find-ignored-directories '(".svn" ".git" ".hg" ".bzr" "target"))
-     (add-to-list 'grep-find-ignored-files "TAGS")))
+(use-package ispell
+  :defer t
+  :preface
+  (defvar juanleon/main-dictionary      "english")
+  (defvar juanleon/secondary-dictionary "castellano8")
+  :config
+  (setq ispell-dictionary     juanleon/main-dictionary
+        ispell-silently-savep t)
+  (global-set-key [(super ?9)]
+                  (lambda ()
+                    (interactive)
+                    (if (not (equal ispell-local-dictionary juanleon/secondary-dictionary))
+                        (ispell-change-dictionary juanleon/secondary-dictionary)
+                      (ispell-change-dictionary juanleon/main-dictionary)))))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;
-;;;; Shell stuff
-
-(eval-after-load "shell"
-  '(progn
-     (add-hook 'shell-mode-hook
-               (lambda ()
-                 (setq comint-input-ring-file-name (concat user-emacs-directory "history/shell"))
-                 (add-hook 'kill-buffer-hook 'comint-write-input-ring nil t)))
-     (defun shell-rename()
-       (interactive)
-       (if (eq major-mode 'shell-mode)
-           (rename-buffer "shell" t)))))
+(use-package isearch
+  :defer t
+  :config
+  (define-key isearch-mode-map [(control t)]    'isearch-toggle-case-fold)
+  (define-key isearch-mode-map [(control up)]   'isearch-ring-retreat)
+  (define-key isearch-mode-map [(control down)] 'isearch-ring-advance)
+  (add-hook 'isearch-mode-end-hook
+            (lambda () (if interprogram-cut-function
+                           (funcall interprogram-cut-function isearch-string)))))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;
-;;;; Tramp
 
-(require 'tramp)
-(add-to-list 'tramp-default-proxies-alist
-             '(nil "\\`root\\'" "/ssh:%h:"))
-(add-to-list 'tramp-default-proxies-alist
-             '((regexp-quote (system-name)) nil nil))
-(add-to-list 'tramp-default-proxies-alist
-             '("localhost" nil nil))
+(use-package occur-x
+  :ensure t
+  :config (add-hook 'occur-mode-hook 'turn-on-occur-x-mode))
+
+(use-package grep
+  :defer t
+  :init
+  (setq grep-find-ignored-directories '(".svn" ".git" ".hg" ".bzr" "target"))
+  (add-to-list 'grep-find-ignored-files "TAGS"))
+
+(use-package shell
+  :defer t
+  :config
+  (add-hook 'shell-mode-hook
+            (lambda ()
+              (setq comint-input-ring-file-name (concat user-emacs-directory "history/shell"))
+              (add-hook 'kill-buffer-hook 'comint-write-input-ring nil t)))
+  (defun juanleon/shell-rename()
+    (interactive)
+    (if (eq major-mode 'shell-mode)
+        (rename-buffer "shell" t)))
+  (define-key shell-mode-map [(meta kp-up)] 'juanleon/shell-rename)
+  (define-key shell-mode-map [(meta kp-8)]  'juanleon/shell-rename))
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;
 ;;;; org-mode
 
-(eval-after-load "org"
-  '(progn
-     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-     (setq org-agenda-files '("~/cases/"))
-     (setq org-todo-keywords '((sequence "TODO" "WAITING" "BLOCKED" "ONGOING" "DONE")))
-     (setq org-completion-use-ido t)))
+(use-package org
+  :ensure t
+  :bind (([(control c) ?l] . org-store-link)
+         ([(control c) ?a] . org-agenda)
+         ([(super o)]      . org-iswitchb))
+  :config
+  (use-package org-bullets :ensure t)
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  (setq org-completion-use-ido t))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;
-;;;; SQL stuff
-
-(eval-after-load "sql"
-  '(progn
-     (add-to-list 'sql-product-alist
-                  '(MariaDB
-                    :name "MySQL"
-                    :free-software t
-                    :font-lock sql-mode-mysql-font-lock-keywords
-                    :sqli-program sql-mysql-program
-                    :sqli-options sql-mysql-options
-                    :sqli-login sql-mysql-login-params
-                    :sqli-comint-func sql-comint-mysql
-                    :list-all "SHOW TABLES;"
-                    :list-table "DESCRIBE %s;"
-                    :prompt-regexp "^MariaDB.*> "
-                    :prompt-length 6
-                    :prompt-cont-regexp "^    -> "
-                    :syntax-alist ((?# . "< b"))
-                    :input-filter sql-remove-tabs-filter))
-     (modify-syntax-entry ?\" "\"" sql-mode-syntax-table)
-     (setq sql-connection-alist
-           '(("iats"
-              (sql-product  'MariaDB)
-              (sql-database "iats")
-              (sql-server   "localhost")
-              (sql-user     "root")
-              (sql-password ""))
-             ("squealer"
-              (sql-product  'MariaDB)
-              (sql-database "squealer")
-              (sql-server   "localhost")
-              (sql-user     "root")
-              (sql-password "")))
-           sql-input-ring-file-name (concat user-emacs-directory "history/sql"))
-     (add-hook 'sql-interactive-mode-hook 'comint-write-input-ring nil t)
-     (add-to-list 'same-window-buffer-names "*SQL*")))
+(use-package sql
+  :bind ([(meta f4)] . sql-connect)
+  :config
+  (add-to-list 'sql-product-alist
+               '(MariaDB
+                 :name "MySQL"
+                 :free-software t
+                 :font-lock sql-mode-mysql-font-lock-keywords
+                 :sqli-program sql-mysql-program
+                 :sqli-options sql-mysql-options
+                 :sqli-login sql-mysql-login-params
+                 :sqli-comint-func sql-comint-mysql
+                 :list-all "SHOW TABLES;"
+                 :list-table "DESCRIBE %s;"
+                 :prompt-regexp "^MariaDB.*> "
+                 :prompt-length 6
+                 :prompt-cont-regexp "^    -> "
+                 :syntax-alist ((?# . "< b"))
+                 :input-filter sql-remove-tabs-filter))
+  (modify-syntax-entry ?\" "\"" sql-mode-syntax-table)
+  (setq sql-connection-alist
+        '(("iats"
+           (sql-product  'MariaDB)
+           (sql-database "iats")
+           (sql-server   "localhost")
+           (sql-user     "root")
+           (sql-password ""))
+          ("squealer"
+           (sql-product  'MariaDB)
+           (sql-database "squealer")
+           (sql-server   "localhost")
+           (sql-user     "root")
+           (sql-password "")))
+        sql-input-ring-file-name (concat user-emacs-directory "history/sql"))
+  (add-hook 'sql-interactive-mode-hook 'comint-write-input-ring nil t)
+  (add-to-list 'same-window-buffer-names "*SQL*"))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -175,16 +185,16 @@
 (add-hook 'latex-mode-hook (lambda () (setq fill-column 100)))
 (add-hook 'elisp-mode-hook (lambda () (setq fill-column 75)))
 
-(setq sr-speedbar-right-side nil)
+(use-package midnight
+  :ensure t
+  :defer 30
+  :init
+  (setq clean-buffer-list-delay-general 3)
+  (midnight-delay-set 'midnight-delay "1:10pm"))
 
-(run-with-idle-timer 10 nil (lambda ()
-                              (require 'midnight)
-                              (setq clean-buffer-list-delay-general 3)
-                              (midnight-delay-set 'midnight-delay "1:10pm")))
 
-
-(use yasnippet
-     :ensure t
-     :init (setq yas-prompt-functions '(yas-ido-prompt))
-     :config (yas-global-mode))
+(use-package yasnippet
+  :ensure t
+  :init (setq yas-prompt-functions '(yas-ido-prompt))
+  :config (yas-global-mode))
 

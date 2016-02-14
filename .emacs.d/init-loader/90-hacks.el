@@ -10,13 +10,19 @@
   (if (equal type 'CLIPBOARD)
       (x-set-selection 'PRIMARY data)))
 
-(eval-after-load "comint"
-  '(defadvice comint-previous-input (around move-free (arg) activate)
-     "No more 'Not at command line'"
-     (if (comint-after-pmark-p)
-         (progn
-           ad-do-it)
-       (backward-paragraph arg))))
+(use-package comint
+  :defer t
+  :config
+  (setq comint-input-ignoredups  t
+        comint-use-prompt-regexp nil)  ; Weird bugs otherwise
+  (defadvice comint-previous-input (around move-free (arg) activate)
+    "No more 'Not at command line'"
+    (if (comint-after-pmark-p)
+        (progn
+          ad-do-it)
+      (backward-paragraph arg)))
+  (add-hook 'comint-mode-hook (lambda () (ws-trim-mode 0))))
+
 
 ;;; Uncluttering modeline:
 
@@ -57,7 +63,6 @@
 
 (setq projectile-make-test-cmd "tools/runUnitTests")
 
-(add-hook 'comint-mode-hook (lambda () (ws-trim-mode 0)))
 
 
 

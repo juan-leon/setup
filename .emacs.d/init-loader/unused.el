@@ -141,3 +141,34 @@
                             (arglist-intro . php-lineup-arglist-intro)
                             (knr-argdecl . [0])
                             (statement-cont . (first c-lineup-cascaded-calls +))))))))
+
+
+;; Never got used to speedbar
+
+(global-set-key [(super s)] 'sr-speedbar-toggle)
+(setq sr-speedbar-right-side nil)
+
+
+
+;; Zeal and helm-dash are better
+(add-hook 'java-mode-hook (lambda ()
+                            (local-set-key [(f12)] 'browse-javadoc)))
+(add-hook 'php-mode-hook (lambda ()
+                            (local-set-key [(f12)] 'browse-php)))
+
+(defun browse-javadoc ()
+  (interactive)
+  (let ((class (thing-at-point 'word)))
+    (save-excursion
+      (save-restriction
+        (goto-char (point-min))
+        (if (re-search-forward (concat "^import\s+\\(.*\\." class  "\\);$") nil t)
+            (let ((url (concat "http://www.google.es/search?q=javadoc+"
+                               (match-string 1)
+                               "+overview+frames&btnI=")))
+              (browse-url url))
+          (message "No class at point"))))))
+
+(defun browse-php (arg)
+  (interactive (list (read-from-minibuffer "Enter symbol: " (thing-at-point 'word))))
+  (browse-url (concat "http://us.php.net/manual-lookup.php?scope=quickref&pattern=" arg)))
