@@ -1,4 +1,11 @@
 * heml, helm-dash, helm-projectile, helm-git
+
+  helm-dash opens in browser; zeal is better
+
+;; Bind helm-semantic-or-imenu
+;; Bind helm-mini
+;; Bind helm-man-woman, helm-resume, helm-show-kill-ring, helm-register, helm-comint-input-ring
+
 * Why (setq projectile-globally-ignored-files nil)?
 
 * projectile non-git... example emacs, hacks.
@@ -13,4 +20,4 @@
   (add-to-list 'tramp-default-proxies-alist
                '("localhost" nil nil))
 * leverage Org mode agenda
-
+* leverage bookmarks (helm)

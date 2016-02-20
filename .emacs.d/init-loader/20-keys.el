@@ -26,10 +26,8 @@
 (global-set-key [(super l)]             'locate)
 (global-set-key [(super L)]             'locate-with-filter)
 (global-set-key [(pause)]               'delete-other-windows)
-(global-set-key [remap list-buffers]    'ibuffer)
 (global-set-key [(control meta return)] 'ff-find-other-file)
 (global-set-key [(control f3)   ]       'ff-find-other-file)
-(global-set-key [(super ?+)]            'imenu-add-menubar-index)
 (global-set-key [(f12)]                 'gdb)
 (global-set-key [(control l)]           'recenter)
 (global-set-key [(super ?\")]           'swap-quotes)
@@ -43,7 +41,7 @@
   (command (byte-compile-file (buffer-file-name))))
 
 (mapc #'(lambda (arg) (global-set-key arg 'hippie-expand))
-      '([(super tab)] [(meta ?º)] [(meta VoidSymbol)] [(control VoidSymbol)]))
+      '([(super tab)] [(meta VoidSymbol)] [(control VoidSymbol)]))
 
 ;; Fast bookmarks
 (global-set-key [(control meta ?1)] (command (find-file init-loader-directory)))
@@ -92,11 +90,17 @@
 (global-set-key [(control ?=)] compare-map)
 
 (use-package bookmark
-  :bind (([(super b)] . bookmark-bmenu-list)
+  :bind (([(super meta b)] . bookmark-bmenu-list)
          ([(super B)] . bookmark-set)))
 
 (use-package subword
   :bind (([(meta left)]  . subword-backward)
          ([(meta right)] . subword-forward)))
 
-(global-set-key [C-tab]                 'complete-tag)
+(use-package golden-ratio
+  :ensure t
+  :bind ([(meta ?º)] . golden-ratio-mode)
+  :diminish golden-ratio-mode)
+
+(use-package ibuffer
+  :bind ([remap list-buffers] . ibuffer))
