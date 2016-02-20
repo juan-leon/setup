@@ -3,12 +3,6 @@
   :config
   (exec-path-from-shell-initialize))
 
-(fset 'yes-or-no-p 'y-or-n-p)
-
-(defadvice x-set-selection (after replicate-selection (type data) activate)
-  "Different applications use different data sources"
-  (if (equal type 'CLIPBOARD)
-      (x-set-selection 'PRIMARY data)))
 
 (use-package comint
   :defer t
@@ -22,17 +16,6 @@
           ad-do-it)
       (backward-paragraph arg)))
   (add-hook 'comint-mode-hook (lambda () (ws-trim-mode 0))))
-
-
-;;; Uncluttering modeline:
-
-(mapc (lambda (x)
-        (eval-after-load (car x)
-          `(diminish (quote ,(cdr x)))))
-      '(("autorevert"  . auto-revert-mode)
-        ("anzu"        . anzu-mode)
-        ("back-button" . back-button-mode)
-        ("hideshow"    . hs-minor-mode)))
 
 
 (defun tasks ()

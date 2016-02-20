@@ -7,7 +7,6 @@
                        (lambda ()
                          (jedi:setup)
                          (setq tab-width 4)
-                         ;; fixme add juanleon to function below
                          (add-hook 'before-save-hook 'juanleon/delete-trailing-blank-lines nil 'local)
                          (setq fill-column 79))))
 

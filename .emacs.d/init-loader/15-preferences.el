@@ -17,50 +17,48 @@
   :config
   (projectile-global-mode))
 
+(fset 'yes-or-no-p 'y-or-n-p)
+
+
 (setq-default
- indent-tabs-mode                   nil
- tab-width                          4
- fill-column                        80
- case-fold-search                   nil
- search-ring-update                 t
- truncate-lines                     t)
+ indent-tabs-mode                nil
+ tab-width                       4
+ fill-column                     80
+ case-fold-search                nil
+ search-ring-update              t
+ truncate-lines                  t)
 
 (setq
- align-to-tab-stop                  nil
- auto-save-default                  nil
- backup-directory-alist             `(("" . ,(concat user-emacs-directory "/autosaved/")))
- browse-url-browser-function        'browse-url-chromium
- calendar-week-start-day            1
- calendar-mark-holidays-flag        t
- confirm-kill-emacs                 'y-or-n-p ; "Fast fingers protection"
- disabled-command-function          nil ; Warnings already read
- garbage-collection-messages        t
- inhibit-startup-message            t
- initial-scratch-message            nil
- isearch-allow-scroll               t
- jit-lock-stealth-time              5
- jit-lock-stealth-nice              0.25
- kill-do-not-save-duplicates        t
- kill-ring-max                      100
- major-mode                         'text-mode
- Man-notify-method                  'pushy
- message-log-max                    2500
- nxml-child-indent                  tab-width
- recentf-save-file                  (concat user-emacs-directory ".recentf")
- require-final-newline              t
- save-place-file                    (concat user-emacs-directory "history/places")
- search-ring-max                    32
- scroll-step                        1
- scroll-conservatively              1
- scroll-preserve-screen-position    'in-place
- text-scale-mode-step               1.1
- track-eol                          t
- undo-ask-before-discard            nil
- visible-bell                       t
- warning-suppress-types             '((undo discard-info))
- whitespace-line-column             100
- x-select-enable-primary            t
- x-select-enable-clipboard          t)
+ align-to-tab-stop               nil
+ auto-save-default               nil
+ backup-directory-alist          `(("" . ,(concat user-emacs-directory "/autosaved/")))
+ browse-url-browser-function     'browse-url-chromium
+ confirm-kill-emacs              'y-or-n-p ; "Fast fingers protection"
+ disabled-command-function       nil ; Warnings already read
+ garbage-collection-messages     t
+ inhibit-startup-message         t
+ initial-scratch-message         nil
+ isearch-allow-scroll            t
+ jit-lock-stealth-time           5
+ jit-lock-stealth-nice           0.25
+ kill-do-not-save-duplicates     t
+ kill-ring-max                   100
+ Man-notify-method               'pushy
+ message-log-max                 2500
+ nxml-child-indent               tab-width
+ recentf-save-file               (concat user-emacs-directory ".recentf")
+ require-final-newline           t
+ save-place-file                 (concat user-emacs-directory "history/places")
+ search-ring-max                 32
+ scroll-step                     1
+ scroll-conservatively           1
+ scroll-preserve-screen-position 'in-place
+ text-scale-mode-step            1.1
+ track-eol                       t
+ undo-ask-before-discard         nil
+ visible-bell                    t
+ warning-suppress-types          '((undo discard-info))
+ whitespace-line-column          100)
 
 (setq ibuffer-formats '((mark modified read-only
                               " " (name 35 35)
@@ -77,10 +75,8 @@
 (size-indication-mode    1)
 (file-name-shadow-mode   1)
 (temp-buffer-resize-mode 1)
-(back-button-mode        1)
 (electric-pair-mode      1)
-(global-anzu-mode        1)
-;; (desktop-save-mode       1)
+(desktop-save-mode       1)
 
 
 (use-package saveplace
@@ -88,10 +84,10 @@
 
 (use-package buffer-move
   :ensure t
-  :bind (((kbd "<C-S-s-up>")    . buf-move-up)
-         ((kbd "<C-S-s-down>")  . buf-move-down)
-         ((kbd "<C-S-s-left>")  . buf-move-left)
-         ((kbd "<C-S-s-right>") . buf-move-right)))
+  :bind (([(control shift super up)]    . buf-move-up)
+         ([(control shift super down)]  . buf-move-down)
+         ([(control shift super left)]  . buf-move-left)
+         ([(control shift super right)] . buf-move-right)))
 
 (use-package ws-trim
   :ensure t
@@ -228,4 +224,22 @@
   :ensure t
   :bind (([(super ?-)]. goto-last-change)
          ([(super ?_)]. goto-last-change-reverse)))
+
+
+(use-package anzu
+  :ensure t
+  :diminish anzu-mode
+  :config
+  (global-anzu-mode 1)
+  (define-key isearch-mode-map [(control t)]    'isearch-toggle-case-fold)
+  (define-key isearch-mode-map [(control up)]   'isearch-ring-retreat)
+  (define-key isearch-mode-map [(control down)] 'isearch-ring-advance)
+  (add-hook 'isearch-mode-end-hook
+            (lambda () (if interprogram-cut-function
+                           (funcall interprogram-cut-function isearch-string)))))
+
+(use-package back-button
+  :ensure t
+  :diminish back-button-mode
+  :config (back-button-mode 1))
 

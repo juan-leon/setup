@@ -81,3 +81,8 @@
   :config
   (add-hook 'compilation-finish-functions 'juanleon/notify-compilation-end))
 
+
+(use-package hideshow
+  :defer t
+  :diminish hs-minor-mode)
+

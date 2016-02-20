@@ -197,13 +197,6 @@
     (add-to-list 'compilation-error-regexp-alist '("^#[0-9]+ \\(/[^ ]*?\\)(\\([0-9]+\\)):" 1 2))
     (add-to-list 'compilation-error-regexp-alist '("\\(/[^ ]*?\\):\\([0-9]+\\)$" 1 2))))
 
-(defun magit-in-supermodule()
-  (interactive)
-  (with-temp-buffer
-    (cd "..")
-    (if (magit-toplevel)
-        (magit-status default-directory))))
-
 (defun extended-word-at-point ()
   (let ((underscore-syntax (if (= (char-syntax ?_) ?_) "_" "w"))
         (dash-syntax (if (= (char-syntax ?-) ?_) "_" "w")))
@@ -214,25 +207,7 @@
       (modify-syntax-entry ?_ underscore-syntax)
       (modify-syntax-entry ?- dash-syntax))))
 
-(defun browse-zeal (arg lang)
-  (interactive (list
-                (read-from-minibuffer "Enter symbol: " (extended-word-at-point))
-                (cond
-                 ((eq major-mode 'emacs-lisp-mode) "emacs:")
-                 ((eq major-mode 'js-mode) "javascript:")
-                 ((eq major-mode 'php-mode) "php:")
-                 ((eq major-mode 'python-mode) "python:")
-                 ((eq major-mode 'sql-mode) "mysql:")
-                 ((eq major-mode 'go-mode) "go:")
-                 ((eq major-mode 'sql-interactive-mode) "mysql:")
-                 ((eq major-mode 'sh-mode) "bash:")
-                 ((eq major-mode 'html-mode) "html:")
-                 ((eq major-mode 'ruby-mode) "ruby:")
-                 ((eq major-mode 'css-mode) "css:"))
-                ))
-  (start-process "zeal" nil "zeal" "--query" (concat lang arg)))
-
-(defun browse-zeal-fast (arg lang)
+(defun juanleon/browse-zeal (arg lang)
   (interactive (list
                 (extended-word-at-point)
                 (cond

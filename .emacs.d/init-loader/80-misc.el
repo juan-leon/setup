@@ -1,29 +1,28 @@
 ;; © Juan-Leon Lahoz 199x - 2014
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;
-;;;; This year's calendar calendar
 
-
-(setq calendar-holidays (append
-                         ;; Fixed
-                         '((holiday-fixed 1 1 "New Year's Day")
-                           (holiday-fixed 1 6 "Reyes")
-                           (holiday-easter-etc -2 "Jueves Santo")
-                           (holiday-easter-etc -3 "Viernes Santo")
-                           (holiday-fixed 5 1   "Dia del Trabajador")
-                           (holiday-fixed 5 2   "Comunidad del Madrid")
-                           (holiday-fixed 10 12 "National Day")
-                           (holiday-fixed 12 6  "Constitution")
-                           (holiday-fixed 12 25 "Christmas"))
-                         ;; This year
-                         '((holiday-fixed 1 7   "Traslado R. Magos")
-                           (holiday-fixed 3 18  "S. Jose")
-                           (holiday-fixed 8 15  "Asuncion")
-                           (holiday-fixed 11 1  "All Saints")
-                           (holiday-fixed 11 9  "Almudena"))))
-
-
+(use-package calendar
+  :bind ([(control f4)] . calendar)
+  :init
+  (setq calendar-week-start-day     1
+        calendar-mark-holidays-flag t
+        calendar-holidays (append
+                           ;; Fixed
+                           '((holiday-fixed 1 1 "New Year's Day")
+                             (holiday-fixed 1 6 "Reyes")
+                             (holiday-easter-etc -2 "Jueves Santo")
+                             (holiday-easter-etc -3 "Viernes Santo")
+                             (holiday-fixed 5 1   "Dia del Trabajador")
+                             (holiday-fixed 5 2   "Comunidad del Madrid")
+                             (holiday-fixed 10 12 "National Day")
+                             (holiday-fixed 12 6  "Constitution")
+                             (holiday-fixed 12 25 "Christmas"))
+                           ;; This year
+                           '((holiday-fixed 1 7   "Traslado R. Magos")
+                             (holiday-fixed 3 18  "S. Jose")
+                             (holiday-fixed 8 15  "Asuncion")
+                             (holiday-fixed 11 1  "All Saints")
+                             (holiday-fixed 11 9  "Almudena")))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -86,16 +85,6 @@
                         (ispell-change-dictionary juanleon/secondary-dictionary)
                       (ispell-change-dictionary juanleon/main-dictionary)))))
 
-
-(use-package isearch
-  :defer t
-  :config
-  (define-key isearch-mode-map [(control t)]    'isearch-toggle-case-fold)
-  (define-key isearch-mode-map [(control up)]   'isearch-ring-retreat)
-  (define-key isearch-mode-map [(control down)] 'isearch-ring-advance)
-  (add-hook 'isearch-mode-end-hook
-            (lambda () (if interprogram-cut-function
-                           (funcall interprogram-cut-function isearch-string)))))
 
 
 
@@ -178,13 +167,6 @@
   (add-to-list 'same-window-buffer-names "*SQL*"))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;
-;;;; Misc stuff
-
-(add-hook 'latex-mode-hook (lambda () (setq fill-column 100)))
-(add-hook 'elisp-mode-hook (lambda () (setq fill-column 75)))
-
 (use-package midnight
   :ensure t
   :defer 30
@@ -192,9 +174,14 @@
   (setq clean-buffer-list-delay-general 3)
   (midnight-delay-set 'midnight-delay "1:10pm"))
 
-
 (use-package yasnippet
   :ensure t
   :init (setq yas-prompt-functions '(yas-ido-prompt))
-  :config (yas-global-mode))
+  :config
+  (yas-global-mode)
+  ;; Tab is for completion/indent
+  (define-key yas-minor-mode-map [(tab)]       nil)
+  (define-key yas-minor-mode-map (kbd "TAB")   nil)
+  ;; Super tab is for expansion
+  (define-key yas-minor-mode-map [(super tab)] 'yas-expand))
 

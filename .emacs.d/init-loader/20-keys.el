@@ -12,8 +12,6 @@
 (global-set-key [(control delete)]      'kill-whole-line)
 (global-set-key [(meta up)]             'backward-list)
 (global-set-key [(meta down)]           'forward-list)
-(global-set-key [(meta left)]           'subword-backward)
-(global-set-key [(meta right)]          'subword-forward)
 (global-set-key [(meta ?g)]             'goto-line)
 (global-set-key [(super m)]             'man)
 (global-set-key [(meta return)]         'find-tag)
@@ -22,27 +20,18 @@
 (global-set-key [(menu)]                'menu-bar-open)
 (global-set-key [(control ?ç)]          'new-frame)
 (global-set-key [(control kp-1)]        'toggle-window-dedicated)
-(global-set-key [(meta f4)]             'sql-connect)
 (global-set-key [(super z)]             'shell)
 (global-set-key [(super g)]             'grep)
 (global-set-key [(super i)]             'rgrep)
 (global-set-key [(super l)]             'locate)
 (global-set-key [(super L)]             'locate-with-filter)
-(global-set-key [(super b)]             'bookmark-bmenu-list)
-(global-set-key [(super B)]             'bookmark-set)
 (global-set-key [(pause)]               'delete-other-windows)
 (global-set-key [remap list-buffers]    'ibuffer)
 (global-set-key [(control meta return)] 'ff-find-other-file)
 (global-set-key [(control f3)   ]       'ff-find-other-file)
 (global-set-key [(super ?+)]            'imenu-add-menubar-index)
-(global-set-key [(control f4)]          'calendar)
 (global-set-key [(f12)]                 'gdb)
 (global-set-key [(control l)]           'recenter)
-(global-set-key [C-tab]                 'complete-tag)
-(global-set-key (kbd "<C-S-s-up>")      'buf-move-up)
-(global-set-key (kbd "<C-S-s-down>")    'buf-move-down)
-(global-set-key (kbd "<C-S-s-left>")    'buf-move-left)
-(global-set-key (kbd "<C-S-s-right>")   'buf-move-right)
 (global-set-key [(super ?\")]           'swap-quotes)
 
 
@@ -90,10 +79,7 @@
 (global-set-key (kbd "C-c C-c M-x")     'execute-extended-command)
 
 
-(global-set-key [(super shift z)] 'browse-zeal)
-(global-set-key [(super return)] 'browse-zeal-fast)
-
-
+(global-set-key [(super return)] 'juanleon/browse-zeal)
 
 (defvar compare-map
   (let ((map (make-sparse-keymap)))
@@ -105,3 +91,12 @@
     map))
 (global-set-key [(control ?=)] compare-map)
 
+(use-package bookmark
+  :bind (([(super b)] . bookmark-bmenu-list)
+         ([(super B)] . bookmark-set)))
+
+(use-package subword
+  :bind (([(meta left)]  . subword-backward)
+         ([(meta right)] . subword-forward)))
+
+(global-set-key [C-tab]                 'complete-tag)

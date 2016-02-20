@@ -3,7 +3,14 @@
   (modify-all-frames-parameters '((fullscreen . maximized)))
   (setq frame-title-format '(:eval (if (buffer-file-name)
                                        (abbreviate-file-name (buffer-file-name))
-                                     "%b"))))
+                                     "%b")))
+  (setq x-select-enable-primary   t
+        x-select-enable-clipboard t)
+
+  (defadvice x-set-selection (after replicate-selection (type data) activate)
+    "Different applications use different data sources"
+    (if (equal type 'CLIPBOARD)
+        (x-set-selection 'PRIMARY data))))
 
 (tool-bar-mode       0)
 (menu-bar-mode       0)
@@ -17,4 +24,3 @@
 (load-theme leon-light-theme t)
 (run-with-idle-timer 3 nil (lambda ()
                              (load-theme leon-dark-theme t t)))
-
