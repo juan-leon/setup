@@ -112,8 +112,8 @@
 (use-package smex
   :ensure t
   :init (setq smex-save-file (concat user-emacs-directory ".smex-items"))
-  :bind (([(meta x)] . smex)
-         ([(meta X)] . smex-major-mode-commands))
+  :bind (;; ([(meta X)] . smex)
+         ([(meta x)] . smex-major-mode-commands))
   :config (smex-auto-update 60))
 
 (use-package winner
@@ -196,9 +196,9 @@
 (use-package ido
   :ensure t
   :defer nil
-  :bind (([(control x) ?b] . ido-switch-buffer)
-         ([(meta kp-5)]    . ido-switch-buffer)
-         ([(meta kp-begin)]. ido-switch-buffer))
+  :bind (([(control x) ?b] . ido-switch-buffer))
+  ;; ([(meta kp-5)]    . ido-switch-buffer)
+  ;; ([(meta kp-begin)]. ido-switch-buffer))
   :init
   (setq ido-case-fold                nil
         ido-enable-tramp-completion  nil

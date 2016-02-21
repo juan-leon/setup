@@ -1,6 +1,3 @@
-[init]
-	templatedir = ~/.git_template
-
 [user]
   name = JuanLeon Lahoz
   email = juanleon.lahoz@avature.net

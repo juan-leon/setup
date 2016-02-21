@@ -6,14 +6,17 @@
   :defer nil
   :bind (([(meta kp-5)]     . helm-mini)
          ([(meta kp-begin)] . helm-mini)
+         ([(super h)] . helm-resume)
          ([(super b)] . helm-bookmarks)
          ([(super +)] . helm-semantic-or-imenu)
          ([(super y)] . helm-show-kill-ring)
          ([(super m)] . helm-man-woman))
   :init
-  (setq helm-M-x-fuzzy-match t
-        helm-buffers-fuzzy-matching t
-        helm-always-two-windows t
+  (setq helm-M-x-fuzzy-match            t
+        helm-buffers-fuzzy-matching     t
+        helm-always-two-windows         t
+        helm-ff-skip-boring-files       t
+        helm-echo-input-in-header-line  t
         helm-split-window-default-side 'left)
   :config
   (helm-mode 1)
@@ -23,12 +26,16 @@
 (use-package helm-files
   :defer t
   :config
-  (defun juanleon/call-ido-ff (&optional no-op)
-    (interactive)
+  (defun juanleon/call-ido-from-helm (&optional no-op)
     (call-interactively 'ido-find-file))
-  (helm-add-action-to-source "Fallback find-file"
-                             'juanleon/call-ido-ff
-                             helm-find-files-actions)
-  (define-key helm-map (kbd "C-f")
-    (lambda () (interactive)
-      (helm-exit-and-execute-action 'juanleon/call-ido-ff))))
+  (defun juanleon/call-dired-from-helm (&optional file)
+    (dired-jump nil file))
+  (define-key helm-find-files-map [(control f)]
+    (lambda ()
+      (interactive)
+      (helm-exit-and-execute-action 'juanleon/call-ido-from-helm)))
+  (define-key helm-find-files-map [(control d)]
+    (lambda ()
+      (interactive)
+      (helm-exit-and-execute-action 'juanleon/call-dired-from-helm))))
+

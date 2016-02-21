@@ -1,14 +1,7 @@
-* heml, helm-dash, helm-projectile, helm-git
-
-  helm-dash opens in browser; zeal is better
-
-;; Bind helm-semantic-or-imenu
-;; Bind helm-mini
-;; Bind helm-man-woman, helm-resume, helm-show-kill-ring, helm-register, helm-comint-input-ring
-
+* helm-projectile
+* helm-git
 * Why (setq projectile-globally-ignored-files nil)?
 
-* projectile non-git... example emacs, hacks.
 * tramp multihop (vagrant & production)
 
   http://stackoverflow.com/questions/2177687/open-file-via-ssh-and-sudo-with-emacs
@@ -21,3 +14,7 @@
                '("localhost" nil nil))
 * leverage Org mode agenda
 * leverage bookmarks (helm)
+* https://github.com/Bad-ptr/persp-mode.el
+* https://github.com/milkypostman/powerline
+* https://github.com/abo-abo/hydra
+

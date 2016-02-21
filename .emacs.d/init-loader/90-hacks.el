@@ -4,11 +4,19 @@
   (exec-path-from-shell-initialize))
 
 
+(use-package php-mode
+  :ensure t
+  :defer t
+  :config
+  (define-key php-mode-map [(?º)]  (command (insert "$"))))
+
+
 (use-package comint
   :defer t
   :config
   (setq comint-input-ignoredups  t
         comint-use-prompt-regexp nil)  ; Weird bugs otherwise
+  (define-key comint-mode-map [(super up)]  'helm-comint-input-ring)
   (defadvice comint-previous-input (around move-free (arg) activate)
     "No more 'Not at command line'"
     (if (comint-after-pmark-p)
@@ -33,19 +41,9 @@
   (find-file "~/org/pending.org"))
 
 (global-set-key [(super ?º)] 'tasks)
-(setq projectile-globally-ignored-files nil)
-
-(add-hook 'php-mode-hook (lambda ()
-                           (local-set-key [(?º)] (command (insert "$")))))
-
 
 
 (and (fboundp 'cycle-spacing) (global-set-key (kbd "M-SPC") 'cycle-spacing))
-
-
-
-(setq projectile-make-test-cmd "tools/runUnitTests")
-
 
 
 

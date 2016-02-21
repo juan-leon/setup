@@ -120,3 +120,8 @@ function revagrant {
 function reprovision {
     vagrant provision "$1" | tee "$1-provision.log" ; notify-send "VAGRANT FINISHED"
 }
+
+
+function ç {
+    fc -s $(history | sort -nr | peco | awk '{print $1}')
+}
