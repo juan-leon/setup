@@ -18,9 +18,24 @@
 (blink-cursor-mode   0)
 (transient-mark-mode 0)
 
-(defvar leon-light-theme 'sanityinc-solarized-light)
-(defvar leon-dark-theme  'sanityinc-solarized-dark)
 
-(load-theme leon-light-theme t)
-(run-with-idle-timer 3 nil (lambda ()
-                             (load-theme leon-dark-theme t t)))
+(use-package color-theme-sanityinc-solarized :ensure t)
+(use-package color-theme
+  :ensure t
+  :demand
+  :config
+  (defvar leon-light-theme 'sanityinc-solarized-light)
+  (defvar leon-dark-theme  'sanityinc-solarized-dark)
+  (load-theme leon-light-theme t)
+  (run-with-idle-timer 3 nil (lambda ()
+                               (load-theme leon-dark-theme t t)))
+  (defun juanleon/toggle-theme ()
+    "Toggle dark/light theme"
+    (interactive)
+    (let* ((b-color (frame-parameter nil 'background-color))
+           (d-light (color-distance "white" b-color))
+           (d-dark  (color-distance "black" b-color)))
+      (if (> d-light d-dark)
+          (enable-theme leon-light-theme)
+        (enable-theme leon-dark-theme))))
+  (global-set-key [(control ~)] 'juanleon/toggle-theme))

@@ -24,6 +24,7 @@ python = TestFile('py', 'python')
 php = TestFile('php', 'php')
 bash = TestFile('sh', 'sh')
 rb = TestFile('rb', 'rb')
+go = TestFile('go', 'go')
 
 template_map = {
     'py': python,
@@ -32,6 +33,7 @@ template_map = {
     'sh': bash,
     'bash': bash,
     'rb': rb,
+    'go': go,
 }
 
 def find_next(extension, directory):

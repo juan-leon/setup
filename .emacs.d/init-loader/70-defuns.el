@@ -159,16 +159,6 @@
       (split-window-horizontally))
     (set-window-buffer (next-window) buff-b)))
 
-(defun toggle-theme ()
-  "Toggle dark/light theme"
-  (interactive)
-  (let* ((b-color (frame-parameter nil 'background-color))
-         (d-light (color-distance "white" b-color))
-         (d-dark  (color-distance "black" b-color)))
-    (if (> d-light d-dark)
-        (enable-theme leon-light-theme)
-      (enable-theme leon-dark-theme))))
-
 
 (defun sudo-powerup ()
   (interactive)

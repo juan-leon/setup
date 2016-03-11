@@ -2,8 +2,12 @@
   :ensure t
   :defer t)
 
+(use-package helm-mode
+  :defer t
+  :diminish helm-mode)
+
 (use-package helm-config
-  :defer nil
+  :demand
   :bind (([(meta kp-5)]     . helm-mini)
          ([(meta kp-begin)] . helm-mini)
          ([(super h)] . helm-resume)

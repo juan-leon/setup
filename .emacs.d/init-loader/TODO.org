@@ -1,7 +1,5 @@
 * helm-projectile
 * helm-git
-* Why (setq projectile-globally-ignored-files nil)?
-
 * tramp multihop (vagrant & production)
 
   http://stackoverflow.com/questions/2177687/open-file-via-ssh-and-sudo-with-emacs
@@ -15,6 +13,3 @@
 * leverage Org mode agenda
 * leverage bookmarks (helm)
 * https://github.com/Bad-ptr/persp-mode.el
-* https://github.com/milkypostman/powerline
-* https://github.com/abo-abo/hydra
-

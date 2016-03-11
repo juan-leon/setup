@@ -34,14 +34,14 @@
 
 
 (global-set-key [(control backspace)] (command (kill-line 0)))
-(global-set-key [(super r])           (command (revert-buffer nil t)))
+(global-set-key [(super r)]           (command (revert-buffer nil t)))
 (global-set-key [(control menu)]      (command (menu-bar-mode (if menu-bar-mode 0 1))))
 
 (define-key emacs-lisp-mode-map [(f8)]
   (command (byte-compile-file (buffer-file-name))))
 
 (mapc #'(lambda (arg) (global-set-key arg 'hippie-expand))
-      '([(super tab)] [(meta VoidSymbol)] [(control VoidSymbol)]))
+      '([(super tab)] [(meta ?º)] [(meta VoidSymbol)] [(control VoidSymbol)]))
 
 ;; Fast bookmarks
 (global-set-key [(control meta ?1)] (command (find-file init-loader-directory)))
@@ -60,7 +60,6 @@
 
 ;; My randon functions
 (global-set-key [(super f2)]                'toggle-truncate-lines)
-(global-set-key [(control ~)]               'toggle-theme)
 (global-set-key [(control return)]          'find-anything-at-point)
 (global-set-key [(super up)]                'prev-function-name-face)
 (global-set-key [(super down)]              'next-function-name-face)
@@ -71,23 +70,10 @@
 (global-set-key [(control ?x) (control ?r)] 'sudo-powerup)
 (global-set-key [(control pause)]           'toggle-split)
 (global-set-key [(super backspace)]         'squealer-last-error)
+(global-set-key [(super return)]            'juanleon/browse-zeal)
+(global-set-key (kbd "C-S-<mouse-1>")       'mc/add-cursor-on-click)
+(global-set-key (kbd "C-c C-c M-x")         'execute-extended-command)
 
-;; Functions for loaded packages
-(global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
-(global-set-key (kbd "C-c C-c M-x")   'execute-extended-command)
-
-
-(global-set-key [(super return)] 'juanleon/browse-zeal)
-
-(defvar compare-map
-  (let ((map (make-sparse-keymap)))
-    (define-key map "b" 'ediff-buffers)
-    (define-key map "f" 'ediff-files)
-    (define-key map "d" 'diff)
-    (define-key map "w" 'compare-windows)
-    (define-key map "v" 'vc-diff)
-    map))
-(global-set-key [(control ?=)] compare-map)
 
 (use-package bookmark
   :bind (([(super meta b)] . bookmark-bmenu-list)
@@ -99,7 +85,7 @@
 
 (use-package golden-ratio
   :ensure t
-  :bind ([(meta ?º)] . golden-ratio-mode)
+  :bind ([(super ?8)] . golden-ratio-mode)
   :diminish golden-ratio-mode)
 
 (use-package ibuffer

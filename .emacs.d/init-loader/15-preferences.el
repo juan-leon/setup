@@ -75,9 +75,16 @@
 (size-indication-mode    1)
 (file-name-shadow-mode   1)
 (temp-buffer-resize-mode 1)
-(electric-pair-mode      1)
-(desktop-save-mode       1)
 
+(use-package elec-pair
+  :config
+  (electric-pair-mode 1))
+
+(use-package desktop
+  :config
+  (setq desktop-load-locked-desktop nil
+        desktop-not-loaded-hook 'desktop-save-mode-off)
+  (desktop-save-mode 1))
 
 (use-package saveplace
   :init (setq-default  save-place t))
@@ -243,3 +250,11 @@
   :diminish back-button-mode
   :config (back-button-mode 1))
 
+
+(use-package undo-tree
+  :ensure t
+  :diminish undo-tree-mode
+  :config
+  (global-undo-tree-mode)
+  (setq undo-tree-visualizer-timestamps t)
+  (setq undo-tree-visualizer-diff t))

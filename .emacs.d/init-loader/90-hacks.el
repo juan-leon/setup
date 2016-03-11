@@ -50,7 +50,7 @@
 
 (defun open-test-file ()
   (interactive)
-  (let* ((lang (completing-read "Language: " '("py" "php" "sh" "ruby")))
+  (let* ((lang (completing-read "Language: " '("py" "php" "sh" "ruby" "go")))
          (filename
           (replace-regexp-in-string
            "\n$" "" (shell-command-to-string (concat "test-file " lang)))))
@@ -86,3 +86,23 @@
 (use-package avy
   :ensure t
   :bind ([(super ?j)] . avy-goto-word-1))
+
+(use-package hydra
+  :ensure t
+  :commands defhydra hydra-diff/body
+  :bind ([(control ?=)] . hydra-diff/body)
+  :config
+  (defhydra hydra-zoom (global-map "<f2>")
+    ("+" text-scale-increase "in")
+    ("-" text-scale-decrease "out"))
+
+  (defhydra hydra-diff (:color pink :hint nil)
+    ("b" ediff-buffers "buffers" :color blue)
+    ("f" ediff-files "files" :color blue)
+    ("d" diff "diff" :color blue)
+    ("w" compare-windows "windows" :color blue)
+    ("v" vc-diff "versioned" :color blue)))
+
+(use-package powerline
+  :ensure t
+  :config (powerline-center-theme))

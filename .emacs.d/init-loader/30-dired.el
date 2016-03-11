@@ -19,6 +19,8 @@
   (define-key dired-mode-map [?r] 'wdired-change-to-wdired-mode)
   (define-key dired-mode-map [?U] 'dired-unmark-backward)
   (define-key dired-mode-map [?a] 'juanleon/dired-hide-hidden)
+  (define-key dired-mode-map [?P] 'peep-dired)
+  (define-key dired-mode-map [?/] 'dired-narrow)
   (define-key dired-mode-map [f2] 'dired-efap)
   (define-key dired-mode-map [(super h)] 'dired-omit-mode)
   (define-key dired-mode-map [down-mouse-1] 'dired-efap-click)
@@ -40,7 +42,17 @@
   (global-set-key [(control meta ?=)] 'juanleon/direx-at-repo))
 
 (use-package dired-efap
-  :ensure t)
+  :ensure t
+  :commands dired-efap)
+
+(use-package peep-dired
+  :ensure t
+  :commands peep-dired
+  :config (setq peep-dired-cleanup-on-disable t))
+
+(use-package dired-narrow
+  :ensure t
+  :commands dired-narrow)
 
 (defun juanleon/dired-recursive-by-extension (extension)
   (interactive (list (read-string "Extension: ")))

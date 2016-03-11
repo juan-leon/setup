@@ -182,6 +182,6 @@
   ;; Tab is for completion/indent
   (define-key yas-minor-mode-map [(tab)]       nil)
   (define-key yas-minor-mode-map (kbd "TAB")   nil)
-  ;; Super tab is for expansion
-  (define-key yas-minor-mode-map [(super tab)] 'yas-expand))
-
+  ;; Super tab (and friend) is for expansion
+  (define-key yas-minor-mode-map [(super tab)] 'yas-expand)
+  (define-key yas-minor-mode-map [(meta ?º)]   'yas-expand))
