@@ -73,6 +73,12 @@
 (global-set-key [(super return)]            'juanleon/browse-zeal)
 (global-set-key (kbd "C-S-<mouse-1>")       'mc/add-cursor-on-click)
 (global-set-key (kbd "C-c C-c M-x")         'execute-extended-command)
+(global-set-key [(meta ?.)]                 'juanleon/find-tag-at-point)
+
+(when (eq system-type 'darwin)
+  (global-set-key [(home)] 'move-beginning-of-line)
+  (global-set-key [(end)] 'end-of-line)
+  (global-set-key [(shift hyper help)] 'yank))
 
 
 (use-package bookmark

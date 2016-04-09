@@ -29,7 +29,7 @@ if test -f ~/.domainname; then
     export EMAIL=juanleon.lahoz@$(cat ~/.domainname)
 fi
 
-PATH=/home/juanleon/bin/git/bin:/home/juanleon/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/lightdm/lightdm
+PATH=/home/juanleon/bin/git/bin:/home/juanleon/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/lightdm/lightdm:/home/juanleon/.local/bin
 PS1='\[\e[01;30m\][\[\e[00m\e[35m\]\w\[\e[00m\e[01;30m\]]\[\e[00m\]: '
 # For root: PS1='\[\e[01;30m\][\[\e[00m\e[01;07;31m\]ROOT:\[\e[00m\e[31m\]\w\[\e[00m\e[01;30m\]]\[\e[00m\]: '
 
@@ -40,11 +40,20 @@ REPODIR=/home/juanleon/www
 
 function cd {
     if test "$TERM" = "screen-256color"; then
-        builtin cd "$@" && printf '\033k%s\033\\' $(basename $(git rev-parse --show-toplevel 2>/dev/null || echo $PWD))
+        builtin cd "$@" && printf '\033k%s\033\\' $(basename $PWD$(git rev-parse --show-toplevel 2>/dev/null || echo $PWD))
     else
         builtin cd "$@"
     fi
 }
+
+function v_ssh {
+    printf '\033k%s\033\\' $1
+    vagrant ssh $1
+    cd .
+}
+
+
+# For virtuals: printf '\033k%s\033\\' $(hostname)
 
 function g {
     if [ -d $REPODIR/$1/$2 ]; then

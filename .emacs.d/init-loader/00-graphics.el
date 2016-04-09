@@ -1,5 +1,7 @@
 (when (display-graphic-p)
-  (set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 98)
+  (if (eq system-type 'darwin)
+      (set-face-attribute 'default nil :height 110)
+    (set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 98))
   (modify-all-frames-parameters '((fullscreen . maximized)))
   (setq frame-title-format '(:eval (if (buffer-file-name)
                                        (abbreviate-file-name (buffer-file-name))
@@ -10,7 +12,14 @@
   (defadvice x-set-selection (after replicate-selection (type data) activate)
     "Different applications use different data sources"
     (if (equal type 'CLIPBOARD)
-        (x-set-selection 'PRIMARY data))))
+        (x-set-selection 'PRIMARY data)))
+
+  (defadvice kmacro-end-or-call-macro (around do-not-use-x (arg) activate)
+    "Do noy use system clipboard while executing a macro"
+    (let ((x-select-enable-clipboard nil)
+          (x-select-enable-primary nil))
+      ad-do-it)))
+
 
 (tool-bar-mode       0)
 (menu-bar-mode       0)

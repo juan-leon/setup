@@ -4,8 +4,9 @@
   (require 'dired-x)
 
   (setq dired-copy-preserve-time  nil
-        dired-recursive-copies   'always
-        dired-listing-switches    "--group-directories-first -al")
+        dired-recursive-copies   'always)
+  (unless (eq system-type 'darwin)
+    (setq dired-listing-switches "--group-directories-first -al"))
 
   (add-hook 'dired-mode-hook (lambda () (dired-omit-mode t)))
   (add-hook 'dired-after-readin-hook

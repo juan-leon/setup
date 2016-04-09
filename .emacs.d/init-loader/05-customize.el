@@ -5,9 +5,10 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+    ("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
  '(magit-log-arguments (quote ("--graph" "--decorate" "-n256")))
  '(magit-rebase-arguments (quote ("--keep-empty")))
+ '(paradox-github-token t)
  '(safe-local-variable-values
    (quote
     ((test-case-name . twisted\.test\.test_usage)
@@ -24,4 +25,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cursor ((t (:background "brown")))))
+ '(cursor ((t (:background "brown"))))
+ '(git-timemachine-minibuffer-detail-face ((t (:foreground "deep sky blue")))))

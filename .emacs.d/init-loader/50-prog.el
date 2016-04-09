@@ -65,6 +65,7 @@
 
 (use-package compile
   :bind (([(f8)]            . compile)
+         ([(f7)]            . juanleon/execute-buffer)
          ([(control f6)]    . recompile)
          ([(super f7)]      . previous-error)
          ([(super f8)]      . next-error)

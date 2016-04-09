@@ -126,6 +126,7 @@
   :config
   (use-package org-bullets :ensure t)
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  (setq org-agenda-files `(,(concat user-emacs-directory "agenda")))
   (setq org-completion-use-ido t))
 
 
@@ -172,7 +173,7 @@
   :defer 30
   :init
   (setq clean-buffer-list-delay-general 3)
-  (midnight-delay-set 'midnight-delay "1:10pm"))
+  (midnight-delay-set 'midnight-delay "7:10pm"))
 
 (use-package yasnippet
   :ensure t

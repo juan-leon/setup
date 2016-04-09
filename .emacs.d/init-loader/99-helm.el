@@ -16,12 +16,13 @@
          ([(super y)] . helm-show-kill-ring)
          ([(super m)] . helm-man-woman))
   :init
-  (setq helm-M-x-fuzzy-match            t
-        helm-buffers-fuzzy-matching     t
-        helm-always-two-windows         t
-        helm-ff-skip-boring-files       t
-        helm-echo-input-in-header-line  t
-        helm-split-window-default-side 'left)
+  (setq helm-M-x-fuzzy-match           t
+        helm-buffers-fuzzy-matching    t
+        helm-full-frame                t
+        helm-ff-skip-boring-files      t
+        helm-echo-input-in-header-line t)
+        ;; helm-always-two-windows         t
+        ;; helm-split-window-default-side 'left
   :config
   (helm-mode 1)
   (global-set-key (kbd "M-x")     'helm-M-x)

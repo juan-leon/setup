@@ -255,6 +255,11 @@
       (insert replacement-char))))
 
 
+(defun juanleon/execute-buffer ()
+  (interactive)
+  (let ((compile-command nil))
+    (compile (format "%s "buffer-file-name))))
+
 
 (defun cases()
   (interactive)
@@ -307,4 +312,7 @@
         (kill-new url)
       (message "No case in this line"))))
 
-
+;; Helm will cause trouble with big TAGS files
+(defun juanleon/find-tag-at-point ()
+  (interactive)
+  (find-tag (thing-at-point 'symbol)))
