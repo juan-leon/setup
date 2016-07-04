@@ -32,7 +32,7 @@ template_map = {
     'php': php,
     'sh': bash,
     'bash': bash,
-    'rb': rb,
+    'ruby': rb,
     'go': go,
 }
 

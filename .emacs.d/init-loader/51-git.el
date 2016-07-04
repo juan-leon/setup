@@ -12,6 +12,7 @@
   (autoload 'magit-reshelve "magit-rockstar" nil t)
   (magit-define-popup-action 'magit-rebase-popup ?R "Rockstar" 'magit-rockstar)
   (magit-define-popup-action 'magit-commit-popup ?n "Reshelve" 'magit-reshelve)
+  (magit-define-popup-switch 'magit-log-popup ?F "First parent" "--first-parent")
 
   ;; Monkey patch because I like this behaviour
   (defun magit-copy-buffer-revision (beg end &optional region)
@@ -24,7 +25,7 @@
   (with-temp-buffer
     (cd "..")
     (if (magit-toplevel)
-        (magit-status default-directory)))))
+        (magit-status-internal default-directory)))))
 
 (use-package git-messenger
   :bind ([(control ?x) ?v ?p] . git-messenger:popup-message)

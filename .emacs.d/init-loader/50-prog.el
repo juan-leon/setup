@@ -57,12 +57,6 @@
   :mode ("\\.js\\.template\\'" . js-mode))
 
 
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;
-;;;; Compilation
-
 (use-package compile
   :bind (([(f8)]            . compile)
          ([(f7)]            . juanleon/execute-buffer)

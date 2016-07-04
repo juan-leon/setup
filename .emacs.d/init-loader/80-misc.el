@@ -186,3 +186,15 @@
   ;; Super tab (and friend) is for expansion
   (define-key yas-minor-mode-map [(super tab)] 'yas-expand)
   (define-key yas-minor-mode-map [(meta ?º)]   'yas-expand))
+
+(use-package paradox
+  :ensure t
+  :commands paradox-list-packages
+  :config
+  (setq paradox-column-width-package 30)
+  (setq paradox-display-download-count t))
+
+(use-package which-key
+  :ensure t
+  :diminish which-key-mode
+  :config (which-key-mode 1))

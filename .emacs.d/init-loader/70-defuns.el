@@ -254,65 +254,22 @@
       (delete-char -1)
       (insert replacement-char))))
 
-
 (defun juanleon/execute-buffer ()
   (interactive)
   (let ((compile-command nil))
-    (compile (format "%s "buffer-file-name))))
-
-
-(defun cases()
-  (interactive)
-  (let ((buf (get-buffer-create "*cases*"))
-        (inhibit-read-only t))
-    (switch-to-buffer buf)
-    (erase-buffer)
-    (shell-command "cases.sh" buf buf)
-    (cases-mode)))
-
-(defvar cases-mode-map
-  (let ((m (make-sparse-keymap)))
-    (define-key m [return] 'cases-browse-by-id)
-    (define-key m [?c]     'cases-copy-url)
-    (define-key m [?g]     'cases)
-    (define-key m [?q]     'bury-buffer)
-    m)
-  "Keymap for `cases-mode'.")
-
-(define-minor-mode cases-mode
-  "Browse my opened cases.
-
-\\{cases-mode-map}"
-  :init-value nil
-  :keymap 'cases-mode-map
-  :lighter "<cases>"
-  (read-only-mode 1))
-
-(defun cases-case-url ()
-  (save-excursion
-    (save-restriction
-      (search-backward "|----" nil t)
-      (if (re-search-forward "|.*?|\\([0-9]+\\)\s*|" nil t)
-          (concat "https://teg.avature.net/#Case/" (match-string 1))))))
-
-(defun cases-browse-by-id ()
-  (interactive)
-  (let ((browse-url-browser-function 'browse-url-default-browser)
-        (url (cases-case-url)))
-    (if url
-        (progn
-          (message (format "Opening %s" url))
-          (browse-url url))
-      (message "No case in this line"))))
-
-(defun cases-copy-url ()
-  (interactive)
-  (let ((url (cases-case-url)))
-    (if url
-        (kill-new url)
-      (message "No case in this line"))))
+    (compile buffer-file-name)))
 
 ;; Helm will cause trouble with big TAGS files
 (defun juanleon/find-tag-at-point ()
   (interactive)
   (find-tag (thing-at-point 'symbol)))
+
+;; Funny how packahe pyimport decided a poor's man version of same approach
+;; (instead of looking in the filesystem, it looks in the opened buffers)
+(defun juanleon/copy-import()
+  (interactive)
+  (projectile-with-default-dir (projectile-project-root)
+    (let ((command (format
+                    "find -name '*py' -exec  grep '^from.*import' {} \\; 2>/dev/null | sort | uniq | grep -w %s"
+                    (word-at-point))))
+      (kill-new (shell-command-to-string command)))))

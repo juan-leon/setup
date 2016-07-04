@@ -6,7 +6,9 @@
   (setq frame-title-format '(:eval (if (buffer-file-name)
                                        (abbreviate-file-name (buffer-file-name))
                                      "%b")))
-  (setq x-select-enable-primary   t
+  (setq select-enable-clipboard   t    ;; emacs 24 and emacs 25
+        select-enable-primary     t
+        x-select-enable-primary   t
         x-select-enable-clipboard t)
 
   (defadvice x-set-selection (after replicate-selection (type data) activate)
@@ -14,10 +16,17 @@
     (if (equal type 'CLIPBOARD)
         (x-set-selection 'PRIMARY data)))
 
+  (defadvice gui-set-selection (after replicate-selection (type data) activate)
+    "Different applications use different data sources"
+    (if (equal type 'CLIPBOARD)
+        (gui-set-selection 'PRIMARY data)))
+
   (defadvice kmacro-end-or-call-macro (around do-not-use-x (arg) activate)
     "Do noy use system clipboard while executing a macro"
     (let ((x-select-enable-clipboard nil)
-          (x-select-enable-primary nil))
+          (x-select-enable-primary nil)
+          (select-enable-clipboard nil)
+          (select-enable-primary nil))
       ad-do-it)))
 
 
@@ -26,7 +35,7 @@
 (scroll-bar-mode     0)
 (blink-cursor-mode   0)
 (transient-mark-mode 0)
-
+(if (fboundp 'horizontal-scroll-bar-mode) (horizontal-scroll-bar-mode 0))
 
 (use-package color-theme-sanityinc-solarized :ensure t)
 (use-package color-theme

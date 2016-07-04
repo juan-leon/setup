@@ -9,6 +9,7 @@
 (use-package projectile
   :ensure t
   :preface (setq projectile-keymap-prefix (kbd "C-p"))
+  :diminish projectile-mode
   :init
   (setq projectile-keymap-prefix         (kbd "C-p")
         projectile-switch-project-action 'projectile-dired
@@ -46,9 +47,7 @@
  Man-notify-method               'pushy
  message-log-max                 2500
  nxml-child-indent               tab-width
- recentf-save-file               (concat user-emacs-directory ".recentf")
  require-final-newline           t
- save-place-file                 (concat user-emacs-directory "history/places")
  search-ring-max                 32
  scroll-step                     1
  scroll-conservatively           1
@@ -69,25 +68,32 @@
 
 
 (column-number-mode      1)
-(recentf-mode            1)
 (auto-image-file-mode    1)
 (show-paren-mode         1)
 (size-indication-mode    1)
 (file-name-shadow-mode   1)
 (temp-buffer-resize-mode 1)
 
-(use-package elec-pair
-  :config
-  (electric-pair-mode 1))
-
 (use-package desktop
   :config
-  (setq desktop-load-locked-desktop nil
-        desktop-not-loaded-hook 'desktop-save-mode-off)
+  (setq desktop-load-locked-desktop nil)
   (desktop-save-mode 1))
 
+(use-package wrap-region
+  :ensure t
+  :diminish wrap-region-mode
+  :config
+  (wrap-region-global-mode t)
+  (wrap-region-add-wrapper "`" "`" "q" '(markdown-mode ruby-mode))
+  (wrap-region-add-wrapper "`" "`"))
+
+
 (use-package saveplace
-  :init (setq-default  save-place t))
+  :init
+  (setq-default save-place t)
+  (setq save-place-file (concat user-emacs-directory "history/places"))
+  :config
+  (and (= emacs-major-version 25) (save-place-mode 1)))
 
 (use-package buffer-move
   :ensure t
@@ -118,8 +124,9 @@
 
 (use-package smex
   :ensure t
+  :disabled  ;; Using helm-command
   :init (setq smex-save-file (concat user-emacs-directory ".smex-items"))
-  :bind (;; ([(meta X)] . smex)
+  :bind (([(meta X)] . smex)
          ([(meta x)] . smex-major-mode-commands))
   :config (smex-auto-update 60))
 
@@ -258,3 +265,9 @@
   (global-undo-tree-mode)
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-visualizer-diff t))
+
+(use-package recentf
+  :init
+  (setq recentf-save-file (concat user-emacs-directory ".recentf")
+        recentf-max-saved-items 150)
+  :config (recentf-mode 1))

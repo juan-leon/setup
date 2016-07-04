@@ -8,6 +8,7 @@
     ("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
  '(magit-log-arguments (quote ("--graph" "--decorate" "-n256")))
  '(magit-rebase-arguments (quote ("--keep-empty")))
+ '(magit-tag-arguments (quote ("--annotate")))
  '(paradox-github-token t)
  '(safe-local-variable-values
    (quote
@@ -19,7 +20,8 @@
      (eval make-variable-buffer-local
            (quote before-save-hook))
      (eval add-to-list
-           (quote before-save-hook))))))
+           (quote before-save-hook)))))
+ '(send-mail-function (quote smtpmail-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

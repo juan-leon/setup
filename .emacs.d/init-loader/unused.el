@@ -172,3 +172,11 @@
 (defun browse-php (arg)
   (interactive (list (read-from-minibuffer "Enter symbol: " (thing-at-point 'word))))
   (browse-url (concat "http://us.php.net/manual-lookup.php?scope=quickref&pattern=" arg)))
+
+
+;; Replaced by wrap-region, that is more easily configurable and matches the
+;; main use I had for elec-pair
+(use-package elec-pair
+  :config
+  (electric-pair-mode -1))
+

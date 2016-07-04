@@ -71,6 +71,7 @@
 (global-set-key [(control pause)]           'toggle-split)
 (global-set-key [(super backspace)]         'squealer-last-error)
 (global-set-key [(super return)]            'juanleon/browse-zeal)
+(global-set-key [(super f5)]                'juanleon/copy-import)
 (global-set-key (kbd "C-S-<mouse-1>")       'mc/add-cursor-on-click)
 (global-set-key (kbd "C-c C-c M-x")         'execute-extended-command)
 (global-set-key [(meta ?.)]                 'juanleon/find-tag-at-point)

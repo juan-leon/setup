@@ -20,6 +20,7 @@
         helm-buffers-fuzzy-matching    t
         helm-full-frame                t
         helm-ff-skip-boring-files      t
+        helm-buffer-max-length         80
         helm-echo-input-in-header-line t)
         ;; helm-always-two-windows         t
         ;; helm-split-window-default-side 'left

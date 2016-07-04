@@ -47,8 +47,18 @@ function cd {
 }
 
 function v_ssh {
-    printf '\033k%s\033\\' $1
+    if test "$TERM" = "screen-256color"; then
+        tmux rename-window "#[bg=yellow,fg=black]$1"
+    fi
     vagrant ssh $1
+    cd .
+}
+
+function ssh {
+    if test "$TERM" = "screen-256color"; then
+        tmux rename-window "#[bg=green]$1"
+    fi
+    /usr/bin/ssh $1
     cd .
 }
 

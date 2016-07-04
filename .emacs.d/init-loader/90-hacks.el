@@ -106,3 +106,13 @@
 (use-package powerline
   :ensure t
   :config (powerline-center-theme))
+
+(use-package dumb-jump
+  :ensure t
+  :bind ([(control meta ?.)] . dumb-jump-go)
+  :config
+  (dumb-jump-mode 1)
+  (nconc dumb-jump-find-rules
+         '((:type "type" :language "php"
+                  :regex "class\\s*JJJ\\s*"
+                  :tests ("class test")))))
