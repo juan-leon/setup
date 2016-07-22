@@ -1,13 +1,17 @@
-(defvar teg-lists '("juanleon" "javier" "julio" "ruben" "all" "reviews"))
+(defvar teg-lists '("juanleon" "javier" "julio" "ruben" "all" "reviews" "team"))
 
-(defun juanleon/cases()
-  (interactive)
-  (let* ((list-name (completing-read "List: " teg-lists))
-         (buf (get-buffer-create (format "*cases-%s*" list-name)))
+(defun juanleon/cases(list-name &optional no-cache)
+  (interactive (list (completing-read "List name: " teg-lists)))
+  (let* ((buf (get-buffer-create (format "*cases-%s*" list-name)))
          (inhibit-read-only t))
     (switch-to-buffer buf)
+    (make-local-variable 'teg-list)
+    (setq teg-list list-name)
     (erase-buffer)
-    (shell-command (format "cases list --format grid %s" list-name) buf buf)
+    (shell-command
+     (format "cases %s list --format grid %s"
+             (if no-cache "--http-cache 0" "") list-name)
+     buf buf)
     (juanleon/cases-mode)))
 
 (defvar juanleon/cases-mode-map
@@ -15,7 +19,7 @@
     (define-key m [return] 'juanleon/cases-browse-by-id)
     (define-key m [?c]     'juanleon/cases-copy-url)
     (define-key m [?C]     'juanleon/cases-copy-all)
-    (define-key m [?g]     'juanleon/cases)
+    (define-key m [?g]     'juanleon/cases-refresh)
     (define-key m [?q]     'bury-buffer)
     m)
   "Keymap for `juanleon/cases-mode'.")
@@ -67,3 +71,7 @@
     (if url
         (kill-new (concat url ": " title))
       (message "No case in this line"))))
+
+(defun juanleon/cases-refresh ()
+  (interactive)
+  (juanleon/cases teg-list t))

@@ -5,7 +5,7 @@
              :init
              (add-hook 'python-mode-hook
                        (lambda ()
-                         (jedi:setup)
+                         ;; (jedi:setup) tramp issue
                          (setq tab-width 4)
                          (add-hook 'before-save-hook 'juanleon/delete-trailing-blank-lines nil 'local)
                          (setq fill-column 79))))

@@ -13,7 +13,6 @@
   :init
   (setq projectile-keymap-prefix         (kbd "C-p")
         projectile-switch-project-action 'projectile-dired
-        projectile-mode-line             '(:eval (format " P[%s]" (projectile-project-name)))
         projectile-tags-command          "ctags-exuberant -Re -f \"%s\" %s")
   :config
   (projectile-global-mode))
@@ -85,6 +84,7 @@
   :config
   (wrap-region-global-mode t)
   (wrap-region-add-wrapper "`" "`" "q" '(markdown-mode ruby-mode))
+  (wrap-region-add-wrapper "```\n" "```" "Q" '(markdown-mode))
   (wrap-region-add-wrapper "`" "`"))
 
 

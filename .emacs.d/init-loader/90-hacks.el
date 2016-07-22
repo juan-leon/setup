@@ -8,6 +8,8 @@
   :ensure t
   :defer t
   :config
+  ;; Monkey patch function to avoid buffer modified file flag mistake
+  (defun php-syntax-propertize-function (start end) nil)
   (define-key php-mode-map [(?º)]  (command (insert "$"))))
 
 

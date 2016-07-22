@@ -58,7 +58,7 @@ function ssh {
     if test "$TERM" = "screen-256color"; then
         tmux rename-window "#[bg=green]$1"
     fi
-    /usr/bin/ssh $1
+    /usr/bin/ssh "$@"
     cd .
 }
 
