@@ -180,3 +180,14 @@
   :config
   (electric-pair-mode -1))
 
+
+;; syntax tables look good; no need for custom code
+(defun extended-word-at-point ()
+  (let ((underscore-syntax (if (= (char-syntax ?_) ?_) "_" "w"))
+        (dash-syntax (if (= (char-syntax ?-) ?_) "_" "w")))
+    (modify-syntax-entry ?_ "w")
+    (modify-syntax-entry ?- "w")
+    (prog1
+        (thing-at-point 'symbol)
+      (modify-syntax-entry ?_ underscore-syntax)
+      (modify-syntax-entry ?- dash-syntax))))

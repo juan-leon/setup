@@ -7,3 +7,4 @@
 *.pyc
 IGNORE*
 .projectile
+__ignore__*

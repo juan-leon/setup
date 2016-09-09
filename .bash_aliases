@@ -30,7 +30,21 @@ if test -f ~/.domainname; then
 fi
 
 PATH=/home/juanleon/bin/git/bin:/home/juanleon/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/lightdm/lightdm:/home/juanleon/.local/bin
-PS1='\[\e[01;30m\][\[\e[00m\e[35m\]\w\[\e[00m\e[01;30m\]]\[\e[00m\]: '
+
+function highlight_exit_code {
+    exit_code=$?
+    if test "$TERM" != "dumb" && test $exit_code -ne 0; then
+        echo -n '\[\e[01;31m\]'" [$exit_code]"'\[\e[00m\]'
+    fi
+}
+
+set_bash_prompt(){
+    PS1="\[\e[01;30m\][\[\e[00m\e[35m\]\w\[\e[00m\e[01;30m\]]\[\e[00m\]$(highlight_exit_code): "
+}
+
+PROMPT_COMMAND=set_bash_prompt
+
+# PS1="[\D{%Y-%m-%d} \t] \u@\h:\w\a \${?##0} \$ "
 # For root: PS1='\[\e[01;30m\][\[\e[00m\e[01;07;31m\]ROOT:\[\e[00m\e[31m\]\w\[\e[00m\e[01;30m\]]\[\e[00m\]: '
 
 GREP_COLORS="ms=01;31:mc=01;31:sl=:cx=34:fn=35:ln=32:bn=32:se=36"

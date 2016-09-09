@@ -9,6 +9,9 @@
  '(magit-log-arguments (quote ("--graph" "--decorate" "-n256")))
  '(magit-rebase-arguments (quote ("--keep-empty")))
  '(magit-tag-arguments (quote ("--annotate")))
+ '(package-selected-packages
+   (quote
+    (general-close hydra refine php-mode yasnippet yascroll xkcd ws-trim wrap-region which-key wgrep use-package undo-tree toml-mode string-utils sr-speedbar smooth-scroll smex scroll-restore rotate pymacs pylint pyflakes puppet-mode powerline popwin peep-dired paradox org-bullets occur-x nginx-mode multiple-cursors minimap memory-usage markdown-mode magit-rockstar lua-mode load-theme-buffer-local key-chord jedi ipython init-loader inf-mongo ido-completing-read+ htmlize helm-swoop helm-rhythmbox helm-projectile helm-proc helm-ls-git helm-descbinds helm-dash goto-chg golden-ratio go-mode git-timemachine git-messenger git-gutter geben flycheck flx-ido fixme-mode fill-column-indicator expand-region exec-path-from-shell everything etags-table ess erlang emms edit-server dumb-jump dockerfile-mode discover-my-major direx dired-narrow dired-efap ctags color-theme-solarized color-theme-sanityinc-solarized color-theme-buffer-local buffer-stack buffer-move browse-kill-ring bm back-button avy anzu anaphora ag ack-and-a-half ace-jump-mode)))
  '(paradox-github-token t)
  '(safe-local-variable-values
    (quote

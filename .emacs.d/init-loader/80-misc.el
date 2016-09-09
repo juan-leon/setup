@@ -185,6 +185,8 @@
 
 (use-package yasnippet
   :ensure t
+  :disabled
+  :diminish yas-minor-mode
   :init (setq yas-prompt-functions '(yas-ido-prompt))
   :config
   (yas-global-mode)
@@ -195,14 +197,18 @@
   (define-key yas-minor-mode-map [(super tab)] 'yas-expand)
   (define-key yas-minor-mode-map [(meta ?º)]   'yas-expand))
 
-(use-package paradox
-  :ensure t
-  :commands paradox-list-packages
-  :config
-  (setq paradox-column-width-package 30)
-  (setq paradox-display-download-count t))
+;; (use-package paradox
+;;   :ensure t
+;;   :commands paradox-list-packages
+;;   :config
+;;   (setq paradox-column-width-package 30)
+;;   (setq paradox-display-download-count t))
 
 (use-package which-key
   :ensure t
   :diminish which-key-mode
   :config (which-key-mode 1))
+
+(use-package general-close
+  :ensure t
+  :bind ([(super ?ç)] . general-close))

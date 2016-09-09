@@ -18,7 +18,7 @@
 (global-set-key [(control ?.)]     'tags-apropos)
 (global-set-key [(super f)]        'auto-fill-mode)
 (global-set-key [(menu)]           'menu-bar-open)
-(global-set-key [(control ?ç)]     'new-frame)
+(global-set-key [(control ?ç)]     'make-frame)
 (global-set-key [(control kp-1)]   'toggle-window-dedicated)
 (global-set-key [(super z)]        'shell)
 (global-set-key [(super g)]        'grep)

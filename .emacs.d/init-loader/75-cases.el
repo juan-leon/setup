@@ -1,6 +1,6 @@
 (defvar teg-lists '("juanleon" "javier" "julio" "ruben" "all" "reviews" "team"))
 
-(defun juanleon/cases(list-name &optional no-cache)
+(defun juanleon/cases(list-name &optional no-cache sort-by)
   (interactive (list (completing-read "List name: " teg-lists)))
   (let* ((buf (get-buffer-create (format "*cases-%s*" list-name)))
          (inhibit-read-only t))
@@ -9,8 +9,10 @@
     (setq teg-list list-name)
     (erase-buffer)
     (shell-command
-     (format "cases %s list --format grid %s"
-             (if no-cache "--http-cache 0" "") list-name)
+     (format "cases %s list --format grid %s %s"
+             (if no-cache "--http-cache 0" "")
+             (if sort-by (format "--sort-by '%s'" sort-by) "")
+             list-name)
      buf buf)
     (juanleon/cases-mode)))
 
@@ -20,6 +22,9 @@
     (define-key m [?c]     'juanleon/cases-copy-url)
     (define-key m [?C]     'juanleon/cases-copy-all)
     (define-key m [?g]     'juanleon/cases-refresh)
+    (define-key m [?I]     'juanleon/cases-sort-by-id)
+    (define-key m [?S]     'juanleon/cases-sort-by-step)
+    (define-key m [?P]     'juanleon/cases-sort-by-prio)
     (define-key m [?q]     'bury-buffer)
     m)
   "Keymap for `juanleon/cases-mode'.")
@@ -75,3 +80,16 @@
 (defun juanleon/cases-refresh ()
   (interactive)
   (juanleon/cases teg-list t))
+
+(defun juanleon/cases-sort-by-id ()
+  (interactive)
+  (juanleon/cases teg-list t "Case ID"))
+
+(defun juanleon/cases-sort-by-step ()
+  (interactive)
+  (juanleon/cases teg-list t "Case Workflow step"))
+
+(defun juanleon/cases-sort-by-prio ()
+  (interactive)
+  (juanleon/cases teg-list t "Priority"))
+
