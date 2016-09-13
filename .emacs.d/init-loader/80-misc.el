@@ -127,7 +127,7 @@
   :config
   (use-package org-bullets :ensure t)
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  (setq org-agenda-files `(,(concat user-emacs-directory "agenda")))
+  (setq org-agenda-files "~/org/agenda")
   (setq org-directory org-agenda-files)
   (setq org-src-fontify-natively t)
   (setq org-completion-use-ido t)
@@ -162,13 +162,13 @@
         '(("iats"
            (sql-product  'MariaDB)
            (sql-database "iats")
-           (sql-server   "localhost")
+           (sql-server   "sb1")
            (sql-user     "root")
            (sql-password ""))
           ("squealer"
            (sql-product  'MariaDB)
            (sql-database "squealer")
-           (sql-server   "localhost")
+           (sql-server   "sb1")
            (sql-user     "root")
            (sql-password "")))
         sql-input-ring-file-name (concat user-emacs-directory "history/sql"))

@@ -50,9 +50,6 @@ PROMPT_COMMAND=set_bash_prompt
 GREP_COLORS="ms=01;31:mc=01;31:sl=:cx=34:fn=35:ln=32:bn=32:se=36"
 
 
-
-
-
 if test -e /usr/local/bin/virtualenvwrapper.sh; then
     export WORKON_HOME=~/.envs
     source /usr/local/bin/virtualenvwrapper.sh
@@ -63,7 +60,7 @@ REPODIR=/home/juanleon/www
 
 function cd {
     if test "$TERM" = "screen-256color"; then
-        builtin cd "$@" && printf '\033k%s\033\\' $(basename $PWD$(git rev-parse --show-toplevel 2>/dev/null || echo $PWD))
+        builtin cd "$@" && printf '\033k%s\033\\' "$(basename "$(git rev-parse --show-toplevel 2>/dev/null || echo $PWD)")"
     else
         builtin cd "$@"
     fi

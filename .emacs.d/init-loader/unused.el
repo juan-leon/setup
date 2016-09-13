@@ -191,3 +191,22 @@
         (thing-at-point 'symbol)
       (modify-syntax-entry ?_ underscore-syntax)
       (modify-syntax-entry ?- dash-syntax))))
+
+
+;; Replaced by squealer-mode
+(defun squealer-last-error (&optional arg)
+  (interactive "p")
+  (or arg (setq arg 1))
+  (let ((buf (get-buffer-create "*squealer*"))
+        (inhibit-read-only t))
+    (switch-to-buffer buf)
+    (erase-buffer)
+    (shell-command
+     (format "echo \"SELECT description, stack FROM reportFullText ORDER BY reportId DESC LIMIT 1 OFFSET %d\" | mysql -u root squealer --pager=cat -r -s" (1- arg))
+     buf
+     buf)
+    (compilation-mode)
+    (make-local-variable 'compilation-error-regexp-alist)
+    (add-to-list 'compilation-error-regexp-alist '("^#[0-9] \\[\\(/[^ ]*?\\):\\([0-9]+\\)\\]" 1 2))
+    (add-to-list 'compilation-error-regexp-alist '("^#[0-9]+ \\(/[^ ]*?\\)(\\([0-9]+\\)):" 1 2))
+    (add-to-list 'compilation-error-regexp-alist '("\\(/[^ ]*?\\):\\([0-9]+\\)$" 1 2))))

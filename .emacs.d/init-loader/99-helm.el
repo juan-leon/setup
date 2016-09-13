@@ -48,6 +48,7 @@
 (use-package helm-dash
   :defer t
   ;; :commands helm-dash helm-dash-at-point
+  ;; not quite like this: (setq helm-dash-browser-func 'eww)
   :bind (([(super return)] . helm-dash-at-point)
          ([(super shift return)] . helm-dash))
   :config
