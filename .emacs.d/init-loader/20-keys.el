@@ -52,9 +52,9 @@
 (global-set-key [(control meta ?6)] (command (find-file "~/hacks")))
 
 ;; Changes in the default emacs behaviour
-(global-set-key [(control z)]             'undo)             ; I really hate to minimize emacs:
-(global-set-key [(control x) ?k]          'kill-this-buffer) ; No more "¿which buffer?"
-(global-set-key [(control x) (control k)] 'kill-this-buffer) ; No more "no keyboard macro defined"
+(global-set-key [(control z)]             'undo)
+(global-set-key [(control x) ?k]          'kill-this-buffer)
+(global-set-key [(control x) (control k)] 'kill-this-buffer)
 (global-set-key [(control x) (control z)] 'shell)            ; fixme: reuse this
 
 
@@ -97,3 +97,7 @@
 
 (use-package ibuffer
   :bind ([remap list-buffers] . ibuffer))
+
+(use-package markdown-mode
+  :ensure t
+  :defer t)

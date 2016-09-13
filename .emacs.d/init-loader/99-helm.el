@@ -45,3 +45,15 @@
       (interactive)
       (helm-exit-and-execute-action 'juanleon/call-dired-from-helm))))
 
+(use-package helm-dash
+  :defer t
+  ;; :commands helm-dash helm-dash-at-point
+  :bind (([(super return)] . helm-dash-at-point)
+         ([(super shift return)] . helm-dash))
+  :config
+  (helm-dash-activate-docset "Emacs_Lisp")
+  (helm-dash-activate-docset "MySQL")
+  (helm-dash-activate-docset "PHP")
+  (helm-dash-activate-docset "Python_2")
+  (helm-dash-activate-docset "Bash"))
+

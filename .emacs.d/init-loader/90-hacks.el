@@ -28,22 +28,6 @@
   (add-hook 'comint-mode-hook (lambda () (ws-trim-mode 0))))
 
 
-(defun tasks ()
-  (interactive)
-  (delete-other-windows)
-  (split-window-right)
-  (other-window 1)
-  (find-file "~/org/good-news.org")
-  (split-window-vertically)
-  (find-file "~/org/tomorrow.org")
-  (split-window-vertically)
-  (find-file "~/org/today.org")
-  (other-window 2)
-  (split-window-vertically)
-  (find-file "~/org/pending.org"))
-
-(global-set-key [(super ?º)] 'tasks)
-
 
 (and (fboundp 'cycle-spacing) (global-set-key (kbd "M-SPC") 'cycle-spacing))
 

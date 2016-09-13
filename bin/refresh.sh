@@ -4,7 +4,6 @@ readonly FILES="
   .bash_aliases
   .gitconfig
   .gitignore.global
-  .screenrc
   .tmux.conf
   .multitailrc
   bin/bt

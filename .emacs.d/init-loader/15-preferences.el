@@ -271,3 +271,8 @@
   (setq recentf-save-file (concat user-emacs-directory ".recentf")
         recentf-max-saved-items 150)
   :config (recentf-mode 1))
+
+(use-package ag
+  :ensure t
+  :commands ag ag-regexp)
+
