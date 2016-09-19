@@ -112,32 +112,6 @@
   (define-key shell-mode-map [(meta kp-up)] 'juanleon/shell-rename)
   (define-key shell-mode-map [(meta kp-8)]  'juanleon/shell-rename))
 
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;
-;;;; org-mode
-
-(use-package org
-  :ensure t
-  :bind (([(control c) ?l] . org-store-link)
-         ([(control c) ?a] . org-agenda)
-         ([(control c) ?c] . org-capture)
-         ([(super o)]      . org-iswitchb))
-  :config
-  (use-package org-bullets :ensure t)
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  (setq org-agenda-files "~/org/agenda")
-  (setq org-directory org-agenda-files)
-  (setq org-src-fontify-natively t)
-  (setq org-completion-use-ido t)
-  (setq org-capture-templates
-      '(("t" "Quick todo" entry (file+headline "pending.org" "Tasks") "* TODO %? \n")
-        ("T" "Todo" entry (file+headline "pending.org" "Tasks") "* TODO %?\n  %U\n  %i\n  %a")
-        ("j" "Journal" entry (file+datetree "journal.org") "* %<%R: >%?\n%t")
-        ("s" "Code Snippet" entry (file "snippets.org") "* %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC"))))
-
-
 (use-package sql
   :bind ([(meta f4)] . sql-connect)
   :config

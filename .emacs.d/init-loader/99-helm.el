@@ -58,3 +58,6 @@
   (helm-dash-activate-docset "Python_2")
   (helm-dash-activate-docset "Bash"))
 
+
+(use-package helm-projectile
+  :ensure t)

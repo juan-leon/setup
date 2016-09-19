@@ -4,8 +4,11 @@
   (interactive)
   (squealer/insert "ORDER BY reportId DESC LIMIT 1"))
 
-(defun squealer/by-report-id (id)
-  (squealer/insert (format "WHERE reportId = %s" id)))
+(defun squealer/by-report-id (id &optional host)
+  (squealer/insert (format "WHERE reportId = %s" id))
+  (if host
+      (set (make-local-variable 'container-path)
+           (format "/var/lib/lxc/%s/rootfs" host))))
 
 (defun squealer/insert (query-fragment)
   (let ((buf (get-buffer-create "*squealer*"))
@@ -23,6 +26,11 @@
     (add-to-list 'compilation-error-regexp-alist '("^#[0-9]+ \\(/[^ ]*?\\)(\\([0-9]+\\)):" 1 2))
     (add-to-list 'compilation-error-regexp-alist '("\\(/[^ ]*?\\):\\([0-9]+\\)$" 1 2))))
 
+(defvar squealer-mode-map
+  (let ((m (make-sparse-keymap)))
+    (define-key m [return] 'squealer/show-entry)
+    m)
+  "Keymap for `squealer-mode'.")
 
 (define-minor-mode squealer-mode
   "Browse my squealer reports."
@@ -30,13 +38,6 @@
   :keymap squealer-mode-map
   :lighter "<squealer>"
   (read-only-mode 1))
-
-(defvar squealer-mode-map
-  (let ((m (make-sparse-keymap)))
-    (define-key m [return] 'squealer/show-entry)
-    m)
-  "Keymap for `squealer-mode'.")
-
 
 (defun squealer/list ()
   (interactive)
@@ -51,6 +52,16 @@
      buf)
     (squealer-mode)))
 
+
+(defun squealer/show-entry ()
+  (interactive)
+  (let ((id (squealer/-parse-id))
+        (host (squealer/-parse-host)))
+    (if id
+        (squealer/by-report-id id host)
+      (message "No report in this line"))))
+
+
 (defun squealer/-parse-id ()
   (save-excursion
     (save-restriction
@@ -58,9 +69,19 @@
       (if (re-search-forward "^|\s+\\(.*?\\)\s*|" nil t)
           (match-string 1)))))
 
-(defun squealer/show-entry ()
-  (interactive)
-  (let ((id (squealer/-parse-id)))
-    (if id
-        (squealer/by-report-id id)
-      (message "No report in this line"))))
+
+(defun squealer/-parse-host ()
+  (save-excursion
+    (save-restriction
+      (beginning-of-line)
+      (if (re-search-forward "|.*?|.*?|\s*\\([a-zA-Z]+\\)" nil t)
+          (match-string 1)))))
+
+
+(defvar container-path nil)
+
+(defadvice compilation-find-file (around relocate-to-container (marker filename directory &rest formats) activate)
+  (if (and container-path (file-name-absolute-p filename))
+      (let ((filename (concat container-path filename)))
+        ad-do-it)
+    ad-do-it))

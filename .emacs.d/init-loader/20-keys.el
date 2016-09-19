@@ -1,4 +1,6 @@
 
+(global-set-key [(f2)] nil)
+
 ;;;; Global keys
 
 ;; Emacs functions
@@ -31,6 +33,9 @@
 (global-set-key [(control l)]      'recenter)
 (global-set-key [(super ?\")]      'swap-quotes)
 (global-set-key [(meta ? )]        'cycle-spacing)
+
+
+(and (fboundp 'cycle-spacing) (global-set-key (kbd "M-SPC") 'cycle-spacing))
 
 
 (global-set-key [(control backspace)] (command (kill-line 0)))
@@ -102,3 +107,8 @@
 (use-package markdown-mode
   :ensure t
   :defer t)
+
+(use-package multiple-cursors
+  :ensure t
+  :bind ([(control shift mouse-1)] . mc/add-cursor-on-click))
+

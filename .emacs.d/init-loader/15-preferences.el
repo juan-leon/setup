@@ -4,18 +4,7 @@
      (interactive)
      ,@body))
 
-(global-set-key [(f2)] nil)
 
-(use-package projectile
-  :ensure t
-  :preface (setq projectile-keymap-prefix (kbd "C-p"))
-  :diminish projectile-mode
-  :init
-  (setq projectile-keymap-prefix         (kbd "C-p")
-        projectile-switch-project-action 'projectile-dired
-        projectile-tags-command          "ctags-exuberant -Re -f \"%s\" %s")
-  :config
-  (projectile-global-mode))
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -141,6 +130,8 @@
   :commands ack-and-a-half)
 
 (use-package bm
+  :ensure t
+  :defer t
   :bind (([(control Scroll_Lock)] . bm-toggle)
          ([(shift Scroll_Lock)]   . bm-previous)
          ([(Scroll_Lock)]         . bm-next)))
@@ -229,7 +220,7 @@
   :config (flx-ido-mode 1))
 
 
-(use-package ido
+(use-package expand-region
   :ensure t
   :bind (([(super ?1)] . er/expand-region)
          ([(super ?ñ)] . er/expand-region)))

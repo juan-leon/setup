@@ -3,7 +3,7 @@
          ([(super ?q)] . magit-status))
   :ensure t
   :init
-  (setq magit-completing-read-function 'magit-ido-completing-read
+  (setq magit-completing-read-function 'helm--completing-read-default
         git-commit-summary-max-length 70)
   :config
   (define-key magit-status-mode-map [backspace] 'juanleon/magit-in-supermodule)

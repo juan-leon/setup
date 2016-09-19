@@ -8,7 +8,7 @@
   :ensure t
   :defer t
   :config
-  ;; Monkey patch function to avoid buffer modified file flag mistake
+  ;; Monkey patch function to avoid buffer modified file flag bug
   (defun php-syntax-propertize-function (start end) nil)
   (define-key php-mode-map [(?º)]  (command (insert "$"))))
 
@@ -29,14 +29,9 @@
 
 
 
-(and (fboundp 'cycle-spacing) (global-set-key (kbd "M-SPC") 'cycle-spacing))
-
-
-
-
 (defun open-test-file ()
   (interactive)
-  (let* ((lang (completing-read "Language: " '("py" "php" "sh" "ruby" "go")))
+  (let* ((lang (completing-read "Language: " '("py" "php" "sh" "ruby" "go" "perl")))
          (filename
           (replace-regexp-in-string
            "\n$" "" (shell-command-to-string (concat "test-file " lang)))))
@@ -102,3 +97,8 @@
          '((:type "type" :language "php"
                   :regex "class\\s*JJJ\\s*"
                   :tests ("class test")))))
+
+(use-package toml-mode
+  :ensure t
+  :defer t
+  :mode ("\\.toml\\'" . toml-mode))

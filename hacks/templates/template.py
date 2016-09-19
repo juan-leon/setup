@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import sh
 import atexit
 import os
 import time
