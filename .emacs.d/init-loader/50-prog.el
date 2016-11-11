@@ -61,18 +61,16 @@
   :bind (([(f8)]            . compile)
          ([(f7)]            . juanleon/execute-buffer)
          ([(control f6)]    . recompile)
-         ([(super f7)]      . previous-error)
-         ([(super f8)]      . next-error)
          ([(super kp-8)]    . previous-error)
-         ([(super kp-2)]    . next-error)
-         ([(super meta f7)] . previous-error-no-select)
-         ([(super meta f8)] . next-error-no-select))
+         ([(super kp-2)]    . next-error))
   :init
   (setq compilation-scroll-output t
         next-error-highlight 'fringe-arrow)
-  (global-set-key [(control f8)] (command
-                                  (let ((buf (get-buffer "*compilation*")))
-                                    (and buf (switch-to-buffer buf)))))
+  (defun juanleon/goto-compilation-buffer ()
+    (interactive)
+    (let ((buf (get-buffer "*compilation*")))
+      (and buf (switch-to-buffer buf))))
+  (global-set-key [(control f8)] 'juanleon/goto-compilation-buffer)
   :config
   (add-hook 'compilation-finish-functions 'juanleon/notify-compilation-end))
 

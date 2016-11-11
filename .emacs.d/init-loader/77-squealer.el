@@ -1,5 +1,6 @@
 (defvar squealer/host "sb1")
 
+
 (defun squealer/last-error ()
   (interactive)
   (squealer/insert "ORDER BY reportId DESC LIMIT 1"))
@@ -8,7 +9,7 @@
   (squealer/insert (format "WHERE reportId = %s" id))
   (if host
       (set (make-local-variable 'container-path)
-           (format "/var/lib/lxc/%s/rootfs" host))))
+           (format "/sudo:root@assail:/var/lib/lxc/%s/rootfs" host))))
 
 (defun squealer/insert (query-fragment)
   (let ((buf (get-buffer-create "*squealer*"))
@@ -22,7 +23,7 @@
      buf)
     (compilation-mode)
     (make-local-variable 'compilation-error-regexp-alist)
-    (add-to-list 'compilation-error-regexp-alist '("^#[0-9] \\[\\(/[^ ]*?\\):\\([0-9]+\\)\\]" 1 2))
+    (add-to-list 'compilation-error-regexp-alist '("^#[0-9]+ \\[\\(/[^ ]*?\\):\\([0-9]+\\)\\]" 1 2))
     (add-to-list 'compilation-error-regexp-alist '("^#[0-9]+ \\(/[^ ]*?\\)(\\([0-9]+\\)):" 1 2))
     (add-to-list 'compilation-error-regexp-alist '("\\(/[^ ]*?\\):\\([0-9]+\\)$" 1 2))))
 
@@ -37,7 +38,8 @@
   :init-value nil
   :keymap squealer-mode-map
   :lighter "<squealer>"
-  (read-only-mode 1))
+  (read-only-mode 1)
+  (stripes-mode 1))
 
 (defun squealer/list ()
   (interactive)
@@ -74,7 +76,7 @@
   (save-excursion
     (save-restriction
       (beginning-of-line)
-      (if (re-search-forward "|.*?|.*?|\s*\\([a-zA-Z]+\\)" nil t)
+      (if (re-search-forward "|.*?|.*?|\s*\\([a-zA-Z0-9]+\\)" nil t)
           (match-string 1)))))
 
 

@@ -32,15 +32,54 @@ fi
 PATH=/home/juanleon/bin/git/bin:/home/juanleon/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/lightdm/lightdm:/home/juanleon/.local/bin
 
 function highlight_exit_code {
-    exit_code=$?
+    local exit_code=$1
     if test "$TERM" != "dumb" && test $exit_code -ne 0; then
         echo -n '\[\e[01;31m\]'" [$exit_code]"'\[\e[00m\]'
     fi
 }
 
-set_bash_prompt(){
-    PS1="\[\e[01;30m\][\[\e[00m\e[35m\]\w\[\e[00m\e[01;30m\]]\[\e[00m\]$(highlight_exit_code): "
+function print_virtualenv {
+    if test -v VIRTUAL_ENV; then
+        echo -n "($(basename $VIRTUAL_ENV)) "
+    fi
 }
+
+function write_tmux_title {
+    local title
+    title="$(git rev-parse --show-toplevel 2>/dev/null || echo $PWD)"
+    tmux rename-window "$(basename "$title")"
+    #printf '\033k%s\033\\' "$(basename "$title")"
+}
+
+function set_bash_prompt {
+    local exit_code=$?
+    if test "$TERM" = "screen-256color"; then
+        write_tmux_title
+    fi
+    PS1="\[\e[01;30m\][\[\e[00m\e[35m\]$(print_virtualenv)\w\[\e[00m\e[01;30m\]]\[\e[00m\]$(highlight_exit_code $exit_code): "
+}
+
+# function print_virtualenv {
+#     if test -v VIRTUAL_ENV; then
+#         echo -n "\e[36m\]($(basename $VIRTUAL_ENV))\e[00m "
+#     fi
+# }
+
+# function write_tmux_title {
+#     local title
+#     title="$(git rev-parse --show-toplevel 2>/dev/null || echo $PWD)"
+#     tmux rename-window "$(basename "$title")"
+#     #printf '\033k%s\033\\' "$(basename "$title")"
+# }
+
+# function set_bash_prompt {
+#     local exit_code=$?
+#     if test "$TERM" = "screen-256color"; then
+#         write_tmux_title
+#     fi
+#     PS1="\[\e[01;30m\][\[\e[00m$(print_virtualenv)\e[35m\]\w\[\e[00m\e[01;30m\]]\[\e[00m\]$(highlight_exit_code $exit_code): "
+# }
+
 
 PROMPT_COMMAND=set_bash_prompt
 
@@ -58,7 +97,7 @@ fi
 
 REPODIR=/home/juanleon/www
 
-function cd {
+function cd2 {
     if test "$TERM" = "screen-256color"; then
         builtin cd "$@" && printf '\033k%s\033\\' "$(basename "$(git rev-parse --show-toplevel 2>/dev/null || echo $PWD)")"
     else
@@ -74,7 +113,15 @@ function v_ssh {
     cd .
 }
 
-function ssh {
+function l_ssh {
+    if test "$TERM" = "screen-256color"; then
+        tmux rename-window "#[bg=yellow,fg=black]$1"
+    fi
+    lxc exec $1 bash
+    cd .
+}
+
+function r_ssh {
     if test "$TERM" = "screen-256color"; then
         tmux rename-window "#[bg=green]$1"
     fi
@@ -82,6 +129,7 @@ function ssh {
     cd .
 }
 
+alias ssh=r_ssh
 
 # For virtuals: printf '\033k%s\033\\' $(hostname)
 

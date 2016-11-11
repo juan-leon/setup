@@ -10,6 +10,7 @@
   (setq frame-title-format '(:eval (if (buffer-file-name)
                                        (abbreviate-file-name (buffer-file-name))
                                      "%b")))
+  (setq save-interprogram-paste-before-kill t)
   (if (< emacs-major-version 25)
       (progn
         (setq x-select-enable-primary   t

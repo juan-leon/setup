@@ -16,6 +16,7 @@
 
   (global-set-key [(control meta ?0)] 'juanleon/dired-at-repo)
   (global-set-key [(control meta ?')] 'juanleon/dired-at-other-repo)
+  (global-set-key [(control meta ?-)] 'juanleon/dired-at-other-repo)
   (global-set-key [(super u)]         'juanleon/dired-recursive-by-extension)
   (define-key dired-mode-map [?r] 'wdired-change-to-wdired-mode)
   (define-key dired-mode-map [?U] 'dired-unmark-backward)
@@ -23,6 +24,7 @@
   (define-key dired-mode-map [?P] 'peep-dired)
   (define-key dired-mode-map [?/] 'dired-narrow)
   (define-key dired-mode-map [f2] 'dired-efap)
+  (define-key dired-mode-map [?e] 'juanleon/dired-browse-html)
   (define-key dired-mode-map [(super h)] 'dired-omit-mode)
   (define-key dired-mode-map [down-mouse-1] 'dired-efap-click)
   (define-key dired-mode-map [(control return)] 'dired-find-alternate-file)
@@ -77,3 +79,7 @@
   (with-temp-buffer
     (cd "~/www")
     (ido-dired)))
+
+(defun juanleon/dired-browse-html ()
+  (interactive)
+  (eww-open-file (dired-get-file-for-visit)))

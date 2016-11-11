@@ -46,7 +46,7 @@
   (command (byte-compile-file (buffer-file-name))))
 
 (mapc #'(lambda (arg) (global-set-key arg 'hippie-expand))
-      '([(super tab)] [(meta ?º)] [(meta VoidSymbol)] [(control VoidSymbol)]))
+      '([(super tab)] [(meta ?º)] [(meta ?`)] [(meta VoidSymbol)] [(control VoidSymbol)]))
 
 ;; Fast bookmarks
 (global-set-key [(control meta ?1)] (command (find-file init-loader-directory)))

@@ -22,7 +22,8 @@
                              (holiday-fixed 3 18  "S. Jose")
                              (holiday-fixed 8 15  "Asuncion")
                              (holiday-fixed 11 1  "All Saints")
-                             (holiday-fixed 11 9  "Almudena")))))
+                             (holiday-fixed 11 9  "Almudena")
+                             (holiday-fixed 12 8  "Concepcion")))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -95,8 +96,16 @@
 (use-package grep
   :defer t
   :init
+  (add-hook 'grep-setup-hook 'wgrep-setup)
   (setq grep-find-ignored-directories '(".svn" ".git" ".hg" ".bzr" "target"))
   (add-to-list 'grep-find-ignored-files "TAGS"))
+
+(use-package wgrep
+  :ensure t
+  :commands wgrep-setup
+  :init
+  (setq wgrep-auto-save-buffer t
+        wgrep-enable-key "e"))
 
 (use-package shell
   :defer t
@@ -169,7 +178,7 @@
   (define-key yas-minor-mode-map (kbd "TAB")   nil)
   ;; Super tab (and friend) is for expansion
   (define-key yas-minor-mode-map [(super tab)] 'yas-expand)
-  (define-key yas-minor-mode-map [(meta ?º)]   'yas-expand))
+  (define-key yas-minor-mode-map [(super ?`)]  'yas-expand))
 
 ;; (use-package paradox
 ;;   :ensure t
@@ -181,6 +190,8 @@
 (use-package which-key
   :ensure t
   :diminish which-key-mode
+  ;; In moder emacs this function is renamed
+  :init (defalias 'display-buffer-in-major-side-window 'window--make-major-side-window)
   :config (which-key-mode 1))
 
 (use-package general-close

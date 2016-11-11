@@ -22,19 +22,7 @@
   (cmus-commmand "-r"))
 
 (defun cmus-commmand (command)
-  (if (/= 0 (shell-command (concat "cmus-remote " command)))
+  (if (/= 0 (shell-command (concat "cmus-remote " command) nil "*cmus-error*"))
       (message "cmus error")))
 
-;;  :bind ([(control ?))] . hydra-cmus/body)
-;;  :config
-
-
-(defhydra hydra-cmus (:color pink :hint nil)
-  ("+" cmus-increase-vol "+vol")
-  ("-" cmus-decrease-vol "-vol")
-  ("p" cmus-pause "pause" :color blue)
-  ("n" cmus-next "next" :color blue)
-  ("r" cmus-replay "replay" :color blue))
-
-(global-set-key [(control f9)] 'hydra-cmus/body)
 

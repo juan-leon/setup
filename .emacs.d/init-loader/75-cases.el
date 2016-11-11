@@ -1,4 +1,4 @@
-(defvar teg-lists '("juanleon" "javier" "julio" "ruben" "all" "reviews" "team"))
+(defvar teg-lists '("juanleon" "javier" "julio" "ruben" "all" "reviews" "team" "ft" "ramiro" "seppo" "juan"))
 
 (defun juanleon/cases(list-name &optional no-cache sort-by)
   (interactive (list (completing-read "List name: " teg-lists)))
@@ -9,7 +9,7 @@
     (setq teg-list list-name)
     (erase-buffer)
     (shell-command
-     (format "cases %s list --format grid %s %s"
+     (format "cases %s list -K --format orgtbl %s %s"
              (if no-cache "--http-cache 0" "")
              (if sort-by (format "--sort-by '%s'" sort-by) "")
              list-name)
@@ -22,6 +22,7 @@
     (define-key m [?c]     'juanleon/cases-copy-url)
     (define-key m [?C]     'juanleon/cases-copy-all)
     (define-key m [?g]     'juanleon/cases-refresh)
+    (define-key m [?i]     'juanleon/cases-summary)
     (define-key m [?I]     'juanleon/cases-sort-by-id)
     (define-key m [?S]     'juanleon/cases-sort-by-step)
     (define-key m [?P]     'juanleon/cases-sort-by-prio)
@@ -36,7 +37,8 @@
   :init-value nil
   :keymap 'juanleon/cases-mode-map
   :lighter "<cases>"
-  (read-only-mode 1))
+  (read-only-mode 1)
+  (stripes-mode 1))
 
 (defun juanleon/cases-case-url ()
   (save-excursion
@@ -93,3 +95,8 @@
   (interactive)
   (juanleon/cases teg-list t "Priority"))
 
+(defun juanleon/cases-summary ()
+  (interactive)
+  (message "There are %d cases" (- (line-number-at-pos (point-max)) 3)))
+
+(require 'stripes)

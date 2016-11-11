@@ -17,8 +17,8 @@
         '(("t" "Today" entry (file+headline "agenda/Inbox.org" "Today") "* TODO %? \n  %U\n")
           ("T" "Tomorrow" entry (file+headline "agenda/Inbox.org" "Tomorrow") "* TODO %? \n  %U\n")
           ("v" "Today with link" entry (file+headline "agenda/Inbox.org" "Today") "* TODO %?\n  %U\n  %i\n  %a\n")
-          ("j" "Journal" entry (file+datetree "info/journal.org") "* %<%R: >%?\n")
-          ("g" "Good News" entry (file+datetree "info/goodnews.org") "* %<%R: >%?\n")
+          ("j" "Journal" entry (file+datetree "info/journal.org") "* %<%R:>%?\n")
+          ("g" "Good News" entry (file+datetree "info/goodnews.org") "* %<%R:>%?\n")
           ("r" "Trick " entry (file "info/tricks.org") "* %?\n")
           ("R" "Trick with code" entry (file "info/tricks.org") "* %? \n#+BEGIN_SRC %^{language}\n\n#+END_SRC"))))
 

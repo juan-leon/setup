@@ -43,6 +43,7 @@
  text-scale-mode-step            1.1
  track-eol                       t
  undo-ask-before-discard         nil
+ use-dialog-box                  nil
  visible-bell                    t
  warning-suppress-types          '((undo discard-info))
  whitespace-line-column          100)
@@ -93,10 +94,19 @@
 
 (use-package ws-trim
   :ensure t
+  :disabled  ;; Trying ws-butler
   :diminish ws-trim-mode
   :init (setq ws-trim-level 1
               ws-trim-method-hook '(ws-trim-trailing ws-trim-leading))
   :config (global-ws-trim-mode 1))
+
+(use-package ws-butler
+  :ensure t
+  :diminish ws-butler-mode
+  :init
+  (add-hook 'prog-mode-hook #'ws-butler-mode)
+  (add-hook 'text-mode-hook #'ws-butler-mode))
+
 
 (use-package uniquify
   :init (setq-default uniquify-buffer-name-style 'post-forward-angle-brackets))
