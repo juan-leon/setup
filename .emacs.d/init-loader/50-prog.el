@@ -43,15 +43,14 @@
 
 (use-package ctags
   :ensure t
+  :disabled
   :bind ([(super f12)] . ctags-create-or-update-tags-table)
   :config
-  (setq tags-revert-without-query t)
+  (setq etags-table-search-up-depth 20
+        tags-revert-without-query t)
   (setq ctags-command
         "find . -name  '*.[ch]' -o -name '*.java' -o -name '*.el' -o -name '*.php' -o -name '*.js' -o -name '*.py' | xargs etags"))
 
-(use-package ctags
-  :ensure t
-  :init (setq etags-table-search-up-depth 20))
 
 (use-package js
   :mode ("\\.js\\.template\\'" . js-mode))

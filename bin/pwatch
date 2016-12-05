@@ -1,0 +1,7 @@
+#!/bin/bash -eu
+
+readonly PID=$1
+readonly COMMAND="test -d /proc/$PID && pstree -Ualp $PID"
+
+eval $COMMAND
+watch -en .5 $COMMAND

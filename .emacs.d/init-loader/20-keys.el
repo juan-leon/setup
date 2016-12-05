@@ -21,6 +21,7 @@
 (global-set-key [(super f)]        'auto-fill-mode)
 (global-set-key [(menu)]           'menu-bar-open)
 (global-set-key [(control ?ç)]     'make-frame)
+(global-set-key [(control ?')]     'make-frame)
 (global-set-key [(control kp-1)]   'toggle-window-dedicated)
 (global-set-key [(super z)]        'shell)
 (global-set-key [(super g)]        'grep)
@@ -106,9 +107,14 @@
 
 (use-package markdown-mode
   :ensure t
-  :defer t)
+  :defer t
+  :init (setq markdown-gfm-additional-languages '("bash")))
 
 (use-package multiple-cursors
   :ensure t
   :bind ([(control shift mouse-1)] . mc/add-cursor-on-click))
 
+(use-package move-text
+  :ensure t
+  :bind (([(super up)]   . move-text-up)
+         ([(super down)] . move-text-down)))

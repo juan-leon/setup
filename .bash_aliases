@@ -51,7 +51,7 @@ function write_tmux_title {
     #printf '\033k%s\033\\' "$(basename "$title")"
 }
 
-function set_bash_prompt {
+function set_bash_prompt_old {
     local exit_code=$?
     if test "$TERM" = "screen-256color"; then
         write_tmux_title
@@ -87,24 +87,33 @@ color_back_white='\[\e[47m\]'
 no_color='\[\e[0m\]'
 EXTENDED_PROMPT=true
 
-function set_bash_prompt2 {
+function trap_dbg {
+    # This is a dirty trick to avoid additional prompt lines when hitting ENTER.
+    # I did not find any more straight-forward way of doing that.
+    local command="$BASH_COMMAND"
+    if test "$command" != "set_bash_prompt"; then
+        last_cmd="$command"
+    fi
+}
+
+function set_bash_prompt {
     local exit_code=$?
+    local open_bracket="$color_bold_black[$no_color"
+    local close_bracket="$color_bold_black]$no_color"
+    trap '' DEBUG
     if test "$TERM" == dumb; then
         PS1='[\w]: '
+        return
+    elif test -z "$last_cmd"; then
+        PS1="$open_bracket$color_purple\w$no_color$close_bracket: "
         return
     fi
     local virtualenv=''
     local extended=${EXTENDED_PROMPT:-''}
     local branch=''
     local repo="$(git rev-parse --show-toplevel 2>/dev/null)"
-    local open_bracket="$color_bold_black[$no_color"
-    local close_bracket="$color_bold_black]$no_color"
     if test "$TERM" = "screen-256color"; then
-        if test -n "$repo"; then
-            tmux rename-window "$title"
-        else
-            tmux rename-window "$(basename "$PWD")"
-        fi
+        tmux rename-window "$(basename "${repo:-$PWD}")"
     fi
     if test $exit_code -ne 0; then
         exit_code=" $color_bold_red"["$exit_code"]"$no_color"
@@ -126,9 +135,14 @@ function set_bash_prompt2 {
     else
         PS1="$virtualenv$open_bracket$color_purple\w$no_color$close_bracket$exit_code: "
     fi
+    last_cmd=
+    trap trap_dbg DEBUG
 }
 
-PROMPT_COMMAND=set_bash_prompt2
+export last_cmd=
+trap trap_dbg DEBUG
+
+PROMPT_COMMAND=set_bash_prompt
 
 # PS1="[\D{%Y-%m-%d} \t] \u@\h:\w\a \${?##0} \$ "
 # For root: PS1='\[\e[01;30m\][\[\e[00m\e[01;07;31m\]ROOT:\[\e[00m\e[31m\]\w\[\e[00m\e[01;30m\]]\[\e[00m\]: '

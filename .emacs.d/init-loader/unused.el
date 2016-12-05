@@ -210,3 +210,38 @@
     (add-to-list 'compilation-error-regexp-alist '("^#[0-9] \\[\\(/[^ ]*?\\):\\([0-9]+\\)\\]" 1 2))
     (add-to-list 'compilation-error-regexp-alist '("^#[0-9]+ \\(/[^ ]*?\\)(\\([0-9]+\\)):" 1 2))
     (add-to-list 'compilation-error-regexp-alist '("\\(/[^ ]*?\\):\\([0-9]+\\)$" 1 2))))
+
+
+;; #+ORGTBL: SEND sample orgtbl-to-gfm
+;; | mirror | before | after | 100 after / before - 100 |   |
+;; |--------+--------+-------+--------------------------+---|
+;; |      2 |     12 |    63 |                     425. |   |
+;; |      6 |     17 |    35 |                105.88235 |   |
+;; |      1 |     23 |    28 |                21.739130 |   |
+;; |      3 |     53 |   124 |                133.96226 |   |
+;; |      5 |     53 |    93 |                75.471698 |   |
+;; |      4 |     55 |   106 |                92.727273 |   |
+;; #+TBLFM: $4=100*($3/$2-1)
+
+
+;; # BEGIN RECEIVE ORGTBL sample
+;; | mirror | before | after | 100 after / before - 100 |  |
+;; |--:|--:|--:|--:|---|
+;; | 2 | 12 | 63 | 425. |  |
+;; | 6 | 17 | 35 | 105.88235 |  |
+;; | 1 | 23 | 28 | 21.739130 |  |
+;; | 3 | 53 | 124 | 133.96226 |  |
+;; | 5 | 53 | 93 | 75.471698 |  |
+;; | 4 | 55 | 106 | 92.727273 |  |
+;; # END RECEIVE ORGTBL sample
+
+
+(defun orgtbl-to-gfm (table params)
+  "Convert the Orgtbl mode TABLE to GitHub Flavored Markdown."
+  (let* ((alignment (mapconcat (lambda (x) (if x "|--:" "|---"))
+                               org-table-last-alignment ""))
+         (params2
+          (list :splice t
+                :hline (concat alignment "|")
+                :lstart "| " :lend " |" :sep " | ")))
+    (orgtbl-to-generic table (org-combine-plists params2 params))))

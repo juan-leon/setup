@@ -67,7 +67,9 @@
 
 (use-package avy
   :ensure t
-  :bind ([(super ?j)] . avy-goto-word-1))
+  :bind (([(super ?j)] . avy-goto-word-1)
+         ([(super ?k)] . avy-goto-word-timer)))
+
 
 (use-package hydra
   :ensure t
@@ -149,3 +151,7 @@
     (call-interactively #'fill-paragraph)))
 
 (global-set-key [remap fill-paragraph] #'fill-or-unfill)
+
+;; This allows linting correctly files with no shebang (libraries), since I
+;; always use bash
+(add-hook 'sh-mode-hook (lambda () (sh-set-shell "bash")))

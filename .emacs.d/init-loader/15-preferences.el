@@ -48,6 +48,10 @@
  warning-suppress-types          '((undo discard-info))
  whitespace-line-column          100)
 
+(setq display-time-world-list '(("America/Argentina/Buenos_Aires" "Buenos Aires")
+                                ("UTC" "UTC")
+                                ("Europe/Madrid" "Madrid")))
+
 (setq ibuffer-formats '((mark modified read-only
                               " " (name 35 35)
                               " " (size 9 9 :right)

@@ -126,22 +126,22 @@ class Window(object):
         self.wmctrl('-b', ['remove'] + self.max_properties)
 
     def wmctrl(self, option, args):
-        print('-i', '-r', self.id, option, ','.join(args))
+        # print('-i', '-r', self.id, option, ','.join(args))
         wmctrl('-i', '-r', self.id, option, ','.join(args))
 
     def back_to_desktop(self):
         Geometry.goto_desktop(Desktop(0, 0))
         x = str(200 + (Geometry.work_area.width // 2) + (self.desktop.x * Geometry.work_area.width))
         y = str(self.desktop.y * Geometry.work_area.height)
-        # This is the hack to workaoud the bug
-        self.wmctrl('-e', ['0', x, y, '-1', '-1'])
-        time.sleep(0.1)
-        self.unmaximize()
-        time.sleep(0.1)
-        self.wmctrl('-e', ['0', x, y, '1800', '900'])
-        time.sleep(0.1)
+        # This is the hack to workaround the bug
+        # self.wmctrl('-e', ['0', x, y, '-1', '-1'])
+        # time.sleep(0.1)
+        # self.unmaximize()
+        # time.sleep(0.1)
+        # self.wmctrl('-e', ['0', x, y, '1800', '900'])
+        # time.sleep(0.1)
         self.maximize()
-        time.sleep(0.1)
+        # time.sleep(0.1)
         self.wmctrl('-e', ['0', x, y, '-1', '-1'])
 
     def is_relevant(self):

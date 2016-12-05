@@ -9,6 +9,8 @@ readonly FILES="
   bin/bt
   bin/wm.py
   bin/test-file
+  bin/pyrev
+  bin/pwatch
   .emacs.d/init.el
   .emacs.d/init-loader
   .emacs.d/packages

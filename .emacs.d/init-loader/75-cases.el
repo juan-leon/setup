@@ -1,4 +1,4 @@
-(defvar teg-lists '("juanleon" "javier" "julio" "ruben" "all" "reviews" "team" "ft" "ramiro" "seppo" "juan"))
+(defvar teg-lists '("juanleon" "javier" "julio" "ruben" "joseluis" "all" "reviews" "team" "ft" "ramiro" "seppo" "juan"))
 
 (defun juanleon/cases(list-name &optional no-cache sort-by)
   (interactive (list (completing-read "List name: " teg-lists)))

@@ -8,6 +8,7 @@
          ([(super o)]      . org-iswitchb))
   :config
   (use-package org-bullets :ensure t)
+  (require 'ox-md nil t)
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
   (setq org-agenda-files '("~/Dropbox/org/agenda"))
   (setq org-directory "~/Dropbox/org")
@@ -29,3 +30,9 @@
      (org-archive-subtree)
      (setq org-map-continue-from (outline-previous-heading)))
    "/DONE" 'file))
+
+
+(defun juanleon/org-table-to-markdown (beg end)
+  (interactive "r")
+  (replace-regexp "--\|[^-]" "-:|\n" nil beg end)
+  (replace-regexp "--\\+--" "--|--" nil beg end))

@@ -57,6 +57,13 @@
   :ensure t
   :commands dired-narrow)
 
+(use-package dired-ranger
+  :ensure t
+  :bind (:map dired-mode-map
+              ("W" . dired-ranger-copy)
+              ("X" . dired-ranger-move)
+              ("Y" . dired-ranger-paste)))
+
 (defun juanleon/dired-recursive-by-extension (extension)
   (interactive (list (read-string "Extension: ")))
   (find-dired default-directory (concat "-name '*." extension "'")))
