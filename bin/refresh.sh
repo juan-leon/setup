@@ -17,13 +17,27 @@ readonly FILES="
   hacks/templates
 "
 
-if test "$(git rev-parse --show-toplevel)" != $(pwd); then
+if test "$(git rev-parse --show-toplevel)" != "$(pwd)"; then
     echo This command has to be executed from top level repo directory.
     exit 1
 fi
 
-for file in $FILES; do
-    rm -rf $file
-    cp -r $HOME/$file $file
-done
+readonly command=${1:-noop}
 
+if test $command == repo; then
+    for file in $FILES; do
+        rm -rf $file
+        cp -r $HOME/$file $file
+    done
+elif test $command == env; then
+    mkdir -p .backup
+    for file in $FILES; do
+        if test -e $HOME/$file; then
+            mv $HOME/$file .backup
+        fi
+        cp -r $file $HOME/$file
+    done
+else
+    echo 'Wrong operation'
+    exit 1
+fi

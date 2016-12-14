@@ -10,8 +10,14 @@
   (add-hook 'git-commit-mode-hook #'turn-on-flyspell)
   (magit-define-popup-action 'magit-rebase-popup ?R "Rockstar" 'magit-rockstar)
   (magit-define-popup-action 'magit-commit-popup ?n "Reshelve" 'magit-reshelve)
+
   (magit-define-popup-action 'magit-branch-popup ?I "iatsBranch" 'juanleon/iats-branch)
+  (magit-define-popup-action 'magit-branch-popup ?S "iatsSwitch" 'juanleon/iats-switch)
   (magit-define-popup-action 'magit-pull-popup ?I "iatsPull" 'juanleon/iats-pull)
+  (magit-define-popup-action 'magit-push-popup ?I "iatsPush" 'juanleon/iats-push)
+  (magit-define-popup-action 'magit-merge-popup ?I "iatsMerge" 'juanleon/iats-merge)
+  (magit-define-popup-action 'magit-tag-popup ?I "iatsTag" 'juanleon/iats-tag)
+
   (magit-define-popup-switch 'magit-log-popup ?F "First parent" "--first-parent")
 
   ;; Monkey patch because I like this behaviour
@@ -42,12 +48,33 @@
   :commands magit-rockstar magit-reshelve
   :ensure t)
 
-(defun juanleon/iats-branch ()
-  (interactive)
-  (shell-command (concat "iatsBranch " (read-from-minibuffer "Branch name: ")))
+(defun juanleon/iats-branch (branch)
+  (interactive (list (magit-read-tag "Branch name: ")))
+  (shell-command (concat "iatsBranch " branch))
   (magit-refresh))
 
 (defun juanleon/iats-pull ()
   (interactive)
   (shell-command "iatsPull")
+  (magit-refresh))
+
+(defun juanleon/iats-push ()
+  (interactive)
+  (shell-command "iatsPush")
+  (magit-refresh))
+
+(defun juanleon/iats-merge (rev)
+  (interactive (list (magit-read-other-branch-or-commit "Merge")))
+  (shell-command (concat "iatsMerge " rev))
+  (magit-refresh))
+
+(defun juanleon/iats-switch (rev)
+  (interactive (list (magit-read-other-branch-or-commit "Branch")))
+  (shell-command (concat "iatsSwitch " rev))
+  (magit-refresh))
+
+(defun juanleon/iats-tag (tag comment)
+  (interactive (list (magit-read-tag "Tag name")
+                     (read-from-minibuffer "Comment: ")))
+  (shell-command (format "iatsTag %s %s" tag comment))
   (magit-refresh))
