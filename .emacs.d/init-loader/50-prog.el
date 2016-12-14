@@ -78,3 +78,22 @@
   :defer t
   :diminish hs-minor-mode)
 
+
+(use-package multi-compile
+  :bind ([(f6)] . multi-compile-run)
+  :init
+  (setq multi-compile-alist
+        '(("\\.*/hacks/\\.*" . (("run" . "%path")))
+          (python-mode . (("pyrev" "pyrev" (multi-compile-locate-file-dir ".git"))
+                          ("pyreview" "pyreview --cycles" (multi-compile-locate-file-dir ".git")))))))
+
+(use-package flycheck
+  :ensure t
+  :bind ([(control x)(?!)] . flycheck-mode)
+  :init
+  (setq flycheck-idle-change-delay 3
+        flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc)
+        flycheck-check-syntax-automatically '(save idle-change mode-enabled)
+        flycheck-shellcheck-excluded-warnings '("SC2086"))
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))

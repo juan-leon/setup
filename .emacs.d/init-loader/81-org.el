@@ -1,4 +1,12 @@
 
+(defun org-archive-done-tasks ()
+  (interactive)
+  (org-map-entries
+   (lambda ()
+     (org-archive-subtree)
+     (setq org-map-continue-from (outline-previous-heading)))
+   "/DONE" 'file))
+
 (use-package org
   :ensure t
   :bind (([(control c) ?l] . org-store-link)
@@ -23,16 +31,13 @@
           ("r" "Trick " entry (file "info/tricks.org") "* %?\n")
           ("R" "Trick with code" entry (file "info/tricks.org") "* %? \n#+BEGIN_SRC %^{language}\n\n#+END_SRC"))))
 
-(defun org-archive-done-tasks ()
-  (interactive)
-  (org-map-entries
-   (lambda ()
-     (org-archive-subtree)
-     (setq org-map-continue-from (outline-previous-heading)))
-   "/DONE" 'file))
 
 
 (defun juanleon/org-table-to-markdown (beg end)
   (interactive "r")
   (replace-regexp "--\|[^-]" "-:|\n" nil beg end)
   (replace-regexp "--\\+--" "--|--" nil beg end))
+
+; (while (re-search-forward REGEXP nil t)
+;    (replace-match TO-STRING nil nil))
+; (setq flycheck-navigation-minimum-level error)

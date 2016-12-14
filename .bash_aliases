@@ -7,6 +7,7 @@ alias downc='http_proxy="http://localhost:3129/" wget -S -x --user-agent="Mozill
 alias downp='http_proxy="http://10.0.3.151:3129" wget -S -x'
 alias downt='http_proxy="http://localhost:3129/" wget -S -x'
 alias e='emacsclient --alternate-editor /usr/bin/emacs'
+alias s='git status'
 alias eb='emacsclient -n --alternate-editor /usr/bin/emacs'
 alias egrep='egrep --color=auto'
 alias emacs='emacs -mm'

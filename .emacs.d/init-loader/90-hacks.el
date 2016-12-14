@@ -68,7 +68,7 @@
 (use-package avy
   :ensure t
   :bind (([(super ?j)] . avy-goto-word-1)
-         ([(super ?k)] . avy-goto-word-timer)))
+         ([(super ?k)] . avy-goto-char-timer)))
 
 
 (use-package hydra

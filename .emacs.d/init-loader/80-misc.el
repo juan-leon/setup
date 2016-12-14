@@ -196,4 +196,5 @@
 
 (use-package general-close
   :ensure t
-  :bind ([(super ?ç)] . general-close))
+  :bind (([(super ?ç)] . general-close)
+         ("C-]" . general-close)))

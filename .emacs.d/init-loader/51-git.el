@@ -8,10 +8,10 @@
   :config
   (define-key magit-status-mode-map [backspace] 'juanleon/magit-in-supermodule)
   (add-hook 'git-commit-mode-hook #'turn-on-flyspell)
-  (autoload 'magit-rockstar "magit-rockstar" nil t)
-  (autoload 'magit-reshelve "magit-rockstar" nil t)
   (magit-define-popup-action 'magit-rebase-popup ?R "Rockstar" 'magit-rockstar)
   (magit-define-popup-action 'magit-commit-popup ?n "Reshelve" 'magit-reshelve)
+  (magit-define-popup-action 'magit-branch-popup ?I "iatsBranch" 'juanleon/iats-branch)
+  (magit-define-popup-action 'magit-pull-popup ?I "iatsPull" 'juanleon/iats-pull)
   (magit-define-popup-switch 'magit-log-popup ?F "First parent" "--first-parent")
 
   ;; Monkey patch because I like this behaviour
@@ -20,7 +20,7 @@
                        (prefix-numeric-value current-prefix-arg)))
     (kill-ring-save beg end region))
 
-  (defun juanleon/magit-in-supermodule()
+  (defun juanleon/magit-in-supermodule ()
   (interactive)
   (with-temp-buffer
     (cd "..")
@@ -38,3 +38,16 @@
 (use-package git-timemachine
   :ensure t)
 
+(use-package magit-rockstar
+  :commands magit-rockstar magit-reshelve
+  :ensure t)
+
+(defun juanleon/iats-branch ()
+  (interactive)
+  (shell-command (concat "iatsBranch " (read-from-minibuffer "Branch name: ")))
+  (magit-refresh))
+
+(defun juanleon/iats-pull ()
+  (interactive)
+  (shell-command "iatsPull")
+  (magit-refresh))
