@@ -48,6 +48,18 @@
   :commands magit-rockstar magit-reshelve
   :ensure t)
 
+(use-package git-link
+  :ensure t
+  :commands git-link git-link-commit
+  :config
+  (add-to-list 'git-link-remote-alist '("git.xcade.net"    git-link-github))
+  (add-to-list 'git-link-remote-alist '("gitlab.xcade.net" git-link-github))
+  (add-to-list 'git-link-remote-alist '("tcgit.xcade.net"  git-link-github))
+  (add-to-list 'git-link-commit-remote-alist '("git.xcade.net"    git-link-commit-github))
+  (add-to-list 'git-link-commit-remote-alist '("gitlab.xcade.net" git-link-commit-github))
+  (add-to-list 'git-link-commit-remote-alist '("tcgit.xcade.net"  git-link-commit-github)))
+
+
 (defun juanleon/iats-branch (branch)
   (interactive (list (magit-read-tag "Branch name: ")))
   (shell-command (concat "iatsBranch " branch))

@@ -284,6 +284,7 @@
 (use-package switch-window
   :ensure t
   :bind (([(control tab)] . switch-window)
+         ([(control insert)] . switch-window)
          ([(control shift tab)] . switch-window-then-swap-buffer)
          ([(control iso-lefttab)] . switch-window-then-swap-buffer))
   :init (setq switch-window-shortcut-style 'qwerty))

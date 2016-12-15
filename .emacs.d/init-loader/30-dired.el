@@ -59,6 +59,7 @@
 
 (use-package dired-ranger
   :ensure t
+  :after dired
   :bind (:map dired-mode-map
               ("W" . dired-ranger-copy)
               ("X" . dired-ranger-move)

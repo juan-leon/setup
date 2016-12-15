@@ -1,6 +1,3 @@
-(global-set-key (kbd "C-p") nil)
-(setq projectile-keymap-prefix (kbd "C-p"))
-
 (add-to-list 'load-path (concat user-emacs-directory "packages") t)
 (package-initialize)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))

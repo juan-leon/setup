@@ -140,6 +140,12 @@
   :mode ("\\.toml\\'" . toml-mode))
 
 
+(use-package copy-as-format
+  :ensure t
+  :commands copy-as-format
+  :init (setq copy-as-format-default "gitlab"))
+
+
 (defun fill-or-unfill ()
   "Like `fill-paragraph', but unfill if used twice."
   (interactive)

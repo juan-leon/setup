@@ -16,7 +16,7 @@
 (global-set-key [(meta down)]      'forward-list)
 (global-set-key [(meta ?g)]        'goto-line)
 (global-set-key [(super m)]        'man)
-(global-set-key [(meta return)]    'find-tag)
+(global-set-key [(meta return)]    'xref-find-definitions)
 (global-set-key [(control ?.)]     'tags-apropos)
 (global-set-key [(super f)]        'auto-fill-mode)
 (global-set-key [(menu)]           'menu-bar-open)
