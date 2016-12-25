@@ -194,7 +194,7 @@
   :init (defalias 'display-buffer-in-major-side-window 'window--make-major-side-window)
   :config (which-key-mode 1))
 
-(use-package general-close
+(use-package syntactic-close
   :ensure t
-  :bind (([(super ?ç)] . general-close)
-         ("C-]" . general-close)))
+  :bind (([(super ?ç)] . syntactic-close)
+         ("C-]" . syntactic-close)))

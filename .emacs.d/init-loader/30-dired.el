@@ -27,6 +27,7 @@
 
 
 (use-package dired
+  :demand
   :bind (([(control ?x) (control ?d)] . dired-jump)
          ([(control meta ?0)] . juanleon/dired-at-repo)
          ([(control meta ?')] . juanleon/dired-at-other-repo)
@@ -41,7 +42,6 @@
          ([(backspace)] . dired-jump)
          ([(control backspace)] . dired-unmark-backward))
   :config
-  (require 'dired-x)
   (setq dired-copy-preserve-time nil
         dired-recursive-copies   'always)
   (unless (eq system-type 'darwin)
@@ -52,20 +52,6 @@
             (lambda ()
               (set (make-local-variable 'frame-title-format)
                    (abbreviate-file-name (dired-current-directory))))))
-
-
-(use-package direx
-  :ensure t
-  :bind ([(super ?<)] . direx:jump-to-directory)
-  :config
-  (defun juanleon/direx-at-repo ()
-    "Open direx on the base directory on a git repo"
-    (interactive)
-    (let ((dir (locate-dominating-file default-directory ".git/")))
-      (if dir
-          (direx:find-directory dir)
-        (message "Not in a git repo"))))
-  (global-set-key [(control meta ?=)] 'juanleon/direx-at-repo))
 
 (use-package wdired
   :after dired
