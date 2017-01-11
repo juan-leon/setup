@@ -42,17 +42,15 @@
 
 (defun juanleon/cases-case-url ()
   (save-excursion
-    (save-restriction
-      (beginning-of-line)
-      (if (re-search-forward "|.*?|\s*\\([0-9]+\\)\s*|" nil t)
-          (concat "https://teg.avature.net/#Case/" (match-string 1))))))
+    (beginning-of-line)
+    (if (re-search-forward "|.*?|\s*\\([0-9]+\\)\s*|" nil t)
+        (concat "https://teg.avature.net/#Case/" (match-string 1)))))
 
 (defun juanleon/cases-case-title ()
   (save-excursion
-    (save-restriction
-      (beginning-of-line)
-      (if (re-search-forward "^|\s+\\(.*?\\)\s*|" nil t)
-          (match-string 1)))))
+    (beginning-of-line)
+    (if (re-search-forward "^|\s+\\(.*?\\)\s*|" nil t)
+        (match-string 1))))
 
 (defun juanleon/cases-browse-by-id ()
   (interactive)

@@ -11,6 +11,7 @@ readonly FILES="
   bin/test-file
   bin/pyrev
   bin/pwatch
+  .bash
   .emacs.d/init.el
   .emacs.d/init-loader
   .emacs.d/packages
@@ -38,6 +39,6 @@ elif test $command == env; then
         cp -r $file $HOME/$file
     done
 else
-    echo 'Wrong operation'
+    echo 'Wrong operation (ops are "repo" or "env")'
     exit 1
 fi

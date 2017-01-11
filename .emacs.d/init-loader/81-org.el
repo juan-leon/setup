@@ -32,12 +32,12 @@
           ("R" "Trick with code" entry (file "info/tricks.org") "* %? \n#+BEGIN_SRC %^{language}\n\n#+END_SRC"))))
 
 
-
 (defun juanleon/org-table-to-markdown (beg end)
   (interactive "r")
-  (replace-regexp "--\|[^-]" "-:|\n" nil beg end)
-  (replace-regexp "--\\+--" "--|--" nil beg end))
-
-; (while (re-search-forward REGEXP nil t)
-;    (replace-match TO-STRING nil nil))
-; (setq flycheck-navigation-minimum-level error)
+  (save-excursion
+    (goto-char beg)
+    (while (re-search-forward "--\|[^-]" end t)
+      (replace-match "-:|\n" nil nil))
+    (goto-char beg)
+    (while (re-search-forward "--\\+--" end t)
+      (replace-match "--|--" nil nil))))

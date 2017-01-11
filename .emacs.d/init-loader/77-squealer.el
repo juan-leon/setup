@@ -66,18 +66,16 @@
 
 (defun squealer/-parse-id ()
   (save-excursion
-    (save-restriction
-      (beginning-of-line)
-      (if (re-search-forward "^|\s+\\(.*?\\)\s*|" nil t)
-          (match-string 1)))))
+    (beginning-of-line)
+    (if (re-search-forward "^|\s+\\(.*?\\)\s*|" nil t)
+        (match-string 1))))
 
 
 (defun squealer/-parse-host ()
   (save-excursion
-    (save-restriction
-      (beginning-of-line)
-      (if (re-search-forward "|.*?|.*?|\s*\\([a-zA-Z0-9]+\\)" nil t)
-          (match-string 1)))))
+    (beginning-of-line)
+    (if (re-search-forward "|.*?|.*?|\s*\\([a-zA-Z0-9]+\\)" nil t)
+        (match-string 1))))
 
 
 (defvar container-path nil)
