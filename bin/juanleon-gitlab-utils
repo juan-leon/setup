@@ -1,0 +1,53 @@
+#!/bin/bash -eu
+
+readonly BASE_URL=${GITLAB_URL:-https://gitlab.xcade.net/avature}
+
+current_commit=''
+
+function commit {
+    local ref=${current_commit:-HEAD}
+    git log -1 --pretty=%H $ref
+}
+
+function current_repo {
+    basename "$(git remote get-url origin)"
+}
+
+function get_gitlab_url {
+    local commit repo
+    commit="$(commit)"
+    repo="$(current_repo)"
+    echo -n $BASE_URL/$repo/commit/$commit
+}
+
+while [[ $# -gt 0 ]]; do
+    arg=$1
+    shift
+    case $arg in
+        -r|--ref)
+            current_commit=$1
+            shift
+            ;;
+        visit)
+            xdg-open "$(get_gitlab_url)"
+            ;;
+        url)
+            get_gitlab_url; echo    # One for the user
+            get_gitlab_url | xclip  # One for the browser
+            ;;
+        commit)
+            result="$(commit)"
+            echo $result
+            echo -n $result | xclip
+            ;;
+        *)
+            cat <<EOF
+Usage: $0 [-r | --ref] [visit | url | commit]
+  [-r | --ref] : tree-ish  to use (as opposed to HEAD)
+  visit        : open commit in browser
+  url          : print URL of commit (and paste it in clipboard)
+  commit       : print SHA1 of commit (and paste it in clipboard)
+EOF
+            ;;
+    esac
+done

@@ -11,6 +11,8 @@ readonly FILES="
   bin/test-file
   bin/pyrev
   bin/pwatch
+  bin/juanleon-gitlab-utils
+  bin/juanleon-keyboard
   .bash
   .emacs.d/init.el
   .emacs.d/init-loader
