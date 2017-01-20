@@ -7,6 +7,7 @@
         git-commit-summary-max-length 70)
   :config
   (define-key magit-status-mode-map [backspace] 'juanleon/magit-in-supermodule)
+  (define-key magit-mode-map [(control backspace)] 'juanleon/visit-gitlab)
   (add-hook 'git-commit-mode-hook #'turn-on-flyspell)
   (magit-define-popup-action 'magit-rebase-popup ?R "Rockstar" 'magit-rockstar)
   (magit-define-popup-action 'magit-commit-popup ?n "Reshelve" 'magit-reshelve)
@@ -90,3 +91,11 @@
                      (read-from-minibuffer "Comment: ")))
   (shell-command (format "iatsTag %s %s" tag comment))
   (magit-refresh))
+
+
+(defun juanleon/visit-gitlab ()
+  "Visit commit in gitlab"
+  (interactive)
+  (let* ((commit (magit-commit-at-point))
+         (args (if commit (format "-r %s" commit) "")))
+    (shell-command (format "juanleon-gitlab-utils %s visit" args))))

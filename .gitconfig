@@ -37,8 +37,8 @@
   tool = ediff
 
 [diff]
-  # tool = ediff
-  tool = meld
+  tool = ediff
+  # tool = meld
 
 [difftool "ediff"]
   cmd = emacsclient -c -a \"\"  --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"

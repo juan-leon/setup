@@ -6,11 +6,13 @@ current_commit=''
 
 function commit {
     local ref=${current_commit:-HEAD}
-    git log -1 --pretty=%H $ref
+    echo -n "$(git log -1 --pretty=%H $ref)"
 }
 
 function current_repo {
-    basename "$(git remote get-url origin)"
+    local repo
+    repo="$(basename "$(git remote get-url origin)")"
+    echo ${repo%.*}
 }
 
 function get_gitlab_url {
@@ -32,13 +34,12 @@ while [[ $# -gt 0 ]]; do
             xdg-open "$(get_gitlab_url)"
             ;;
         url)
-            get_gitlab_url; echo    # One for the user
-            get_gitlab_url | xclip  # One for the browser
+            get_gitlab_url; echo
+            get_gitlab_url | xclip -selection clipboard
             ;;
         commit)
-            result="$(commit)"
-            echo $result
-            echo -n $result | xclip
+            commit; echo
+            commit | xclip -selection clipboard
             ;;
         *)
             cat <<EOF

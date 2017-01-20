@@ -32,7 +32,7 @@
 (global-set-key [(control f3)]     'ff-find-other-file)
 (global-set-key [(f12)]            'gdb)
 (global-set-key [(control l)]      'recenter)
-(global-set-key [(super ?\")]      'swap-quotes)
+;; delete after testing python-switch-quotes (global-set-key [(super ?\")] 'swap-quotes)
 (global-set-key [(meta ? )]        'cycle-spacing)
 
 
