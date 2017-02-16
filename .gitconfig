@@ -1,7 +1,7 @@
 [user]
   name = JuanLeon Lahoz
   email = juanleon.lahoz@avature.net
-  signingkey = A54B2BF89D9D0A08
+  signingkey = 85F19AEF41748DF0
 
 [core]
   editor = /usr/bin/emacsclient --alternate-editor /usr/bin/emacs

@@ -288,3 +288,16 @@
          ([(control shift tab)] . switch-window-then-swap-buffer)
          ([(control iso-lefttab)] . switch-window-then-swap-buffer))
   :init (setq switch-window-shortcut-style 'qwerty))
+
+(defun juanleon/minibuffer-setup-hook ()
+  (setq gc-cons-threshold most-positive-fixnum))
+
+(defun juanleon/minibuffer-exit-hook ()
+  (setq gc-cons-threshold (* 10 1024 1024)))
+
+(add-hook 'minibuffer-setup-hook #'juanleon/minibuffer-setup-hook)
+(add-hook 'minibuffer-exit-hook #'juanleon/minibuffer-exit-hook)
+
+(use-package python-switch-quotes
+  :ensure t
+  :bind ([(control c) ?'] . python-switch-quotes))
