@@ -34,29 +34,42 @@ function trap_dbg {
     fi
 }
 
+# This shall be refactored in mini functions!
 function set_bash_prompt {
     local exit_code=$?
+    local w
+    local hostname=''
     local open_bracket="$color_bold_black[$no_color"
     local close_bracket="$color_bold_black]$no_color"
     trap '' DEBUG
+    if test $exit_code -ne 0; then
+        exit_code=" $color_bold_red[$exit_code]$no_color"
+    else
+        exit_code=''
+    fi
+    if test -d /vagrant; then
+        hostname="$open_bracket$color_bold_blue@$(hostname -s)$close_bracket"
+        w="$open_bracket$color_green\w$close_bracket"
+    else
+        w="$open_bracket$color_purple\w$close_bracket"
+    fi
     if test "$TERM" == dumb; then
         PS1='[\w]: '
         return
+    elif test "$EUID" = 0; then
+        PS1="$open_bracket${color_back_red}ROOT:$color_red\w$close_bracket$exit_code: "
+        return
     elif test -z "$last_cmd"; then
-        PS1="$open_bracket$color_purple\w$no_color$close_bracket: "
+        PS1="$hostname$w: "
         return
     fi
+    local repo
     local virtualenv=''
     local extended=${EXTENDED_PROMPT:-''}
     local branch=''
-    local repo="$(git rev-parse --show-toplevel 2>/dev/null)"
+    repo="$(git rev-parse --show-toplevel 2>/dev/null)"
     if test "$TERM" = "screen-256color"; then
-        tmux rename-window "$(basename "${repo:-$PWD}")"
-    fi
-    if test $exit_code -ne 0; then
-        exit_code=" $color_bold_red"["$exit_code"]"$no_color"
-    else
-        exit_code=''
+        tmux rename-window "$(basename "${repo:-$PWD}")" &>/dev/null
     fi
     if test -v VIRTUAL_ENV; then
         virtualenv="$open_bracket$color_yellow($(basename $VIRTUAL_ENV))$no_color$close_bracket"
@@ -64,14 +77,17 @@ function set_bash_prompt {
     if test -n "$extended"; then
         if test -n "$repo"; then
             branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
-            branch="$open_bracket$color_blue<$branch>$no_color$close_bracket"
+            branch="$open_bracket$color_blue<$branch>$close_bracket"
         fi
-        PS1="$open_bracket$color_green\d \t$no_color$close_bracket"
-        PS1="$PS1$branch$virtualenv"
-        PS1="$PS1$open_bracket$color_purple\w$no_color$close_bracket$exit_code:"
-        PS1="$PS1\n$open_bracket$color_purple\w$no_color$close_bracket: "
+        PS1="$open_bracket$color_green\d \t$close_bracket"
+        if test -n "$hostname"; then
+            PS1+="$hostname"
+        fi
+        PS1+="$branch$virtualenv"
+        PS1+="$open_bracket$color_purple\w$close_bracket$exit_code:"
+        PS1+="\n$hostname$w$no_color: "
     else
-        PS1="$virtualenv$open_bracket$color_purple\w$no_color$close_bracket$exit_code: "
+        PS1="$virtualenv$w$no_color$close_bracket$exit_code: "
     fi
     last_cmd=
     trap trap_dbg DEBUG

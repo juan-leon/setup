@@ -239,10 +239,15 @@
 
 ;; Funny how packahe pyimport decided a poor's man version of same approach
 ;; (instead of looking in the filesystem, it looks in the opened buffers)
-(defun juanleon/copy-import()
+(defun juanleon/copy-import ()
   (interactive)
   (projectile-with-default-dir (projectile-project-root)
     (let ((command (format
                     "find -name '*py' -exec  grep '^from.*import' {} \\; 2>/dev/null | sort | uniq | grep -w %s"
                     (word-at-point))))
       (kill-new (shell-command-to-string command)))))
+
+(defun juanleon/open-mail-at-point ()
+  (interactive)
+  (let ((link (thing-at-point 'line)))
+    (shell-command (format "/usr/lib/thunderbird/thunderbird -thunderlink %s" link))))

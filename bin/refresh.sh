@@ -13,6 +13,7 @@ readonly FILES="
   bin/pwatch
   bin/juanleon-gitlab-utils
   bin/juanleon-keyboard
+  bin/juanleon-teg
   .bash
   .emacs.d/init.el
   .emacs.d/init-loader

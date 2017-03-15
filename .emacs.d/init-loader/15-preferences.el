@@ -21,7 +21,6 @@
  align-to-tab-stop               nil
  auto-save-default               nil
  backup-directory-alist          `(("" . ,(concat user-emacs-directory "/autosaved/")))
- browse-url-browser-function     'browse-url-chromium
  confirm-kill-emacs              'y-or-n-p ; "Fast fingers protection"
  disabled-command-function       nil ; Warnings already read
  garbage-collection-messages     t
@@ -271,11 +270,11 @@
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-visualizer-diff t))
 
-(use-package recentf
-  :init
-  (setq recentf-save-file (concat user-emacs-directory ".recentf")
-        recentf-max-saved-items 150)
-  :config (recentf-mode 1))
+;; (use-package recentf
+;;   :init
+;;   (setq recentf-save-file (concat user-emacs-directory ".recentf")
+;;         recentf-max-saved-items 150)
+;;   :config (recentf-mode 1))
 
 (use-package ag
   :ensure t

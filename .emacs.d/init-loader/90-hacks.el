@@ -161,3 +161,9 @@
 ;; This allows linting correctly files with no shebang (libraries), since I
 ;; always use bash
 (add-hook 'sh-mode-hook (lambda () (sh-set-shell "bash")))
+
+
+(use-package sdcv-mode
+  :init
+  (autoload 'sdcv-search "sdcv")
+  :bind ([(control c) ?d] . sdcv-search))

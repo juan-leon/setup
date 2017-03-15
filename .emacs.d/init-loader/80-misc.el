@@ -18,8 +18,8 @@
                              (holiday-fixed 12 6  "Constitution")
                              (holiday-fixed 12 25 "Christmas"))
                            ;; This year
-                           '((holiday-fixed 1 7   "Traslado R. Magos")
-                             (holiday-fixed 3 18  "S. Jose")
+                           '((holiday-fixed 3 20  "S. Jose")
+                             (holiday-fixed 5 15  "Whatever")
                              (holiday-fixed 8 15  "Asuncion")
                              (holiday-fixed 11 1  "All Saints")
                              (holiday-fixed 11 9  "Almudena")

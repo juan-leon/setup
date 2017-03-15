@@ -1,0 +1,26 @@
+#!/bin/bash -eu
+
+readonly BASE_URL='https://teg.avature.net/#Case/%d/Edit/Clone:yes'
+
+template=252641
+
+while [[ $# -gt 0 ]]; do
+    arg=$1
+    shift
+    case $arg in
+        p*|P*)
+            ;;
+        t*|T*)
+            template=252642
+            ;;
+        *)
+            cat <<EOF
+Usage: $0 template-name
+  supported template names: [platform, tests]
+EOF
+            exit 1
+            ;;
+    esac
+done
+
+xdg-open "$(printf $BASE_URL $template)"

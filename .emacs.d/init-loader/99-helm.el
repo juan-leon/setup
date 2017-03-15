@@ -51,6 +51,10 @@
   :bind (([(super return)] . helm-dash-at-point)
          ([(super shift return)] . helm-dash))
   :config
+  (setq helm-dash-browser-func
+      (lambda (url)
+        (other-window 1)
+        (xwidget-browse-url-no-reuse url)))
   (helm-dash-activate-docset "Emacs_Lisp")
   (helm-dash-activate-docset "MySQL")
   (helm-dash-activate-docset "PHP")

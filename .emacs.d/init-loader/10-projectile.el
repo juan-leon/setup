@@ -9,9 +9,11 @@
         projectile-switch-project-action 'projectile-dired
         projectile-tags-command          "ctags-exuberant -Re -f \"%s\" %s")
   :config
-  (projectile-mode))
+  (projectile-mode)
+  (define-key projectile-mode-map (kbd "C-p") 'projectile-command-map))
 
 (use-package projectile-ripgrep
   :ensure t
   :after projectile
   :bind (:map projectile-command-map ([?0] . projectile-ripgrep)))
+

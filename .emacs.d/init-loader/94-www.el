@@ -2,11 +2,7 @@
   :defer t
   :commands browse-url-interactive-arg
   :config
-  ;; make xwidget default browser
-  (setq browse-url-browser-function
-        (lambda (url session)
-          (other-window 1)
-          (xwidget-browse-url-no-reuse url))))
+  (setq browse-url-browser-function 'browse-url-firefox))
 
 (use-package xwidget
   :defer t
@@ -33,7 +29,6 @@
 ;; is supplied
 ;;
 ;; This function always opens a new website in a new window
-(defun xwidget-browse-url-no-reuse (url &optional sessoin)
+(defun xwidget-browse-url-no-reuse (url &optional new-session)
   (interactive (browse-url-interactive-arg "URL: "))
   (xwidget-webkit-browse-url url t))
-

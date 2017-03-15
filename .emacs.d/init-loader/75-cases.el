@@ -1,5 +1,8 @@
 (defvar teg-lists '("juanleon" "javier" "julio" "ruben" "joseluis" "all" "reviews" "team" "ft" "ramiro" "seppo" "juan"))
 
+(defvar teg-templates '("platform" "tests"))
+
+
 (defun juanleon/cases(list-name &optional no-cache sort-by)
   (interactive (list (completing-read "List name: " teg-lists)))
   (let* ((buf (get-buffer-create (format "*cases-%s*" list-name)))
@@ -26,6 +29,7 @@
     (define-key m [?I]     'juanleon/cases-sort-by-id)
     (define-key m [?S]     'juanleon/cases-sort-by-step)
     (define-key m [?P]     'juanleon/cases-sort-by-prio)
+    (define-key m [?t]     'juanleon/teg)
     (define-key m [?q]     'bury-buffer)
     m)
   "Keymap for `juanleon/cases-mode'.")
@@ -96,5 +100,9 @@
 (defun juanleon/cases-summary ()
   (interactive)
   (message "There are %d cases" (- (line-number-at-pos (point-max)) 3)))
+
+(defun juanleon/teg(template-name)
+  (interactive (list (completing-read "List name: " teg-templates)))
+  (shell-command (concat "juanleon-teg " template-name)))
 
 (require 'stripes)

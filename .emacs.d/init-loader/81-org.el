@@ -31,7 +31,7 @@
           ("r" "Trick " entry (file "info/tricks.org") "* %?\n")
           ("R" "Trick with code" entry (file "info/tricks.org") "* %? \n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
           ;; https://addons.mozilla.org/en-US/firefox/addon/org-mode-capture/ (configure extension with x)
-          ("x" "firefox" entry (file+headline "agenda/Inbox.org" "Today") "* TODO %c" :immediate-finish t))))
+          ("x" "firefox" entry (file+headline "agenda/Inbox.org" "Today") "* TODO Review %c\n%U\n%i\n" :immediate-finish))))
 
 
 (defun juanleon/org-table-to-markdown (beg end)
