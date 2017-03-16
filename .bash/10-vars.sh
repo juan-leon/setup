@@ -13,3 +13,5 @@ fi
 
 
 REPODIR=/home/juanleon/www
+
+# eval $(ssh-agent)
