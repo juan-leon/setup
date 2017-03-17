@@ -1,0 +1,19 @@
+"wmctrl -a thunder"
+  Mod2 + XF86HomePage
+
+"wmctrl -o 0,0"
+  Mod2 + XF86Mail
+
+"wmctrl -a firefox"
+  Mod2 + XF86Calculator
+
+"wmctrl -o 4000,0"
+  Mod2 + XF86Explorer
+
+"xdotool mousemove 900 600"
+  Mod2+Mod4 + F9
+
+"xdotool mousemove 2900 600"
+    Mod2+Mod4 + F10
+
+

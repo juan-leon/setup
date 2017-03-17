@@ -6,6 +6,7 @@ readonly FILES="
   .gitignore.global
   .tmux.conf
   .multitailrc
+  .xbindkeysrc
   bin/bt
   bin/wm.py
   bin/test-file
