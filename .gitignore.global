@@ -9,3 +9,4 @@ IGNORE*
 .projectile
 __ignore__*
 .tox/
+/*.egg-info/

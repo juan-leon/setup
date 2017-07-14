@@ -1,14 +1,9 @@
 #!/bin/bash -eu
 
-function usage {
-    echo "$0 (es|en)"
-    exit 1
-}
+layout=${1:-en}
 
-if test $# == 0; then
-    usage
-elif test $1 == 'en'; then
+if test $layout == 'en'; then
     setxkbmap -layout us -option -option ctrl:nocaps -option compose:ralt
-elif test $1 == 'es'; then
+elif test $layout == 'es'; then
     setxkbmap -layout es -option -option ctrl:nocaps
 fi

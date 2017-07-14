@@ -30,14 +30,14 @@ while [[ $# -gt 0 ]]; do
             current_commit=$1
             shift
             ;;
-        visit)
+        visit|v*)
             xdg-open "$(get_gitlab_url)"
             ;;
-        url)
+        url|u*)
             get_gitlab_url; echo
             get_gitlab_url | xclip -selection clipboard
             ;;
-        commit)
+        commit|c*)
             commit; echo
             commit | xclip -selection clipboard
             ;;

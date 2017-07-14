@@ -5,4 +5,4 @@ declare -r PROJECT=${1:-$(basename $PWD)}
 
 source /usr/local/bin/virtualenvwrapper.sh
 workon $PROJECT
-pyreview --cycles --debug
+pyreview --debug

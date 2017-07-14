@@ -280,10 +280,17 @@
   :ensure t
   :commands ag ag-regexp)
 
+(defun juanleon/switch-buffer-or-window ()
+  (interactive)
+  (if (one-window-p)
+          (helm-mini)
+        (switch-window)))
+
 (use-package switch-window
   :ensure t
-  :bind (([(control tab)] . switch-window)
-         ([(control insert)] . switch-window)
+  :commands switch-window
+  :bind (([(control tab)] . juanleon/switch-buffer-or-window)
+         ([(control insert)] . juanleon/switch-buffer-or-window)
          ([(control shift tab)] . switch-window-then-swap-buffer)
          ([(control iso-lefttab)] . switch-window-then-swap-buffer))
   :init (setq switch-window-shortcut-style 'qwerty))

@@ -167,3 +167,6 @@
   :init
   (autoload 'sdcv-search "sdcv")
   :bind ([(control c) ?d] . sdcv-search))
+
+(fset 'juanleon/save-stats
+   [return ?\C-s ?B ?u ?i ?l ?d C-right ?\C-  C-left ?\M-w ?w C-f11 ?_ ?\C-y ?. ?t ?x ?t return ?q up])

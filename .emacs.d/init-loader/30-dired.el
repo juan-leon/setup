@@ -64,6 +64,12 @@
               ([f2] . dired-efap)
               ([down-mouse-1] . dired-efap-click)))
 
+(use-package dired-quick-sort
+  :ensure t
+  :after dired
+  :config
+  (dired-quick-sort-setup))
+
 (use-package peep-dired
   :ensure t
   :after dired

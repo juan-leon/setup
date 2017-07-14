@@ -1,4 +1,4 @@
-(defvar teg-lists '("juanleon" "javier" "julio" "ruben" "joseluis" "all" "reviews" "team" "ft" "ramiro" "seppo" "juan"))
+(defvar teg-lists '("juanleon" "javier" "julio" "ruben" "joseluis" "all" "reviews" "team" "ft" "ramiro" "seppo" "juan" "sergey"))
 
 (defvar teg-templates '("platform" "tests"))
 
