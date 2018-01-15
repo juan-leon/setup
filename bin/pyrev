@@ -3,6 +3,6 @@
 declare -x WORKON_HOME=~/.envs
 declare -r PROJECT=${1:-$(basename $PWD)}
 
-source /usr/local/bin/virtualenvwrapper.sh
+source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 workon $PROJECT
 pyreview --debug

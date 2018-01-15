@@ -15,8 +15,10 @@ function l_ssh {
 }
 
 function r_ssh {
-    if test "$TERM" = "screen-256color"; then
-        tmux rename-window "#[bg=green]$1"
+    if [[ ! "$1" =~ ^- ]]; then
+        if test "$TERM" = "screen-256color"; then
+            tmux rename-window "#[bg=green]$1"
+        fi
     fi
     /usr/bin/ssh "$@"
     cd .

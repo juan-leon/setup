@@ -32,8 +32,8 @@
 (global-set-key [(control f3)]     'ff-find-other-file)
 (global-set-key [(f12)]            'gdb)
 (global-set-key [(control l)]      'recenter)
-;; delete after testing python-switch-quotes (global-set-key [(super ?\")] 'swap-quotes)
 (global-set-key [(meta ? )]        'cycle-spacing)
+(global-set-key [(super ?#)]       'juanleon/done-with-file)
 
 
 (and (fboundp 'cycle-spacing) (global-set-key (kbd "M-SPC") 'cycle-spacing))

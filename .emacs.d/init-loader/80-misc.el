@@ -96,9 +96,7 @@
 (use-package grep
   :defer t
   :init
-  (add-hook 'grep-setup-hook 'wgrep-setup)
-  (setq grep-find-ignored-directories '(".svn" ".git" ".hg" ".bzr" "target"))
-  (add-to-list 'grep-find-ignored-files "TAGS"))
+  (add-hook 'grep-setup-hook 'wgrep-setup))
 
 (use-package wgrep
   :ensure t

@@ -39,6 +39,7 @@
  scroll-step                     1
  scroll-conservatively           1
  scroll-preserve-screen-position 'in-place
+ split-height-threshold          140
  text-scale-mode-step            1.1
  track-eol                       t
  undo-ask-before-discard         nil

@@ -46,6 +46,7 @@
       (helm-exit-and-execute-action 'juanleon/call-dired-from-helm))))
 
 (use-package helm-dash
+  :ensure t
   :defer t
   ;; not quite like this: (setq helm-dash-browser-func 'eww)
   :bind (([(super return)] . helm-dash-at-point)

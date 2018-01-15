@@ -17,3 +17,9 @@
   :after projectile
   :bind (:map projectile-command-map ([?0] . projectile-ripgrep)))
 
+
+(use-package ripgrep
+  :ensure t
+  :defer t
+  :config
+  (setq ripgrep-arguments (list "-M 200")))

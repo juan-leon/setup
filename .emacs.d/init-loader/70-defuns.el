@@ -205,28 +205,6 @@
     (forward-char -1))
   (point))
 
-(defun swap-quotes ()
-  "Swaps the quote symbols in a string"
-  (interactive)
-  (save-excursion
-    (let ((bos (save-excursion
-                 (beginning-of-string)))
-          (eos (save-excursion
-                 (beginning-of-string)
-                 (forward-sexp)
-                 (point)))
-          (replacement-char ?\'))
-      (goto-char bos)
-      ;; if the following character is a single quote then the
-      ;; `replacement-char' should be a double quote.
-      (when (eq (following-char) ?\')
-          (setq replacement-char ?\"))
-      (delete-char 1)
-      (insert replacement-char)
-      (goto-char eos)
-      (delete-char -1)
-      (insert replacement-char))))
-
 (defun juanleon/execute-buffer ()
   (interactive)
   (let ((compile-command nil))
@@ -235,7 +213,7 @@
 ;; Helm will cause trouble with big TAGS files
 (defun juanleon/find-tag-at-point ()
   (interactive)
-  (find-tag (thing-at-point 'symbol)))
+  (xref-find-definitions (thing-at-point 'symbol)))
 
 ;; Funny how packahe pyimport decided a poor's man version of same approach
 ;; (instead of looking in the filesystem, it looks in the opened buffers)

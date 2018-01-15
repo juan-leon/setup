@@ -91,9 +91,11 @@
   :ensure t
   :bind ([(control x)(?!)] . flycheck-mode)
   :init
+  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
   (setq flycheck-idle-change-delay 3
-        flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc)
         flycheck-check-syntax-automatically '(save idle-change mode-enabled)
         flycheck-shellcheck-excluded-warnings '("SC2086"))
   :config
+  ;; xenial shellcheck does not support that option
+  (setq flycheck-shellcheck-follow-sources nil)
   (add-hook 'after-init-hook #'global-flycheck-mode))

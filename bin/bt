@@ -36,16 +36,16 @@ function last_branches {
 }
 
 function do_switch_local {
-    iatsSwitch "$(branches | peco)"
+    iatsSwitch "$(branches | fzf-tmux -u 80%)"
 }
 
 function do_switch_unmerged {
-    iatsSwitch "$(branches --no-merged origin/master | peco)"
+    iatsSwitch "$(branches --no-merged origin/master | fzf-tmux -u 80%)"
 }
 
 function do_switch_last {
     local depth=$1
-    iatsSwitch "$(last_branches $depth | peco)"
+    iatsSwitch "$(last_branches $depth | fzf-tmux -u 80%)"
 }
 
 function do_show_unmerged {
@@ -60,7 +60,7 @@ function do_show_unmerged {
 function do_merge {
     iatsSwitch master
     iatsPull
-    iatsMerge "$(branches --no-merged origin/master | peco)"
+    iatsMerge "$(branches --no-merged origin/master | fzf-tmux -u 80%)"
 }
 
 if [[ ${COMMAND:-} =~ ^(-h|--help)$ ]]; then

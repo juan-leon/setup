@@ -10,7 +10,7 @@
   :config
   ;; Monkey patch function to avoid buffer modified file flag bug
   (defun php-syntax-propertize-function (start end) nil)
-  (define-key php-mode-map [(?º)]  (command (insert "$"))))
+  (define-key php-mode-map [(?`)]  (command (insert "$"))))
 
 
 (use-package comint
@@ -24,9 +24,7 @@
     (if (comint-after-pmark-p)
         (progn
           ad-do-it)
-      (backward-paragraph arg)))
-  (add-hook 'comint-mode-hook (lambda () (ws-trim-mode 0))))
-
+      (backward-paragraph arg))))
 
 
 (defun open-test-file ()
@@ -128,11 +126,7 @@
   :ensure t
   :bind ([(control meta ?.)] . dumb-jump-go)
   :config
-  (dumb-jump-mode 1)
-  (nconc dumb-jump-find-rules
-         '((:type "type" :language "php"
-                  :regex "class\\s*JJJ\\s*"
-                  :tests ("class test")))))
+  (dumb-jump-mode 1))
 
 (use-package toml-mode
   :ensure t
@@ -168,5 +162,10 @@
   (autoload 'sdcv-search "sdcv")
   :bind ([(control c) ?d] . sdcv-search))
 
-(fset 'juanleon/save-stats
+(fset 'juanleon/save-stats-old
    [return ?\C-s ?B ?u ?i ?l ?d C-right ?\C-  C-left ?\M-w ?w C-f11 ?_ ?\C-y ?. ?t ?x ?t return ?q up])
+
+(fset 'juanleon/save-stats
+   [return ?\C-s ?B ?u ?i ?l ?d C-right ?\C-  C-left ?\M-w ?w ?_ ?\C-y ?. ?t ?x ?t return ?q up])
+
+(require 'notmuch)
