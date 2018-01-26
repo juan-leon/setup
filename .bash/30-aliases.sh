@@ -17,7 +17,7 @@ alias fgrep='fgrep --color=auto'
 alias grep='grep --color=auto'
 alias setgrep='set | grep'
 
-alias iats='g iats code'
+alias iats='cd ~/www/iats/code'
 alias jscore='cd $HOME/www/iats/code/jscore'
 alias phpcore='cd $HOME/www/iats/code/jscore/phpcore'
 alias wire-log='multitail -n 500 -cS wire /var/log/wire/wire.log'

@@ -29,6 +29,7 @@
     (define-key m [?I]     'juanleon/cases-sort-by-id)
     (define-key m [?S]     'juanleon/cases-sort-by-step)
     (define-key m [?P]     'juanleon/cases-sort-by-prio)
+    (define-key m [?R]     'juanleon/review-at-point)
     (define-key m [?t]     'juanleon/teg)
     (define-key m [?q]     'bury-buffer)
     m)
@@ -104,5 +105,19 @@
 (defun juanleon/teg(template-name)
   (interactive (list (completing-read "List name: " teg-templates)))
   (shell-command (concat "juanleon-teg " template-name)))
+
+(defun juanleon/review-at-point ()
+  (interactive)
+  (let ((case (save-excursion
+                (beginning-of-line)
+                (if (re-search-forward "|.*?|\s*\\([0-9]+\\)\s*|" nil t) (match-string 1))))
+        (project (save-excursion
+                (end-of-line)
+                (if (re-search-backward "\s+\\([-a-zA-Z0-9]+\\)\s+" nil t) (match-string 1)))))
+    (if (or (not project) (equal project "review"))
+        (error "No project"))
+    (if (not case)
+        (error "No case"))
+    (kill-new (format "cd /home/juanleon/www/%s && juanleon-review %s" project case))))
 
 (require 'stripes)

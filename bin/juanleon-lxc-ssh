@@ -1,0 +1,24 @@
+#!/bin/bash -eux
+
+container=$1
+host=${2:-lxd}
+if [[ $container =~ ^[0-9]+$ ]]; then
+    container=$(lxc list volatile.last_state.power=RUNNING -c n | grep $container | grep -m 1 -oP 'debtool[-a-z0-9]+')
+fi
+ip=$(lxc list "$container" -c 4 | grep -oP '10.[.0-9]+')
+echo "Using container $container and IP $ip"
+
+# Authorize me in the container
+(
+    cat ~/.ssh/id_rsa.pub |
+        lxc exec "$container" -- tee /home/ubuntu/.ssh/authorized_keys /root/.ssh/authorized_keys
+) >/dev/null
+
+storm delete $host 2>/dev/null
+storm add $host root@$ip:22
+
+scp ~/.bash_remote $host:.bash_aliases
+scp ~/.tmux.conf ~/.gitconfig $host:
+scp ~/bin/zz-prompt.sh $host:/etc/profile.d
+
+ssh $host

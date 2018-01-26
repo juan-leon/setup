@@ -7,13 +7,16 @@ readonly FILES="
   .tmux.conf
   .multitailrc
   bin/bt
-  bin/wm.py
   bin/test-file
   bin/pyrev
   bin/pwatch
   bin/juanleon-gitlab-utils
   bin/juanleon-keyboard
   bin/juanleon-teg
+  bin/juanleon-window
+  bin/juanleon-lxc-ssh
+  bin/juanleon-stop-music
+  bin/zz-prompt.sh
   .bash
   .emacs.d/init.el
   .emacs.d/init-loader

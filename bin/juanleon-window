@@ -7,8 +7,8 @@ import socket
 import time
 import os
 
-# This utility is for working around Ubuntu Precise Unity bugs with multiple
-# monitors, multiple desktops, and dell monitors using display port.
+# This utility is for working around Ubuntu Unity bugs with multiple monitors
+# and multiple desktops.
 
 
 HOSTNAME = socket.gethostname()
@@ -133,15 +133,7 @@ class Window(object):
         Geometry.goto_desktop(Desktop(0, 0))
         x = str(200 + (Geometry.work_area.width // 2) + (self.desktop.x * Geometry.work_area.width))
         y = str(self.desktop.y * Geometry.work_area.height)
-        # This is the hack to workaround the bug
-        # self.wmctrl('-e', ['0', x, y, '-1', '-1'])
-        # time.sleep(0.1)
-        # self.unmaximize()
-        # time.sleep(0.1)
-        # self.wmctrl('-e', ['0', x, y, '1800', '900'])
-        # time.sleep(0.1)
         self.maximize()
-        # time.sleep(0.1)
         self.wmctrl('-e', ['0', x, y, '-1', '-1'])
 
     def is_relevant(self):
@@ -239,6 +231,3 @@ def parse_args():
 
 Geometry.load()
 parse_args()
-
-# virtualenv -p /usr/bin/python3 py3env
-# source ~/py3env/bin/activate

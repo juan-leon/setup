@@ -2,7 +2,7 @@
 if [[ $- == *i* ]] && test "TERM" != "DUMB" && command -v fzf &>/dev/null; then
     source "/home/juanleon/.fzf/shell/completion.bash" 2> /dev/null
     source "/home/juanleon/.fzf/shell/key-bindings.bash"
-    export FZF_COMPLETION_TRIGGER='~~'
+    export FZF_COMPLETION_TRIGGER='**'
     export FZF_DEFAULT_COMMAND='fd --type f'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
@@ -55,11 +55,16 @@ function egf {
     $EDITOR $(gf)
 }
 
-function efzf {
+function ee {
     file="$(fd --type f "$@" | fzf-up)"
     if test -n "$file"; then
         $EDITOR "$file"
     fi
+}
+
+function r {
+    cd ~/www
+    cd $(FZF_DEFAULT_COMMAND='fd --type d -d 1' fzf-up)
 }
 
 bind '"\C-g\C-f": "$(gf)\e\C-e"'
