@@ -118,6 +118,7 @@
         (error "No project"))
     (if (not case)
         (error "No case"))
-    (kill-new (format "cd /home/juanleon/www/%s && juanleon-review %s" project case))))
+    (let ((dir (if (equal project "iats") "iats/code" project)))
+          (kill-new (format "cd /home/juanleon/www/%s && juanleon-review %s" dir case)))))
 
 (require 'stripes)

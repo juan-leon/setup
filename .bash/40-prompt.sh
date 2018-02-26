@@ -69,7 +69,11 @@ function set_bash_prompt {
     local branch=''
     repo="$(git rev-parse --show-toplevel 2>/dev/null)"
     if test "$TERM" = "screen-256color"; then
-        tmux rename-window "$(basename "${repo:-$PWD}")" &>/dev/null
+        if test -v TMUX_TITLE; then
+            tmux rename-window "$TMUX_TITLE" &>/dev/null
+        else
+            tmux rename-window "$(basename "${repo:-$PWD}")" &>/dev/null
+        fi
     fi
     if test -v VIRTUAL_ENV; then
         virtualenv="$open_bracket$color_yellow($(basename $VIRTUAL_ENV))$no_color$close_bracket"

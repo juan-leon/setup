@@ -55,6 +55,13 @@ function egf {
     $EDITOR $(gf)
 }
 
+function efzf {
+    file="$(fd --type f "$@" | fzf-up)"
+    if test -n "$file"; then
+        $EDITOR "$file"
+    fi
+}
+
 function ee {
     file="$(fd --type f "$@" | fzf-up)"
     if test -n "$file"; then
@@ -63,13 +70,37 @@ function ee {
 }
 
 function r {
+    local candidate=${1:-}
+    local query=''
+    if test -n "$candidate"; then
+        query="--query $candidate"
+    fi
     cd ~/www
-    cd $(FZF_DEFAULT_COMMAND='fd --type d -d 1' fzf-up)
+    cd $(FZF_DEFAULT_COMMAND='fd --type d -d 1' fzf-up $query)
 }
 
 bind '"\C-g\C-f": "$(gf)\e\C-e"'
 bind '"\C-g\C-b": "$(gb)\e\C-e"'
 bind '"\C-g\C-h": "$(gh)\e\C-e"'
 bind '"\C-g\C-t": "$(gt)\e\C-e"'
+
+# function _juanleon_compgen_repo {
+#     (cd /home/juanleon/www && command find -maxdepth 1 -mindepth 1 -type d -print 2>/dev/null | sed 's@^\./@@')
+# }
+
+# function _juanleon_repo_completion {
+#     __fzf_generic_path_completion _juanleon_compgen_repo "-m" "" "$@"
+# }
+
+# function _fzf_compgen_foo {
+#   fd --type d --hidden --follow --exclude ".git" . "$1"
+# }
+
+# function _juanleon_repo_completion {
+#     __fzf_generic_path_completion _fzf_compgen_foo "-m" "" "$@"
+# }
+
+# complete -F _juanleon_repo_completion g
+# complete -F _fzf_dir_completion g
 
 fi

@@ -1,4 +1,4 @@
-#!/bin/bash -eux
+#!/bin/bash -eu
 
 container=$1
 host=${2:-lxd}
@@ -8,6 +8,8 @@ fi
 ip=$(lxc list "$container" -c 4 | grep -oP '10.[.0-9]+')
 echo "Using container $container and IP $ip"
 
+lxc exec "$container" -- mkdir -p /home/ubuntu/.ssh
+lxc exec "$container" -- mkdir -p /root/.ssh
 # Authorize me in the container
 (
     cat ~/.ssh/id_rsa.pub |
@@ -17,8 +19,11 @@ echo "Using container $container and IP $ip"
 storm delete $host 2>/dev/null
 storm add $host root@$ip:22
 
-scp ~/.bash_remote $host:.bash_aliases
-scp ~/.tmux.conf ~/.gitconfig $host:
-scp ~/bin/zz-prompt.sh $host:/etc/profile.d
+scp ~/.bash_remote $host:.bash_aliases >/dev/null
+scp ~/.tmux.conf ~/.gitconfig $host: >/dev/null
+scp ~/bin/zz-prompt.sh $host:/etc/profile.d >/dev/null
 
+if test -v TMUX; then
+    tmux rename-window "#[bg=green]$host";
+fi
 ssh $host
