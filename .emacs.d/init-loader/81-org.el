@@ -24,6 +24,11 @@
   (setq org-src-fontify-natively t)
   (setq org-completion-use-ido t)
 
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((shell . t)
+     (emacs-lisp . t)))
+
   (setq org-capture-templates
         '(("t" "Today" entry (file+headline "agenda/Inbox.org" "Today") "* TODO %? \n  %U\n")
           ("m" "Mail" entry (file+headline "agenda/Inbox.org" "Today") "* TODO %? \n  %U\n%x")

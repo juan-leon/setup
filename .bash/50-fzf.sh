@@ -1,5 +1,5 @@
 # Auto-completion & Key bindings
-if [[ $- == *i* ]] && test "TERM" != "DUMB" && command -v fzf &>/dev/null; then
+if [[ $- == *i* ]] && test "$TERM" != "dumb" && command -v fzf &>/dev/null; then
     source "/home/juanleon/.fzf/shell/completion.bash" 2> /dev/null
     source "/home/juanleon/.fzf/shell/key-bindings.bash"
     export FZF_COMPLETION_TRIGGER='**'
@@ -10,12 +10,12 @@ function is_in_git_repo {
   git rev-parse HEAD &>/dev/null
 }
 
-fzf-up() {
+function fzf-up {
   fzf-tmux -u 60% "$@"
 }
 
 # Mod files
-gf() {
+function gf {
   is_in_git_repo || return
   git -c color.status=always status --short |
   fzf-up -m --ansi --nth 2..,.. \
@@ -24,7 +24,7 @@ gf() {
 }
 
 # Branches
-gb() {
+function gb {
   is_in_git_repo || return
   git branch -a --color=always | grep -v '/HEAD\s' | sort |
   fzf-up --ansi --multi --tac --preview-window right:70% \
@@ -34,7 +34,7 @@ gb() {
 }
 
 # Tags
-gt() {
+function gt {
   is_in_git_repo || return
   git tag --sort -version:refname |
   fzf-up --multi --preview-window right:70% \
@@ -42,7 +42,7 @@ gt() {
 }
 
 # Log
-gh() {
+function gh {
   is_in_git_repo || return
   git log --date=short --format="%C(green)%C(bold)%cd %C(auto)%h%d %s (%an)" --graph --color=always |
   fzf-up --ansi --no-sort --reverse --multi --bind 'ctrl-s:toggle-sort' \
@@ -53,13 +53,6 @@ gh() {
 
 function egf {
     $EDITOR $(gf)
-}
-
-function efzf {
-    file="$(fd --type f "$@" | fzf-up)"
-    if test -n "$file"; then
-        $EDITOR "$file"
-    fi
 }
 
 function ee {
@@ -76,31 +69,16 @@ function r {
         query="--query $candidate"
     fi
     cd ~/www
-    cd $(FZF_DEFAULT_COMMAND='fd --type d -d 1' fzf-up $query)
+    cd $(FZF_DEFAULT_COMMAND='fd --type d -d 1' fzf-up -1 $query)
 }
 
-bind '"\C-g\C-f": "$(gf)\e\C-e"'
-bind '"\C-g\C-b": "$(gb)\e\C-e"'
-bind '"\C-g\C-h": "$(gh)\e\C-e"'
-bind '"\C-g\C-t": "$(gt)\e\C-e"'
+alias g=r
 
-# function _juanleon_compgen_repo {
-#     (cd /home/juanleon/www && command find -maxdepth 1 -mindepth 1 -type d -print 2>/dev/null | sed 's@^\./@@')
-# }
-
-# function _juanleon_repo_completion {
-#     __fzf_generic_path_completion _juanleon_compgen_repo "-m" "" "$@"
-# }
-
-# function _fzf_compgen_foo {
-#   fd --type d --hidden --follow --exclude ".git" . "$1"
-# }
-
-# function _juanleon_repo_completion {
-#     __fzf_generic_path_completion _fzf_compgen_foo "-m" "" "$@"
-# }
-
-# complete -F _juanleon_repo_completion g
-# complete -F _fzf_dir_completion g
+if test "$TERM" != dumb; then
+    bind '"\C-g\C-f": "$(gf)\e\C-e"'
+    bind '"\C-g\C-b": "$(gb)\e\C-e"'
+    bind '"\C-g\C-h": "$(gh)\e\C-e"'
+    bind '"\C-g\C-t": "$(gt)\e\C-e"'
+fi
 
 fi

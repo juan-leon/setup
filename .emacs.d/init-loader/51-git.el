@@ -97,10 +97,18 @@
   (shell-command (format "iatsTag %s %s" tag comment))
   (magit-refresh))
 
-
 (defun juanleon/visit-gitlab ()
   "Visit commit in gitlab"
   (interactive)
   (let* ((commit (magit-commit-at-point))
          (args (if commit (format "-r %s" commit) "")))
     (shell-command (format "juanleon-gitlab-utils %s visit" args))))
+
+(defun juanleon/code-review (repo branch &optional no-fetch checkout)
+  (let ((repo-dir (format "/home/juanleon/www/%s" repo) )
+        (ref (format "origin/%s" branch)))
+    (dired repo-dir)
+    (magit-log (list (concat "origin/master.." ref)) (list "-100"))
+    (unless no-fetch (magit-fetch "origin" nil))
+    (if checkout (magit-checkout ref))
+    (magit-diff (concat "origin/master..." ref) nil)))

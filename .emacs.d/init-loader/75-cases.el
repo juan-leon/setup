@@ -30,6 +30,9 @@
     (define-key m [?S]     'juanleon/cases-sort-by-step)
     (define-key m [?P]     'juanleon/cases-sort-by-prio)
     (define-key m [?R]     'juanleon/review-at-point)
+    (define-key m [?m]     'juanleon/magit-at-point)
+    (define-key m [?M]     'juanleon/magit-at-point-no-fetch)
+    (define-key m [?,]     'juanleon/magit-at-point-with-co)
     (define-key m [?t]     'juanleon/teg)
     (define-key m [?q]     'bury-buffer)
     m)
@@ -120,5 +123,27 @@
         (error "No case"))
     (let ((dir (if (equal project "iats") "iats/code" project)))
           (kill-new (format "cd /home/juanleon/www/%s && juanleon-review %s" dir case)))))
+
+(defun juanleon/magit-at-point (&optional no-fetch checkout)
+  (interactive)
+  (let ((branch (save-excursion
+                (beginning-of-line)
+                (if (re-search-forward "\\(T[[:digit:]]+[[:alpha:]][[:alnum:]]*\\)" nil t) (match-string 1))))
+        (project (save-excursion
+                (end-of-line)
+                (if (re-search-backward "\s+\\([-a-zA-Z0-9]+\\)\s+" nil t) (match-string 1)))))
+    (if (not branch)
+        (error "No branch"))
+    (if (or (not project) (equal project "review"))
+        (error "No project"))
+    (juanleon/code-review project branch no-fetch checkout)))
+
+(defun juanleon/magit-at-point-no-fetch ()
+  (interactive)
+  (juanleon/magit-at-point t))
+
+(defun juanleon/magit-at-point-with-co ()
+  (interactive)
+  (juanleon/magit-at-point nil t))
 
 (require 'stripes)
