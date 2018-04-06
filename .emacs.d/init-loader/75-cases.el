@@ -1,4 +1,22 @@
-(defvar teg-lists '("juanleon" "javier" "julio" "ruben" "joseluis" "all" "reviews" "team" "ft" "ramiro" "seppo" "juan" "sergey" "quimey" "carlos" "javier2" "javier3"))
+(defvar teg-lists
+  '("juanleon"
+    "javier"
+    "julio"
+    "ruben"
+    "joseluis"
+    "all"
+    "reviews"
+    "team"
+    "ft"
+    "ramiro"
+    "seppo"
+    "juan"
+    "sergey"
+    "quimey"
+    "carlos"
+    "javier2"
+    "javier3"
+    "mariajose"))
 
 (defvar teg-templates '("platform" "tests"))
 
@@ -24,6 +42,7 @@
     (define-key m [return] 'juanleon/cases-browse-by-id)
     (define-key m [?c]     'juanleon/cases-copy-url)
     (define-key m [?C]     'juanleon/cases-copy-all)
+    (define-key m [?n]     'juanleon/cases-copy-number)
     (define-key m [?g]     'juanleon/cases-refresh)
     (define-key m [?i]     'juanleon/cases-summary)
     (define-key m [?I]     'juanleon/cases-sort-by-id)
@@ -54,6 +73,12 @@
     (if (re-search-forward "|.*?|\s*\\([0-9]+\\)\s*|" nil t)
         (concat "https://teg.avature.net/#Case/" (match-string 1)))))
 
+(defun juanleon/cases-case-number ()
+  (save-excursion
+    (beginning-of-line)
+    (if (re-search-forward "|.*?|\s*\\([0-9]+\\)\s*|" nil t)
+        (match-string 1))))
+
 (defun juanleon/cases-case-title ()
   (save-excursion
     (beginning-of-line)
@@ -83,6 +108,13 @@
         (title (juanleon/cases-case-title)))
     (if url
         (kill-new (concat url ": " title))
+      (message "No case in this line"))))
+
+(defun juanleon/cases-copy-number ()
+  (interactive)
+  (let ((number (juanleon/cases-case-number)))
+    (if number
+        (kill-new number)
       (message "No case in this line"))))
 
 (defun juanleon/cases-refresh ()

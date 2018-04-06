@@ -166,7 +166,6 @@
 
 (use-package yasnippet
   :ensure t
-  :disabled
   :diminish yas-minor-mode
   :init (setq yas-prompt-functions '(yas-ido-prompt))
   :config
@@ -174,9 +173,14 @@
   ;; Tab is for completion/indent
   (define-key yas-minor-mode-map [(tab)]       nil)
   (define-key yas-minor-mode-map (kbd "TAB")   nil)
-  ;; Super tab (and friend) is for expansion
-  (define-key yas-minor-mode-map [(super tab)] 'yas-expand)
+  ;; Super ' is for expansion
   (define-key yas-minor-mode-map [(super ?`)]  'yas-expand))
+
+(use-package auto-yasnippet
+  :bind (([(control ?o)] . aya-open-line)
+         ([(super f11)] . aya-create)
+         ([(super f12)] . aya-expand))
+  :ensure t)
 
 ;; (use-package paradox
 ;;   :ensure t
@@ -196,3 +200,5 @@
   :ensure t
   :bind (([(super ?ç)] . syntactic-close)
          ("C-]" . syntactic-close)))
+
+

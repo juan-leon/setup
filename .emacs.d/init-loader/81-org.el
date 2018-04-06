@@ -53,6 +53,12 @@
            ((org-agenda-files '("~/Dropbox/org/agenda/Inbox.org")))))))
 
 
+(use-package org-radiobutton
+  :ensure t
+  :config
+  (global-org-radiobutton-mode 1))
+
+
 (defun juanleon/org-table-to-markdown (beg end)
   (interactive "r")
   (save-excursion

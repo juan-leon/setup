@@ -53,6 +53,11 @@
               (set (make-local-variable 'frame-title-format)
                    (abbreviate-file-name (dired-current-directory))))))
 
+(use-package dired-x
+  :demand
+  :commands dired-omit-mode)
+
+
 (use-package wdired
   :after dired
   :bind (:map dired-mode-map ([?r] . wdired-change-to-wdired-mode)))
