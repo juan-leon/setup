@@ -24,6 +24,13 @@ function r_ssh {
     cd .
 }
 
+function d_ssh {
+    if test "$TERM" = "screen-256color"; then
+        tmux rename-window "#[bg=green]$1"
+    fi
+    docker exec -ti $1 bash
+}
+
 function g {
     if [ -d $REPODIR/$1/$2 ]; then
         cd $REPODIR/$1/$2

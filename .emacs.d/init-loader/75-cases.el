@@ -1,28 +1,30 @@
 (defvar teg-lists
   '("juanleon"
-    "javier"
-    "julio"
-    "ruben"
-    "joseluis"
-    "all"
     "reviews"
-    "team"
+    "platform"
+    "tests"
     "ft"
-    "ramiro"
-    "seppo"
+    "javier"
+    "ruben"
+    "carlos"
+    "javier2"
+    "david"
+    "javier3"
+    "mariajose"
     "juan"
     "sergey"
     "quimey"
-    "carlos"
-    "javier2"
-    "javier3"
-    "mariajose"))
+    "julio"
+    "platform-goals"
+    "tests-goals"
+    )
+  )
 
 (defvar teg-templates '("platform" "tests"))
 
 
-(defun juanleon/cases(list-name &optional no-cache sort-by)
-  (interactive (list (completing-read "List name: " teg-lists)))
+(defun juanleon/cases (list-name &optional no-cache sort-by)
+  (interactive (list (completing-read "List name: " teg-lists nil t)))
   (let* ((buf (get-buffer-create (format "*cases-%s*" list-name)))
          (inhibit-read-only t))
     (switch-to-buffer buf)
@@ -43,6 +45,7 @@
     (define-key m [?c]     'juanleon/cases-copy-url)
     (define-key m [?C]     'juanleon/cases-copy-all)
     (define-key m [?n]     'juanleon/cases-copy-number)
+    (define-key m [?N]     'juanleon/cases-add-note)
     (define-key m [?g]     'juanleon/cases-refresh)
     (define-key m [?i]     'juanleon/cases-summary)
     (define-key m [?I]     'juanleon/cases-sort-by-id)
@@ -110,11 +113,25 @@
         (kill-new (concat url ": " title))
       (message "No case in this line"))))
 
+(defun juanleon/cases-info ()
+  (let ((url (juanleon/cases-case-url))
+        (title (juanleon/cases-case-title)))
+    (if url
+        (concat url ": " title)
+      "No case in this line")))
+
 (defun juanleon/cases-copy-number ()
   (interactive)
   (let ((number (juanleon/cases-case-number)))
     (if number
         (kill-new number)
+      (message "No case in this line"))))
+
+(defun juanleon/cases-add-note ()
+  (interactive)
+  (let ((number (juanleon/cases-case-number)))
+    (if number
+        (juanleon/teg-add-note number)
       (message "No case in this line"))))
 
 (defun juanleon/cases-refresh ()
@@ -177,5 +194,40 @@
 (defun juanleon/magit-at-point-with-co ()
   (interactive)
   (juanleon/magit-at-point nil t))
+
+(defvar juanleon/teg-add-note-mode-map
+  (let ((m (make-sparse-keymap)))
+    (define-key m "\C-c\C-c" 'juanleon/teg-add-note-finalize)
+    (define-key m "\C-c\C-k" 'juanleon/teg-add-note-kill)
+    m)
+  "Keymap for `juanleon/add-note-mode'.")
+
+(define-minor-mode juanleon/teg-add-note-mode
+  "Blah blah"
+  nil " Whut" juanleon/teg-add-note-mode-map)
+
+(defun juanleon/teg-add-note (case)
+  (interactive "nCase: ")
+  (let* ((buf (get-buffer-create (format "*note-%s*" case))))
+    (switch-to-buffer buf)
+    (make-local-variable 'case-number)
+    (setq case-number case)
+    (erase-buffer)
+    (juanleon/teg-add-note-mode)))
+
+(defun juanleon/teg-add-note-finalize ()
+  (interactive)
+  (shell-command-on-region
+   (point-min) (point-max) (format "juanleon-add-note %s" case-number))
+  (bury-buffer))
+
+(defun juanleon/teg-add-note-kill ()
+  (interactive)
+  (kill-buffer))
+
+(defun juanleon/teg-add-note-from-region(case)
+  (interactive "nCase: ")
+  (shell-command-on-region
+   (region-beginning) (region-end) (format "juanleon-add-note %d" case)))
 
 (require 'stripes)

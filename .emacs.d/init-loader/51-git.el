@@ -4,6 +4,7 @@
   :ensure t
   :init
   (setq magit-completing-read-function 'helm--completing-read-default
+        magit-revision-insert-related-refs nil
         git-commit-summary-max-length 70)
   :config
   (define-key magit-status-mode-map [backspace] 'juanleon/magit-in-supermodule)
@@ -111,6 +112,7 @@
                      (magit-log (list (concat "origin/master.." ,ref)) (list "-100"))
                      (if ,checkout (magit-checkout ,ref))
                      (magit-diff (concat "origin/master..." ,ref) nil))))
+    (delete-other-windows)
     (dired repo-dir)
     (if no-fetch
         (funcall sentinel nil nil)

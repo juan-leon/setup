@@ -120,7 +120,12 @@
 
 (use-package powerline
   :ensure t
+  :disabled  ;; Incompatible with minions
   :config (powerline-center-theme))
+
+(use-package minions
+  :ensure t
+  :config (minions-mode 1))
 
 (use-package dumb-jump
   :ensure t

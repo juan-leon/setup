@@ -7,6 +7,11 @@
      (setq org-map-continue-from (outline-previous-heading)))
    "/DONE" 'file))
 
+(defun juanleon/org-case-template ()
+  "* TODO AA BB %? \n  %U\n"
+  (format "* TODO Case %s %%? \n  %%U\n  %s\n" (juanleon/cases-case-number) (juanleon/cases-info)))
+
+
 (use-package org
   :ensure t
   :bind (([(control c) ?l] . org-store-link)
@@ -14,7 +19,7 @@
          ([(control c) ?c] . org-capture)
          ([(control c) ?4] . org-archive-done-tasks)
          ([(control c) ?1] . juanleon/open-mail-at-point)
-         ([(super o)]      . org-iswitchb))
+         ([(super o)]      . org-switchb))
   :config
   (use-package org-bullets :ensure t)
   (require 'ox-md nil t)
@@ -27,6 +32,8 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((shell . t)
+     (js . t)
+     (python . t)
      (emacs-lisp . t)))
 
   (setq org-capture-templates
@@ -34,6 +41,7 @@
           ("m" "Mail" entry (file+headline "agenda/Inbox.org" "Today") "* TODO %? \n  %U\n%x")
           ("T" "Tomorrow" entry (file+headline "agenda/Inbox.org" "Tomorrow") "* TODO %? \n  %U\n")
           ("v" "Today with link" entry (file+headline "agenda/Inbox.org" "Today") "* TODO %?\n  %U\n  %i\n  %a\n")
+          ("c" "Case" entry (file+headline "agenda/Inbox.org" "Today") (function juanleon/org-case-template))
           ("j" "Journal" entry (file+datetree "info/journal.org") "* %<%R:>%?\n")
           ("g" "Good News" entry (file+datetree "info/goodnews.org") "* %<%R:>%?\n")
           ("k" "Trick " entry (file "info/tricks.org") "* %?\n")

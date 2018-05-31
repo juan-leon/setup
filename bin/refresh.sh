@@ -16,6 +16,7 @@ readonly FILES="
   bin/juanleon-window
   bin/juanleon-lxc-ssh
   bin/juanleon-stop-music
+  bin/juanleon-form-cr
   bin/zz-prompt.sh
   .bash
   .emacs.d/init.el

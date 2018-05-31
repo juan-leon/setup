@@ -265,17 +265,11 @@
 
 (use-package undo-tree
   :ensure t
+  :disabled  ;; Using DO not play nice with undo in region
   :diminish undo-tree-mode
   :config
   (global-undo-tree-mode)
-  (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-diff t))
-
-;; (use-package recentf
-;;   :init
-;;   (setq recentf-save-file (concat user-emacs-directory ".recentf")
-;;         recentf-max-saved-items 150)
-;;   :config (recentf-mode 1))
+  (setq undo-tree-visualizer-timestamps t))
 
 (use-package ag
   :ensure t

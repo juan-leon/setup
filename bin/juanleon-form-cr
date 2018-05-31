@@ -1,0 +1,20 @@
+#!/bin/bash -eu
+
+if test "$1" == '--fetch'; then
+    mbsync -V avature >/dev/null
+    notmuch new
+    shift
+fi
+
+case=$1
+thread=$(notmuch search --sort=newest-first --output=threads --limit=1 "Case $case needs Code Review")
+
+if test -z "$thread"; then
+    >&2 echo "No email found for case $case"
+    exit 1
+fi
+
+url=$(notmuch show --part=2 "$thread" | grep -oE 'http.*' | tail -1)
+
+>&2 echo "Opening $url"
+xdg-open "$url"
