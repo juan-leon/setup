@@ -1,14 +1,29 @@
 #!/bin/bash -eu
 
-if test "$1" == '--fetch'; then
+function fetch {
     mbsync -V avature >/dev/null
     notmuch new
+}
+
+function get_thread {
+    local case=$1
+    notmuch search --sort=newest-first --output=threads --limit=1 "Case $case needs Code Review"
+}
+
+fetched=false
+if test "$1" == '--fetch'; then
+    fetch
+    fetched=true
     shift
 fi
 
-case=$1
-thread=$(notmuch search --sort=newest-first --output=threads --limit=1 "Case $case needs Code Review")
+readonly CASE=$1
+thread=$(get_thread $CASE)
 
+if test -z "$thread" && ! $fetched; then
+    fetch
+    thread=$(get_thread $CASE)
+fi
 if test -z "$thread"; then
     >&2 echo "No email found for case $case"
     exit 1

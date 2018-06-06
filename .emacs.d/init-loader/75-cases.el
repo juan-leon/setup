@@ -52,6 +52,7 @@
     (define-key m [?S]     'juanleon/cases-sort-by-step)
     (define-key m [?P]     'juanleon/cases-sort-by-prio)
     (define-key m [?R]     'juanleon/review-at-point)
+    (define-key m [?f]     'juanleon/cr-form)
     (define-key m [?m]     'juanleon/magit-at-point)
     (define-key m [?M]     'juanleon/magit-at-point-no-fetch)
     (define-key m [?,]     'juanleon/magit-at-point-with-co)
@@ -229,5 +230,13 @@
   (interactive "nCase: ")
   (shell-command-on-region
    (region-beginning) (region-end) (format "juanleon-add-note %d" case)))
+
+(defun juanleon/cr-form (&optional arg)
+  (interactive "P")
+  (let ((number (juanleon/cases-case-number))
+        (fetch (if arg "--fetch" "")))
+    (if number
+        (shell-command (format "juanleon-form-cr %s %s" fetch number))
+    (message "No case in this line"))))
 
 (require 'stripes)
