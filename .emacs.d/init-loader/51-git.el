@@ -28,10 +28,11 @@
   (magit-define-popup-option 'magit-log-popup ?u "Until date" "--until=" #'magit-org-read-date)
 
   ;; Monkey patch because I like this behaviour
-  (defun magit-copy-buffer-revision (beg end &optional region)
-    (interactive (list (mark) (point)
-                       (prefix-numeric-value current-prefix-arg)))
-    (kill-ring-save beg end region))
+  (eval-after-load "magit-extras"
+    '(defun magit-copy-buffer-revision (beg end &optional region)
+      (interactive (list (mark) (point)
+                         (prefix-numeric-value current-prefix-arg)))
+      (kill-ring-save beg end region)))
 
   (defun juanleon/magit-in-supermodule ()
   (interactive)

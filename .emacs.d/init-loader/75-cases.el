@@ -17,6 +17,7 @@
     "julio"
     "platform-goals"
     "tests-goals"
+    "auto"
     )
   )
 
@@ -52,6 +53,7 @@
     (define-key m [?S]     'juanleon/cases-sort-by-step)
     (define-key m [?P]     'juanleon/cases-sort-by-prio)
     (define-key m [?R]     'juanleon/review-at-point)
+    (define-key m [?a]     'juanleon/cases-add-new)
     (define-key m [?f]     'juanleon/cr-form)
     (define-key m [?m]     'juanleon/magit-at-point)
     (define-key m [?M]     'juanleon/magit-at-point-no-fetch)
@@ -159,6 +161,11 @@
   (interactive (list (completing-read "List name: " teg-templates)))
   (shell-command (concat "juanleon-teg " template-name)))
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Doing Code Reviews using case list & magit
+
 (defun juanleon/review-at-point ()
   (interactive)
   (let ((case (save-excursion
@@ -196,12 +203,18 @@
   (interactive)
   (juanleon/magit-at-point nil t))
 
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Adding notes in TEG
+
 (defvar juanleon/teg-add-note-mode-map
   (let ((m (make-sparse-keymap)))
     (define-key m "\C-c\C-c" 'juanleon/teg-add-note-finalize)
     (define-key m "\C-c\C-k" 'juanleon/teg-add-note-kill)
     m)
-  "Keymap for `juanleon/add-note-mode'.")
+  "Keymap for `juanleon/reg-add-note-mode'.")
 
 (define-minor-mode juanleon/teg-add-note-mode
   "Blah blah"
@@ -209,7 +222,7 @@
 
 (defun juanleon/teg-add-note (case)
   (interactive "nCase: ")
-  (let* ((buf (get-buffer-create (format "*note-%s*" case))))
+  (let ((buf (get-buffer-create (format "*note-%s*" case))))
     (switch-to-buffer buf)
     (make-local-variable 'case-number)
     (setq case-number case)
@@ -240,3 +253,87 @@
     (message "No case in this line"))))
 
 (require 'stripes)
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Commenting in gitlab when doing CRs
+
+(defvar juanleon/gitlab-add-note-mode-map
+  (let ((m (make-sparse-keymap)))
+    (define-key m "\C-c\C-c" 'juanleon/gitlab-add-note-finalize)
+    (define-key m "\C-c\C-k" 'juanleon/gitlab-add-note-kill)
+    m)
+  "Keymap for `juanleon/gitlab-add-note-mode'.")
+
+(define-minor-mode juanleon/gitlab-add-note-mode
+  "Blah blah blah"
+  nil " Whut whu" juanleon/gitlab-add-note-mode-map)
+
+(defun juanleon/gitlab-add-note ()
+  (interactive)
+  (and (get-buffer "*gitlab-note*") (kill-buffer "*gitlab-note*"))
+  (let ((buf (get-buffer-create "*gitlab-note*"))
+        (source-dir default-directory)
+        (source-line (line-number-at-pos))
+        (source-buffer (buffer-name))
+        (source-file-name (or buffer-file-name "nil")))
+    (switch-to-buffer buf)
+    (markdown-mode)
+    (set (make-local-variable 'local-source-dir) source-dir)
+    (set (make-local-variable 'local-source-line) source-line)
+    (set (make-local-variable 'local-source-buffer) source-buffer)
+    (set (make-local-variable 'local-source-file-name) source-file-name)
+    (erase-buffer)
+    (juanleon/gitlab-add-note-mode)))
+
+(defun juanleon/gitlab-add-note-finalize ()
+  (interactive)
+  (if (eq (shell-command-on-region
+           (point-min) (point-max)
+           (format "juanleon-comment-in-gitlab '%s' '%s' '%s' '%s'"
+                   local-source-dir
+                   local-source-buffer
+                   local-source-file-name
+                   local-source-line)) 0)
+      (kill-buffer)))
+
+(defun juanleon/gitlab-add-note-kill ()
+  (interactive)
+  (kill-buffer))
+
+(global-set-key [(super G)] 'juanleon/gitlab-add-note)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Creating new cases
+
+(defvar juanleon/cases-add-case-mode-map
+  (let ((m (make-sparse-keymap)))
+    (define-key m "\C-c\C-c" 'juanleon/cases-add-case-finalize)
+    (define-key m "\C-c\C-k" 'juanleon/cases-add-case-kill)
+    m)
+  "Keymap for `juanleon/cases-add-case-mode'.")
+
+(define-minor-mode juanleon/cases-add-case-mode
+  "Blah blah blah"
+  nil " Whut whu" juanleon/cases-add-case-mode-map)
+
+(defun juanleon/cases-add-new ()
+  (interactive)
+  (find-file (make-temp-file "new-case" nil ".toml"))
+  (yas-minor-mode 1)
+  (yas-expand-snippet (yas-lookup-snippet "case"))
+  (juanleon/cases-add-case-mode))
+
+(defun juanleon/cases-add-case-finalize ()
+  (interactive)
+  (save-buffer)
+  (if (eq (shell-command-on-region (point-min) (point-max) "juanleon-add-case") 0)
+      (kill-buffer)))
+
+(defun juanleon/cases-add-case-kill ()
+  (interactive)
+  (kill-buffer))

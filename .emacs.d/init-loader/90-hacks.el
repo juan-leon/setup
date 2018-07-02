@@ -75,13 +75,14 @@
   :bind (([(control ?=)]  . hydra-diff/body)
          ([(control f7)]  . hydra-next-error/body)
          ([(control f10)] . hydra-toggle/body)
+         ([(control f3)]  . hydra-zoom/body)
          ([(control f9)]  . hydra-cmus/body))
   :config
-  (defhydra hydra-zoom (global-map "<f2>")
+  (defhydra hydra-zoom nil
     ("+" text-scale-increase "in")
     ("-" text-scale-decrease "out"))
 
-  (defhydra hydra-diff ()
+  (defhydra hydra-diff nil
     "Show diffs"
     ("b" ediff-buffers "buffers" :color blue)
     ("f" ediff-files "files" :color blue)
@@ -98,15 +99,17 @@
     ("l" juanleon/goto-compilation-buffer "list-errors" :exit t)
     ("q" nil "quit" :exit t))
 
-  (defhydra eos/hydra-toggle nil
+  (defhydra hydra-toggle nil
     "Toggle stuff"
     ("d" toggle-debug-on-error "debug-on-error" :exit t)
     ("D" toggle-debug-on-quit "debug-on-quit" :exit t)
-    ("g" golden-ratio-mode "golden-ratio" :exit t)
-    ("F" auto-fill-mode "auto-fill" :exit t)
-    ("l" toggle-truncate-lines "truncate-lines" :exit t)
-    ("r" read-only-mode "read-only" :exit t)
-    ("h" hl-line-mode "hl-line" :exit t)
+    ("g" golden-ratio-mode "Golden-ratio" :exit t)
+    ("F" auto-fill-mode "Auto-fill" :exit t)
+    ("l" toggle-truncate-lines "Truncate lines" :exit t)
+    ("r" read-only-mode "Read-only" :exit t)
+    ("h" hl-line-mode "Highlight lines" :exit t)
+    ("n" display-line-numbers-mode "Line numbers" :exit t)
+    ("w" whitespace-mode "whitespace" :exit t)
     ("q" nil :exit t))
 
   (defhydra hydra-cmus ()

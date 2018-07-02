@@ -84,10 +84,9 @@
 
 (use-package saveplace
   :init
-  (setq-default save-place t)
   (setq save-place-file (concat user-emacs-directory "history/places"))
   :config
-  (and (= emacs-major-version 25) (save-place-mode 1)))
+  (save-place-mode 1))
 
 (use-package buffer-move
   :ensure t

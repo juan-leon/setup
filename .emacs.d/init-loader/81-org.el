@@ -36,6 +36,11 @@
      (python . t)
      (emacs-lisp . t)))
 
+  (setq org-html-postamble-format
+        '(("en" "<p class=\"author\">Author: %a (%e)</p>
+<p class=\"date\">Date: %d</p>
+<p class=\"creator\">%c</p>")))
+
   (setq org-capture-templates
         '(("t" "Today" entry (file+headline "agenda/Inbox.org" "Today") "* TODO %? \n  %U\n")
           ("m" "Mail" entry (file+headline "agenda/Inbox.org" "Today") "* TODO %? \n  %U\n%x")

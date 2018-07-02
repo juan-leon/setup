@@ -1,9 +1,10 @@
 #!/bin/bash -eu
 
 layout=${1:-en}
-
+device=$(xinput --list --id-only "keyboard:Gaming KB Gaming KB")
 if test $layout == 'en'; then
-    setxkbmap -layout us -option -option ctrl:nocaps -option compose:ralt
+    # `xinput -list` for figuring out the decive number
+    setxkbmap -device $device -layout us -option -option ctrl:nocaps -option compose:ralt
 elif test $layout == 'es'; then
     setxkbmap -layout es -option -option ctrl:nocaps
 fi
