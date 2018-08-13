@@ -65,3 +65,44 @@
 
 (use-package helm-projectile
   :ensure t)
+
+(use-package ivy
+  :ensure t
+  :diminish ivy-mode
+  :bind (([(control ?c) (control ?r)] . ivy-resume)
+         ([(meta kp-5)]     . ivy-switch-buffer)
+         ([(meta kp-begin)] . ivy-switch-buffer)
+         ([(control ?c) ?v] . ivy-push-view)
+         ([(control ?c) ?V] . ivy-pop-view)
+         :map ivy-minibuffer-map
+         ([(control ?w)] . ivy-yank-word)
+         ([(control ?a)] . ivy-yank-symbol)
+         )
+  :config
+  (ivy-mode 1)
+  (setq ivy-height 16
+        ivy-use-virtual-buffers t
+        ivy-count-format "%d/%d "
+        magit-completing-read-function 'ivy-completing-read))
+
+(use-package swiper
+  :ensure t
+  :bind (([(control ?s)] . swiper)))
+
+(use-package counsel
+  :ensure t
+  :bind (([(meta ?x)] . counsel-M-x)
+         ([(control ?x) (control ?f)] . counsel-find-file)
+         ([(control ?.)] . counsel-imenu)
+         ([(super y)] . counsel-yank-pop)))
+
+(use-package ivy-hydra
+  :ensure t
+  :defer
+  :commands hydra-ivy/body)
+
+
+(use-package smex
+  :ensure t
+  :init (setq smex-save-file (concat user-emacs-directory ".smex-items"))
+  :config (smex-auto-update 60))

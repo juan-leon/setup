@@ -15,6 +15,7 @@
     "sergey"
     "quimey"
     "julio"
+    "devops-goals"
     "platform-goals"
     "tests-goals"
     "auto"

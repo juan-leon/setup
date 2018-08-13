@@ -8,6 +8,7 @@ alias emacs='emacs -mm'
 alias l='ls -CF'
 alias la='ls -A'
 alias lrt='ls -lrt'
+alias lrtt='ls -lrt | tail'
 
 alias s='git status'
 alias gls='git --no-pager ls -6; echo'

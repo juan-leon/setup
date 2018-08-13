@@ -37,7 +37,6 @@
          ([?U] . dired-unmark-backward)
          ([?a] . juanleon/dired-hide-hidden)
          ([?e] . juanleon/dired-browse-html)
-         ([(super h)] . dired-omit-mode)
          ([(control return)] . dired-find-alternate-file)
          ([(backspace)] . dired-jump)
          ([(control backspace)] . dired-unmark-backward))
@@ -47,15 +46,15 @@
   (unless (eq system-type 'darwin)
     (setq dired-listing-switches "--group-directories-first -al"))
 
-  (add-hook 'dired-mode-hook (lambda () (dired-omit-mode t)))
   (add-hook 'dired-after-readin-hook
             (lambda ()
               (set (make-local-variable 'frame-title-format)
                    (abbreviate-file-name (dired-current-directory))))))
 
 (use-package dired-x
-  :demand
-  :commands dired-omit-mode)
+  :after dired
+  :bind (:map dired-mode-map ([(super h)] . dired-omit-mode))
+  :config (add-hook 'dired-mode-hook (lambda () (dired-omit-mode t))))
 
 
 (use-package wdired

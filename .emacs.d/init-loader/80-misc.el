@@ -201,3 +201,9 @@
          ("C-]" . syntactic-close)))
 
 
+(use-package calc
+  :defer t
+  :commands calc
+  :bind (:map calc-mode-map
+              ([(insert)] . calc-yank)
+              ([(shift insert)] . calc-yank)))

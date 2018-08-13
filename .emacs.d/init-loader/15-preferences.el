@@ -123,15 +123,6 @@
         ediff-split-window-function 'split-window-horizontally
         ediff-diff-options          " -bB "))
 
-
-(use-package smex
-  :ensure t
-  :disabled  ;; Using helm-command
-  :init (setq smex-save-file (concat user-emacs-directory ".smex-items"))
-  :bind (([(meta X)] . smex)
-         ([(meta x)] . smex-major-mode-commands))
-  :config (smex-auto-update 60))
-
 (use-package winner
   :config
   (winner-mode 1)

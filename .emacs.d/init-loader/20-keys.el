@@ -118,3 +118,10 @@
   :ensure t
   :bind (([(super up)]   . move-text-up)
          ([(super down)] . move-text-down)))
+
+(use-package helpful
+  :ensure t
+  :bind (([(control ?h) ?f]  . helpful-callable)
+         ([(control ?h) ?v]  . helpful-variable)
+         ([(control ?h) ?k]  . helpful-key)
+         ([(control return)] . helpful-at-point)))
