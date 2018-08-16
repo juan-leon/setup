@@ -26,7 +26,8 @@
 
 
 (defun juanleon/cases (list-name &optional no-cache sort-by)
-  (interactive (list (completing-read "List name: " teg-lists nil t)))
+  (interactive (let ((ivy-sort-functions-alist nil))
+                 (list (completing-read "List name: " teg-lists nil t))))
   (let* ((buf (get-buffer-create (format "*cases-%s*" list-name)))
          (inhibit-read-only t))
     (switch-to-buffer buf)

@@ -6,62 +6,16 @@
   :defer t
   :diminish helm-mode)
 
-(use-package helm-config
+(use-package helm-config  ;; used by help-dash, used by counsel-dash
   :demand
-  :bind (([(meta kp-5)]     . helm-mini)
-         ([(meta kp-begin)] . helm-mini)
-         ([(super h)] . helm-resume)
-         ([(super b)] . helm-bookmarks)
-         ([(super +)] . helm-semantic-or-imenu)
-         ([(super y)] . helm-show-kill-ring)
-         ([(super m)] . helm-man-woman))
+  :bind (([(super y)] . helm-show-kill-ring))
   :init
   (setq helm-M-x-fuzzy-match           t
         helm-buffers-fuzzy-matching    t
         helm-full-frame                t
         helm-ff-skip-boring-files      t
         helm-buffer-max-length         80
-        helm-echo-input-in-header-line t)
-        ;; helm-always-two-windows         t
-        ;; helm-split-window-default-side 'left
-  :config
-  (helm-mode 1)
-  (global-set-key (kbd "M-x")     'helm-M-x)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files))
-
-(use-package helm-files
-  :defer t
-  :config
-  (defun juanleon/call-ido-from-helm (&optional no-op)
-    (call-interactively 'ido-find-file))
-  (defun juanleon/call-dired-from-helm (&optional file)
-    (dired-jump nil file))
-  (define-key helm-find-files-map [(control f)]
-    (lambda ()
-      (interactive)
-      (helm-exit-and-execute-action 'juanleon/call-ido-from-helm)))
-  (define-key helm-find-files-map [(control d)]
-    (lambda ()
-      (interactive)
-      (helm-exit-and-execute-action 'juanleon/call-dired-from-helm))))
-
-(use-package helm-dash
-  :ensure t
-  :defer t
-  ;; not quite like this: (setq helm-dash-browser-func 'eww)
-  :bind (([(super return)] . helm-dash-at-point)
-         ([(super shift return)] . helm-dash))
-  :config
-  (setq helm-dash-browser-func
-      (lambda (url)
-        (other-window 1)
-        (xwidget-browse-url-no-reuse url)))
-  (helm-dash-activate-docset "Emacs_Lisp")
-  (helm-dash-activate-docset "MySQL")
-  (helm-dash-activate-docset "PHP")
-  (helm-dash-activate-docset "Python_2")
-  (helm-dash-activate-docset "Bash"))
-
+        helm-echo-input-in-header-line t))
 
 (use-package helm-projectile
   :ensure t)
@@ -83,7 +37,13 @@
   (setq ivy-height 16
         ivy-use-virtual-buffers t
         ivy-count-format "%d/%d "
-        magit-completing-read-function 'ivy-completing-read))
+        projectile-completion-system 'ivy
+        ivy-initial-inputs-alist nil
+        magit-completing-read-function 'ivy-completing-read
+        ivy-re-builders-alist '((counsel-dash . ivy--regex-ignore-order)
+                                (t . ivy--regex-plus))
+        ivy-height-alist '((counsel-dash . 48)
+                           (counsel-dash-at-point . 48))))
 
 (use-package swiper
   :ensure t
@@ -94,6 +54,7 @@
   :bind (([(meta ?x)] . counsel-M-x)
          ([(control ?x) (control ?f)] . counsel-find-file)
          ([(control ?.)] . counsel-imenu)
+         ([(super b)] . counsel-bookmark)
          ([(super y)] . counsel-yank-pop)))
 
 (use-package ivy-hydra
@@ -101,8 +62,42 @@
   :defer
   :commands hydra-ivy/body)
 
+(use-package counsel-projectile
+  :ensure t
+  :after projectile
+  :bind (([(super ?q)] . counsel-projectile)
+         ([(super kp-5)] . counsel-projectile)))
 
+;; counsel-M-x is a lot nicer when smex is installed
 (use-package smex
   :ensure t
   :init (setq smex-save-file (concat user-emacs-directory ".smex-items"))
   :config (smex-auto-update 60))
+
+(use-package counsel-dash
+  :ensure t
+  :defer t
+  :bind (([(super return)] . counsel-dash-at-point)
+         ([(super shift return)] . counsel-dash))
+  :config
+  (setq counsel-dash-browser-func
+        (lambda (url)
+          (other-window 1)
+          (xwidget-browse-url-no-reuse url)))
+  (defun counsel-dash-at-point ()
+    (interactive)
+    (counsel-dash (thing-at-point 'symbol)))
+  ;; fixme check if present and install them
+  ;; fixme be smart regarding t mode of buffer
+  (counsel-dash-activate-docset "Emacs_Lisp")
+  (counsel-dash-activate-docset "MySQL")
+  (counsel-dash-activate-docset "PHP")
+  (counsel-dash-activate-docset "Python_2")
+  (counsel-dash-activate-docset "Bash"))
+
+
+ (defadvice projectile-switch-project (around be-fuzzy (arg) activate)
+   "Use fuzzy matching"
+   (let ((ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+         (ivy-height 32))
+     ad-do-it))
