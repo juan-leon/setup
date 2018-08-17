@@ -43,7 +43,8 @@
         ivy-re-builders-alist '((counsel-dash . ivy--regex-ignore-order)
                                 (t . ivy--regex-plus))
         ivy-height-alist '((counsel-dash . 48)
-                           (counsel-dash-at-point . 48))))
+                           (counsel-dash-at-point . 48)
+                           (counsel-yank-pop . 64))))
 
 (use-package swiper
   :ensure t
@@ -96,8 +97,13 @@
   (counsel-dash-activate-docset "Bash"))
 
 
- (defadvice projectile-switch-project (around be-fuzzy (arg) activate)
-   "Use fuzzy matching"
-   (let ((ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
-         (ivy-height 32))
-     ad-do-it))
+(defadvice projectile-switch-project (around be-fuzzy (arg) activate)
+  "Use fuzzy matching"
+  (let ((ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
+        (ivy-height 32))
+    ad-do-it))
+
+(use-package counsel-notmuch
+  :ensure t
+  :defer t
+  :bind (([(super M)] . counsel-notmuch)))

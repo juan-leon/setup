@@ -2,11 +2,12 @@
   :ensure t
   :preface
   (global-set-key (kbd "C-p") nil)
-  (setq projectile-keymap-prefix (kbd "C-p"))
+  (define-key projectile-mode-map (kbd "C-p") 'projectile-command-map)
   :diminish projectile-mode
+  :bind (([(control meta ?')] . projectile-switch-project)
+         ([(control meta ?-)] . projectile-switch-project))
   :init
-  (setq projectile-keymap-prefix         (kbd "C-p")
-        projectile-switch-project-action 'projectile-dired
+  (setq projectile-switch-project-action 'magit-status ;; or projectile-dired?
         projectile-tags-command          "ctags-exuberant -Re -f \"%s\" %s")
   :config
   (projectile-mode)

@@ -37,6 +37,7 @@ if test $command == repo; then
         rm -rf $file
         cp -r $HOME/$file $file
     done
+    find . -name '*.elc' -delete
 elif test $command == env; then
     mkdir -p .backup
     for file in $FILES; do
