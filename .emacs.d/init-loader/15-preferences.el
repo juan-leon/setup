@@ -181,8 +181,7 @@
   (ido-auto-merge-delay-time    20)
   (ido-read-file-name-non-ido   '(dired-create-directory))
   :config
-  (ido-mode 1)
-  (ido-everywhere 1))
+  (ido-mode 1))
 
 (use-package flx-ido
   :ensure t

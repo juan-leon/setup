@@ -20,13 +20,13 @@
           (select-enable-primary nil))
       ad-do-it)))
 
-
-(tool-bar-mode              0)
-(menu-bar-mode              0)
-(scroll-bar-mode            0)
-(blink-cursor-mode          0)
-(transient-mark-mode        0)
-(horizontal-scroll-bar-mode 0)
+(dolist (mode '(tool-bar-mode
+                menu-bar-mode
+                scroll-bar-mode
+                blink-cursor-mode
+                transient-mark-mode
+                horizontal-scroll-bar-mode))
+  (funcall mode 0))
 
 (use-package color-theme-sanityinc-solarized :ensure t)
 (use-package color-theme

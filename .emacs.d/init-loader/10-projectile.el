@@ -1,5 +1,6 @@
 (use-package projectile
   :ensure t
+  :demand
   :preface
   (global-set-key (kbd "C-p") nil)
   (define-key projectile-mode-map (kbd "C-p") 'projectile-command-map)

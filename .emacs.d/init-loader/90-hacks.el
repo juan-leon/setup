@@ -100,6 +100,8 @@
     ("F" auto-fill-mode "Auto-fill" :exit t)
     ("l" toggle-truncate-lines "Truncate lines" :exit t)
     ("r" read-only-mode "Read-only" :exit t)
+    ("s" flyspell-mode "FlySpell" :exit t)
+    ("S" flyspell-prog-mode "FlySpell prog" :exit t)
     ("h" hl-line-mode "Highlight lines" :exit t)
     ("n" display-line-numbers-mode "Line numbers" :exit t)
     ("w" whitespace-mode "whitespace" :exit t)

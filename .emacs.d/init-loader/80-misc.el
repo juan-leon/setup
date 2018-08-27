@@ -57,13 +57,7 @@
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 
 
-(add-hook 'text-mode-hook
-          (lambda ()
-            (auto-fill-mode 1)
-            ;; Hook is run by "child" modes
-            (if (eq major-mode 'text-mode)
-                (flyspell-mode 1))
-            (setq tab-width 4)))
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -196,3 +190,27 @@
   :bind (:map calc-mode-map
               ([(insert)] . calc-yank)
               ([(shift insert)] . calc-yank)))
+
+(use-package abbrev
+  :defer 4
+  :config
+  (abbrev-mode 1)
+  (if (file-exists-p abbrev-file-name)
+      (quietly-read-abbrev-file)))
+
+(use-package flyspell
+  :defer 5
+  :custom
+  (flyspell-abbrev-p t)
+  (save-abbrevs 'silently)
+  :config
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  (add-hook 'text-mode-hook 'flyspell-mode))
+
+(use-package flyspell-correct-ivy
+  :after flyspell
+  :ensure t
+  :commands flyspell-correct-ivy
+  :bind (:map flyspell-mode-map
+        ("C-;" . flyspell-correct-word-generic))
+  :custom (flyspell-correct-interface 'flyspell-correct-ivy))
