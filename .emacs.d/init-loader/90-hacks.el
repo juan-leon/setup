@@ -28,15 +28,13 @@
       (backward-paragraph arg))))
 
 
-(defun open-test-file ()
-  (interactive)
-  (let* ((lang (completing-read "Language: " '("py" "php" "sh" "ruby" "go" "perl")))
-         (filename
+(defun open-test-file (lang)
+  (interactive (list (completing-read
+                      "Language: " '("py" "php" "sh" "ruby" "go" "perl"))))
+  (let ((filename
           (replace-regexp-in-string
            "\n$" "" (shell-command-to-string (concat "test-file " lang)))))
     (find-file filename)))
-
-
 
 (use-package discover-my-major
   :ensure t
@@ -49,25 +47,19 @@
   :config (unless (server-running-p)
             (server-start)))
 
-
-(use-package key-chord
-  :ensure t
-  :config
-  (key-chord-mode 1)
-  (key-chord-define-global "º1" 'ace-jump-line-mode)
-  (key-chord-define-global "<z" 'ace-jump-char-mode)
-  (key-chord-define-global "zx" 'ace-jump-word-mode))
-
-(use-package ace-jump-mode
-  :ensure t
-  :defer t
-  :config
-  (setq ace-jump-mode-scope 'frame))
-
 (use-package avy
   :ensure t
+  :custom
+  (avy-keys '(up down left right))
+  (avy-lead-faces '(avy-lead-face
+                    avy-lead-face-0
+                    avy-lead-face
+                    avy-lead-face-0
+                    avy-lead-face
+                    avy-lead-face-0))
   :bind (([(super ?j)] . avy-goto-word-1)
-         ([(super ?k)] . avy-goto-char-timer)))
+         ([(super ?k)] . avy-goto-char-timer)
+         ([(super ?l)] . avy-goto-line)))
 
 
 (use-package hydra
@@ -122,11 +114,6 @@
     ("r" cmus-replay "replay" :exit t)
     ("q" nil "do nothing" :exit t)))
 
-(use-package powerline
-  :ensure t
-  :disabled  ;; Incompatible with minions
-  :config (powerline-center-theme))
-
 (use-package minions
   :ensure t
   :config (minions-mode 1))
@@ -142,12 +129,10 @@
   :defer t
   :mode ("\\.toml\\'" . toml-mode))
 
-
 (use-package copy-as-format
   :ensure t
   :commands copy-as-format
-  :init (setq copy-as-format-default "gitlab"))
-
+  :custom (copy-as-format-default "gitlab"))
 
 (defun fill-or-unfill ()
   "Like `fill-paragraph', but unfill if used twice."
@@ -170,11 +155,5 @@
   :init
   (autoload 'sdcv-search "sdcv")
   :bind ([(control c) ?d] . sdcv-search))
-
-(fset 'juanleon/save-stats-old
-   [return ?\C-s ?B ?u ?i ?l ?d C-right ?\C-  C-left ?\M-w ?w C-f11 ?_ ?\C-y ?. ?t ?x ?t return ?q up])
-
-(fset 'juanleon/save-stats
-   [return ?\C-s ?B ?u ?i ?l ?d C-right ?\C-  C-left ?\M-w ?w ?_ ?\C-y ?. ?t ?x ?t return ?q up])
 
 (require 'notmuch)

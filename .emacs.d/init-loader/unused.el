@@ -245,3 +245,123 @@
                 :hline (concat alignment "|")
                 :lstart "| " :lend " |" :sep " | ")))
     (orgtbl-to-generic table (org-combine-plists params2 params))))
+
+;; counsel-dash is not my preferred solution
+(defun juanleon/browse-zeal (symbol lang)
+  (interactive (list
+                (thing-at-point 'symbol)
+                (cond
+                 ((eq major-mode 'emacs-lisp-mode) "emacs")
+                 ((eq major-mode 'js-mode) "javascript")
+                 ((eq major-mode 'php-mode) "php")
+                 ((eq major-mode 'python-mode) "python")
+                 ((eq major-mode 'sql-mode) "mysql")
+                 ((eq major-mode 'go-mode) "go")
+                 ((eq major-mode 'sql-interactive-mode) "mysql")
+                 ((eq major-mode 'sh-mode) "bash")
+                 ((eq major-mode 'html-mode) "html")
+                 ((eq major-mode 'ruby-mode) "ruby")
+                 ((eq major-mode 'css-mode) "css"))
+                ))
+  (start-process "zeal" nil "zeal" "--query" (concat lang ":" symbol)))
+
+
+
+;; I rarely used that anymore, replace bindings by move-line
+
+(global-set-key [(super up)]                'prev-function-name-face)
+(global-set-key [(super down)]              'next-function-name-face)
+
+(defun next-function-name-face ()
+  "Point to next `font-lock-function-name-face' text."
+  (interactive)
+  (let ((pos (point)))
+    (if (eq (get-text-property pos 'face) 'font-lock-function-name-face)
+        (setq pos (or (next-property-change pos) (point-max))))
+    (setq pos (text-property-any pos (point-max) 'face
+                                 'font-lock-function-name-face))
+    (if pos
+        (goto-char pos)
+      (goto-char (point-max)))))
+
+(defun prev-function-name-face ()
+  "Point to previous `font-lock-function-name-face' text."
+  (interactive)
+  (let ((pos (point)))
+    (if (eq (get-text-property pos 'face) 'font-lock-function-name-face)
+        (setq pos (or (previous-property-change pos) (point-min))))
+    (setq pos (previous-property-change pos))
+    (while (and pos (not (eq (get-text-property pos 'face)
+                             'font-lock-function-name-face)))
+      (setq pos (previous-property-change pos)))
+    (if pos
+        (progn
+          (setq pos (previous-property-change pos))
+          (goto-char (or (and pos (1+ pos)) (point-min))))
+      (goto-char (point-min)))))
+
+
+
+;; subWord mode made me use this less and less, I suspect
+
+(global-set-key [(super f1)]                'leon/toggle-underscore-syntax)
+
+;; This way is easy to choose if "_" is a word separator
+(defun leon/toggle-underscore-syntax ()
+  "Switch the char _ in-word behaviour."
+  (interactive)
+  (modify-syntax-entry ?_ (if (= (char-syntax ?_) ?_) "w" "_"))
+  (message (concat "\"_\" is " (if (= (char-syntax ?_) ?_) "symbol" "word"))))
+
+
+;; packages disabled for a long timer
+
+(use-package ctags
+  :ensure t
+  :disabled
+  :bind ([(super f12)] . ctags-create-or-update-tags-table)
+  :config
+  (setq etags-table-search-up-depth 20
+        tags-revert-without-query t)
+  (setq ctags-command
+        "find . -name  '*.[ch]' -o -name '*.java' -o -name '*.el' -o -name '*.php' -o -name '*.js' -o -name '*.py' | xargs etags"))
+
+(use-package powerline
+  :ensure t
+  :disabled  ;; Incompatible with minions
+  :config (powerline-center-theme))
+
+(use-package ws-trim
+  :ensure t
+  :disabled  ;; Trying ws-butler
+  :diminish ws-trim-mode
+  :init (setq ws-trim-level 1
+              ws-trim-method-hook '(ws-trim-trailing ws-trim-leading))
+  :config (global-ws-trim-mode 1))
+
+(use-package undo-tree
+  :ensure t
+  :disabled  ;; Using DO not play nice with undo in region
+  :diminish undo-tree-mode
+  :config
+  (global-undo-tree-mode)
+  (setq undo-tree-visualizer-timestamps t))
+
+(use-package paradox
+  :ensure t
+  :commands paradox-list-packages
+  :config
+  (setq paradox-column-width-package 30)
+  (setq paradox-display-download-count t))
+
+
+;; I only use xwidget for dash
+
+;; by default, xwidget reuses previous xwidget window,
+;; thus overriding your current website, unless a prefix argument
+;; is supplied
+;;
+;; This function always opens a new website in a new window
+(defun xwidget-browse-url-no-reuse (url &optional new-session)
+  (interactive (browse-url-interactive-arg "URL: "))
+  (xwidget-webkit-browse-url url t))

@@ -2,8 +2,7 @@
   :bind (([(super ?0)] . magit-status))
   :ensure t
   :init
-  (setq magit-completing-read-function 'helm--completing-read-default
-        magit-revision-insert-related-refs nil
+  (setq magit-revision-insert-related-refs nil
         git-commit-summary-max-length 70)
   :config
   (define-key magit-status-mode-map [backspace] 'juanleon/magit-in-supermodule)
@@ -39,6 +38,12 @@
     (cd "..")
     (if (magit-toplevel)
         (magit-status-internal default-directory)))))
+
+(use-package git-messenger
+  :ensure t
+  :bind ([(control ?x) ?v ?p] . git-messenger:popup-message)
+  :custom (git-messenger:show-detail t)
+  :config (define-key git-messenger-map (kbd "m") 'git-messenger:copy-message))
 
 (use-package git-messenger
   :bind ([(control ?x) ?v ?p] . git-messenger:popup-message)

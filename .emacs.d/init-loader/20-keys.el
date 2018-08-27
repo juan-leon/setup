@@ -40,8 +40,7 @@
 
 
 (global-set-key [(control backspace)] (command (kill-line 0)))
-(global-set-key [(super r)]           (command (revert-buffer nil t)))
-(global-set-key [(control menu)]      (command (menu-bar-mode (if menu-bar-mode 0 1))))
+(global-set-key [(control menu)] 'menu-bar-mode)
 
 (define-key emacs-lisp-mode-map [(f8)]
   (command (byte-compile-file (buffer-file-name))))
@@ -66,21 +65,15 @@
 
 ;; My randon functions
 (global-set-key [(super f2)]                'toggle-truncate-lines)
-(global-set-key [(control return)]          'find-anything-at-point)
-(global-set-key [(super up)]                'prev-function-name-face)
-(global-set-key [(super down)]              'next-function-name-face)
 (global-set-key [(super ?\;)]               'leon/comment-or-uncomment-region)
 (global-set-key [(control ?x) (control ?c)] 'close-frame)
 (global-set-key [(super t)]                 'tmux-window-here)
-(global-set-key [(super f1)]                'leon/toggle-underscore-syntax)
 (global-set-key [(control ?x) (control ?r)] 'sudo-powerup)
 (global-set-key [(control pause)]           'toggle-split)
 (global-set-key [(super control backspace)] 'squealer/last-error)
 (global-set-key [(super backspace)]         'squealer/list)
-(global-set-key [(super return)]            'juanleon/browse-zeal)
 (global-set-key [(super f5)]                'juanleon/copy-import)
 (global-set-key (kbd "C-S-<mouse-1>")       'mc/add-cursor-on-click)
-(global-set-key (kbd "C-c C-c M-x")         'execute-extended-command)
 (global-set-key [(meta ?.)]                 'juanleon/find-tag-at-point)
 
 (when (eq system-type 'darwin)
@@ -99,8 +92,7 @@
 
 (use-package golden-ratio
   :ensure t
-  :bind ([(super ?8)] . golden-ratio-mode)
-  :diminish golden-ratio-mode)
+  :commands golden-ratio-mode)
 
 (use-package ibuffer
   :bind ([remap list-buffers] . ibuffer))
@@ -108,7 +100,7 @@
 (use-package markdown-mode
   :ensure t
   :defer t
-  :init (setq markdown-gfm-additional-languages '("bash")))
+  :custom (markdown-gfm-additional-languages '("bash")))
 
 (use-package multiple-cursors
   :ensure t

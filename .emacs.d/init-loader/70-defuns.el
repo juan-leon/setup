@@ -75,41 +75,7 @@
                                          (not (window-dedicated-p window))))
                "dedicated" "normal")))
 
-;; This way is easy to choose if "_" is a word separator
-(defun leon/toggle-underscore-syntax ()
-  "Switch the char _ in-word behaviour."
-  (interactive)
-  (modify-syntax-entry ?_ (if (= (char-syntax ?_) ?_) "w" "_"))
-  (message (concat "\"_\" is " (if (= (char-syntax ?_) ?_) "symbol" "word"))))
 
-;; To move the cursor to func definition
-(defun next-function-name-face ()
-  "Point to next `font-lock-function-name-face' text."
-  (interactive)
-  (let ((pos (point)))
-    (if (eq (get-text-property pos 'face) 'font-lock-function-name-face)
-        (setq pos (or (next-property-change pos) (point-max))))
-    (setq pos (text-property-any pos (point-max) 'face
-                                 'font-lock-function-name-face))
-    (if pos
-        (goto-char pos)
-      (goto-char (point-max)))))
-
-(defun prev-function-name-face ()
-  "Point to previous `font-lock-function-name-face' text."
-  (interactive)
-  (let ((pos (point)))
-    (if (eq (get-text-property pos 'face) 'font-lock-function-name-face)
-        (setq pos (or (previous-property-change pos) (point-min))))
-    (setq pos (previous-property-change pos))
-    (while (and pos (not (eq (get-text-property pos 'face)
-                             'font-lock-function-name-face)))
-      (setq pos (previous-property-change pos)))
-    (if pos
-        (progn
-          (setq pos (previous-property-change pos))
-          (goto-char (or (and pos (1+ pos)) (point-min))))
-      (goto-char (point-min)))))
 
 (defun juanleon/notify-compilation-end (comp-buffer result)
   (unless (or (eq major-mode 'grep-mode) (eq major-mode 'ack-and-a-half-mode))
@@ -170,40 +136,10 @@
              (replace-match "/sudo:" nil nil buffer-file-name))
          (concat "/sudo::" buffer-file-name)))))
 
-(defun juanleon/browse-zeal (symbol lang)
-  (interactive (list
-                (thing-at-point 'symbol)
-                (cond
-                 ((eq major-mode 'emacs-lisp-mode) "emacs")
-                 ((eq major-mode 'js-mode) "javascript")
-                 ((eq major-mode 'php-mode) "php")
-                 ((eq major-mode 'python-mode) "python")
-                 ((eq major-mode 'sql-mode) "mysql")
-                 ((eq major-mode 'go-mode) "go")
-                 ((eq major-mode 'sql-interactive-mode) "mysql")
-                 ((eq major-mode 'sh-mode) "bash")
-                 ((eq major-mode 'html-mode) "html")
-                 ((eq major-mode 'ruby-mode) "ruby")
-                 ((eq major-mode 'css-mode) "css"))
-                ))
-  (start-process "zeal" nil "zeal" "--query" (concat lang ":" symbol)))
 
 (defun json-beautify-on-region (beg end)
   (interactive "r")
   (shell-command-on-region beg end "python -m json.tool" nil t))
-
-(defun point-in-string-p (pt)
-  "Returns t if PT is in a string"
-  (eq 'string (syntax-ppss-context (syntax-ppss pt))))
-
-(defun beginning-of-string ()
-  "Moves to the beginning of a syntactic string"
-  (interactive)
-  (unless (point-in-string-p (point))
-    (error "You must be in a string for this command to work"))
-  (while (point-in-string-p (point))
-    (forward-char -1))
-  (point))
 
 (defun juanleon/execute-buffer ()
   (interactive)
@@ -221,8 +157,8 @@
   (interactive)
   (projectile-with-default-dir (projectile-project-root)
     (let ((command (format
-                    "find -name '*py' -exec  grep '^from.*import' {} \\; 2>/dev/null | sort | uniq | grep -w %s"
-                    (word-at-point))))
+                    "rg -g '*.py' --no-filename -N -w '^from\\b.*\\bimport\\b.*\\b%s' | head -1"
+                    (symbol-at-point))))
       (kill-new (shell-command-to-string command)))))
 
 (defun juanleon/open-mail-at-point ()

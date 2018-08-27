@@ -21,12 +21,12 @@
       ad-do-it)))
 
 
-(tool-bar-mode       0)
-(menu-bar-mode       0)
-(scroll-bar-mode     0)
-(blink-cursor-mode   0)
-(transient-mark-mode 0)
-(if (fboundp 'horizontal-scroll-bar-mode) (horizontal-scroll-bar-mode 0))
+(tool-bar-mode              0)
+(menu-bar-mode              0)
+(scroll-bar-mode            0)
+(blink-cursor-mode          0)
+(transient-mark-mode        0)
+(horizontal-scroll-bar-mode 0)
 
 (use-package color-theme-sanityinc-solarized :ensure t)
 (use-package color-theme

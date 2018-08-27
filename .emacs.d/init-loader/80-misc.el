@@ -181,25 +181,14 @@
          ([(super f12)] . aya-expand))
   :ensure t)
 
-;; (use-package paradox
-;;   :ensure t
-;;   :commands paradox-list-packages
-;;   :config
-;;   (setq paradox-column-width-package 30)
-;;   (setq paradox-display-download-count t))
-
 (use-package which-key
   :ensure t
-  :diminish which-key-mode
-  ;; In moder emacs this function is renamed
-  :init (defalias 'display-buffer-in-major-side-window 'window--make-major-side-window)
   :config (which-key-mode 1))
 
 (use-package syntactic-close
   :ensure t
   :bind (([(super ?ç)] . syntactic-close)
-         ("C-]" . syntactic-close)))
-
+         ("C-]" . syntactic-close)))    ; vector notation screws up paren matching
 
 (use-package calc
   :defer t

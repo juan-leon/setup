@@ -84,7 +84,7 @@
   (setq counsel-dash-browser-func
         (lambda (url)
           (other-window 1)
-          (xwidget-browse-url-no-reuse url)))
+          (xwidget-webkit-browse-url url)))
   (defun counsel-dash-at-point ()
     (interactive)
     (counsel-dash (thing-at-point 'symbol)))
