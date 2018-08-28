@@ -4,10 +4,7 @@
      (interactive)
      ,@body))
 
-
-
 (fset 'yes-or-no-p 'y-or-n-p)
-
 
 (setq-default
  indent-tabs-mode                nil
@@ -48,21 +45,6 @@
 (setq display-time-world-list '(("America/Argentina/Buenos_Aires" "Buenos Aires")
                                 ("UTC" "UTC")
                                 ("Europe/Madrid" "Madrid")))
-
-(setq ibuffer-formats '((mark modified read-only
-                              " " (name 35 35)
-                              " " (size 9 9 :right)
-                              " " (mode 18 18 :left :elide)
-                              " " filename-and-process)
-                        (mark " " (name 30 -1) " " filename)))
-
-
-(column-number-mode      1)
-(auto-image-file-mode    1)
-(show-paren-mode         1)
-(size-indication-mode    1)
-(file-name-shadow-mode   1)
-(temp-buffer-resize-mode 1)
 
 (use-package desktop
   :config
@@ -146,12 +128,10 @@
   (global-set-key [(meta kp-3)] (command (buffer-op-by-mode 'buffer-stack-down 'dired-mode)))
   (global-set-key [(meta kp-1)] (command (buffer-op-by-mode 'buffer-stack-up 'dired-mode))))
 
-
 (use-package rotate
   :ensure t
   :bind (([(super home)] . rotate-layout)
          ([(super end)]  . rotate-window)))
-
 
 (use-package windmove
   :bind (([(control next)]     . windmove-down)
@@ -168,7 +148,6 @@
 (use-package yascroll
   :ensure t
   :config (global-yascroll-bar-mode 1))
-
 
 (use-package ido
   :ensure t
@@ -196,18 +175,6 @@
   :ensure t
   :bind (([(super ?-)]. goto-last-change)
          ([(super ?_)]. goto-last-change-reverse)))
-
-(use-package anzu
-  :ensure t
-  :diminish anzu-mode
-  :config
-  (global-anzu-mode 1)
-  (define-key isearch-mode-map [(control t)]    'isearch-toggle-case-fold)
-  (define-key isearch-mode-map [(control up)]   'isearch-ring-retreat)
-  (define-key isearch-mode-map [(control down)] 'isearch-ring-advance)
-  (add-hook 'isearch-mode-end-hook
-            (lambda () (if interprogram-cut-function
-                           (funcall interprogram-cut-function isearch-string)))))
 
 (use-package back-button
   :ensure t

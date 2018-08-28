@@ -27,7 +27,7 @@
                (user-uid) default-directory))
     (error "This buffer has no directory")))
 
-(defun leon/comment-or-uncomment-region (beg end &optional arg)
+(defun juanleon/comment-or-uncomment-region (beg end &optional arg)
   "Comment or uncoment whole lines in region"
   (interactive "*r\nP")
   (comment-or-uncomment-region (save-excursion
@@ -37,7 +37,8 @@
                                (save-excursion
                                  (goto-char end)
                                  (end-of-line)
-                                 (point)) arg))
+                                 (point))
+                               arg))
 
 (defun close-frame (arg)
   "Close frame and, if last, kill emacs"

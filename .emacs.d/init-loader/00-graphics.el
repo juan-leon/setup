@@ -20,24 +20,25 @@
           (select-enable-primary nil))
       ad-do-it)))
 
-(dolist (mode '(tool-bar-mode
-                menu-bar-mode
-                scroll-bar-mode
-                blink-cursor-mode
-                transient-mark-mode
-                horizontal-scroll-bar-mode))
-  (funcall mode 0))
+;; Disable niceties
+(mapc (lambda (mode) (funcall mode 0))
+      '(tool-bar-mode menu-bar-mode scroll-bar-mode blink-cursor-mode
+        transient-mark-mode horizontal-scroll-bar-mode))
+
+;; Enable niceties
+(mapc (lambda (mode) (funcall mode 1))
+      '(column-number-mode auto-image-file-mode show-paren-mode size-indication-mode))
 
 (use-package color-theme-sanityinc-solarized :ensure t)
 (use-package color-theme
   :ensure t
   :demand
   :config
-  (defvar leon-light-theme 'sanityinc-solarized-light)
-  (defvar leon-dark-theme  'sanityinc-solarized-dark)
-  (load-theme leon-light-theme t)
+  (defvar juanleon-light-theme 'sanityinc-solarized-light)
+  (defvar juanleon-dark-theme  'sanityinc-solarized-dark)
+  (load-theme juanleon-light-theme t)
   (run-with-idle-timer 3 nil (lambda ()
-                               (load-theme leon-dark-theme t t)))
+                               (load-theme juanleon-dark-theme t t)))
   (defun juanleon/toggle-theme ()
     "Toggle dark/light theme"
     (interactive)
@@ -45,6 +46,6 @@
            (d-light (color-distance "white" b-color))
            (d-dark  (color-distance "black" b-color)))
       (if (> d-light d-dark)
-          (enable-theme leon-light-theme)
-        (enable-theme leon-dark-theme))))
+          (enable-theme juanleon-light-theme)
+        (enable-theme juanleon-dark-theme))))
   (global-set-key [(control ~)] 'juanleon/toggle-theme))

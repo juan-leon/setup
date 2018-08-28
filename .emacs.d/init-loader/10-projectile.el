@@ -7,8 +7,10 @@
   :bind (([(control meta ?')] . projectile-switch-project)
          ([(control meta ?-)] . projectile-switch-project))
   :custom
-  ;; TODO: create defun to use projectile-dired if not a git repo
-  (projectile-switch-project-action 'magit-status)
+  (projectile-switch-project-action (lambda ()
+                                      (if (magit-git-repo-p (projectile-project-root))
+                                          (magit-status)
+                                        (projectile-dired))))
   (projectile-tags-command "ctags-exuberant -Re -f \"%s\" %s")
   :config
   (projectile-mode)

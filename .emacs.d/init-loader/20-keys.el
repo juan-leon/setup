@@ -65,7 +65,7 @@
 
 ;; My randon functions
 (global-set-key [(super f2)]                'toggle-truncate-lines)
-(global-set-key [(super ?\;)]               'leon/comment-or-uncomment-region)
+(global-set-key [(super ?\;)]               'juanleon/comment-or-uncomment-region)
 (global-set-key [(control ?x) (control ?c)] 'close-frame)
 (global-set-key [(super t)]                 'tmux-window-here)
 (global-set-key [(control ?x) (control ?r)] 'sudo-powerup)
@@ -73,7 +73,6 @@
 (global-set-key [(super control backspace)] 'squealer/last-error)
 (global-set-key [(super backspace)]         'squealer/list)
 (global-set-key [(super f5)]                'juanleon/copy-import)
-(global-set-key (kbd "C-S-<mouse-1>")       'mc/add-cursor-on-click)
 (global-set-key [(meta ?.)]                 'juanleon/find-tag-at-point)
 
 (when (eq system-type 'darwin)
@@ -95,7 +94,14 @@
   :commands golden-ratio-mode)
 
 (use-package ibuffer
-  :bind ([remap list-buffers] . ibuffer))
+  :bind ([remap list-buffers] . ibuffer)
+  :custom
+  (ibuffer-formats '((mark modified read-only
+                           " " (name 42 42)
+                           " " (size 9 9 :right)
+                           " " (mode 21 21 :left :elide)
+                           " " filename-and-process)
+                     (mark " " (name 30 -1) " " filename))))
 
 (use-package markdown-mode
   :ensure t
