@@ -3,7 +3,6 @@
   :demand
   :preface
   (global-set-key (kbd "C-p") nil)
-  (define-key projectile-mode-map (kbd "C-p") 'projectile-command-map)
   :bind (([(control meta ?')] . projectile-switch-project)
          ([(control meta ?-)] . projectile-switch-project))
   :custom
@@ -13,8 +12,8 @@
                                         (projectile-dired))))
   (projectile-tags-command "ctags-exuberant -Re -f \"%s\" %s")
   :config
-  (projectile-mode)
-  (define-key projectile-mode-map (kbd "C-p") 'projectile-command-map))
+  (define-key projectile-mode-map (kbd "C-p") 'projectile-command-map)
+  (projectile-mode))
 
 (use-package projectile-ripgrep
   :ensure t

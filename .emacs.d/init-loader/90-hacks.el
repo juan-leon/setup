@@ -158,4 +158,12 @@
   (autoload 'sdcv-search "sdcv")
   :bind ([(control c) ?d] . sdcv-search))
 
-(require 'notmuch)
+(use-package deadgrep
+  :ensure t
+  :commands deadgrep)
+
+;; I need to use the package installed by debian file to match the notmuch version
+(use-package notmuch
+  :preface
+  :commands notmuch-hello
+  :init (autoload 'notmuch "notmuch-hello"))

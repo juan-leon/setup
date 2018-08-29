@@ -103,7 +103,10 @@
         (ivy-height 32))
     ad-do-it))
 
+;; Since I cannot have notmuch as a emacs package (incompatible with notmuch
+;; binaries installed as debian package), I need to manually disable the notmuch
+;; dependency on counsel-notmuch-pkg.el.  I am sure there is a less brittle way
+;; of doing this.
 (use-package counsel-notmuch
   :ensure t
-  :defer t
   :bind (([(super M)] . counsel-notmuch)))
