@@ -27,7 +27,6 @@
   (setq org-agenda-files '("~/Dropbox/org/agenda"))
   (setq org-directory "~/Dropbox/org")
   (setq org-src-fontify-natively t)
-  (setq org-completion-use-ido t)
 
   (org-babel-do-load-languages
    'org-babel-load-languages

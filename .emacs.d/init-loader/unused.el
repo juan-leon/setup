@@ -365,3 +365,24 @@
 (defun xwidget-browse-url-no-reuse (url &optional new-session)
   (interactive (browse-url-interactive-arg "URL: "))
   (xwidget-webkit-browse-url url t))
+
+
+;; ivy/counsel are fulfilling what they promise
+(use-package ido
+  :ensure t
+  :defer nil
+  :bind (([(control x) ?b] . ido-switch-buffer))
+  :custom
+  (ido-case-fold                nil)
+  (ido-enable-tramp-completion  nil)
+  (ido-save-directory-list-file (concat user-emacs-directory "history/ido"))
+  (ido-auto-merge-delay-time    20)
+  (ido-read-file-name-non-ido   '(dired-create-directory))
+  :config
+  (ido-mode 0))
+
+(use-package flx-ido
+  :ensure t
+  :config (flx-ido-mode 1))
+
+  (setq org-completion-use-ido t)

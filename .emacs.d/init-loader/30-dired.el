@@ -18,8 +18,7 @@
 (defun juanleon/dired-at-other-repo ()
   (interactive)
   (with-temp-buffer
-    (cd "~/www")
-    (ido-dired)))
+    (dired "~/www")))
 
 (defun juanleon/dired-browse-html ()
   (interactive)

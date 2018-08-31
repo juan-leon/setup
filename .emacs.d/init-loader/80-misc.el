@@ -160,7 +160,6 @@
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
-  :init (setq yas-prompt-functions '(yas-ido-prompt))
   :config
   (yas-global-mode)
   ;; Tab is for completion/indent

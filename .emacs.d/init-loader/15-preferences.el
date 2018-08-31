@@ -149,23 +149,6 @@
   :ensure t
   :config (global-yascroll-bar-mode 1))
 
-(use-package ido
-  :ensure t
-  :defer nil
-  :bind (([(control x) ?b] . ido-switch-buffer))
-  :custom
-  (ido-case-fold                nil)
-  (ido-enable-tramp-completion  nil)
-  (ido-save-directory-list-file (concat user-emacs-directory "history/ido"))
-  (ido-auto-merge-delay-time    20)
-  (ido-read-file-name-non-ido   '(dired-create-directory))
-  :config
-  (ido-mode 1))
-
-(use-package flx-ido
-  :ensure t
-  :config (flx-ido-mode 1))
-
 (use-package expand-region
   :ensure t
   :bind (([(super ?1)] . er/expand-region)
