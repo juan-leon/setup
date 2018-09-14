@@ -69,7 +69,9 @@
          ([(control f7)]  . hydra-next-error/body)
          ([(control f10)] . hydra-toggle/body)
          ([(control f3)]  . hydra-zoom/body)
+         ([(control meta ?`)]  . fast-bookmark/body)
          ([(control f9)]  . hydra-cmus/body))
+
   :config
   (defhydra hydra-zoom nil
     ("+" text-scale-increase "in")
@@ -114,7 +116,17 @@
     ("p" cmus-pause "pause" :exit t)
     ("n" cmus-next "next" :exit t)
     ("r" cmus-replay "replay" :exit t)
-    ("q" nil "do nothing" :exit t)))
+    ("q" nil "do nothing" :exit t))
+
+ (defhydra fast-bookmark ()
+   "Jump to"
+   ("1"  (find-file init-loader-directory) "emacs" :color blue)
+   ("2"  (find-file "~/www")               "www" :color blue)
+   ("3"  (find-file "~/cases")             "cases" :color blue)
+   ("4"  (find-file "~/notes/mail.md")     "mail" :color blue)
+   ("5"  (find-file "~/www/iats/code")     "iats" :color blue)
+   ("6"  (find-file "~/hacks")             "hacks" :color blue)
+   ("q" nil "cancel")))
 
 (use-package minions
   :ensure t

@@ -70,6 +70,8 @@
   :config
   (global-org-radiobutton-mode 1))
 
+(use-package orgtbl-aggregate
+  :ensure t)
 
 (defun juanleon/org-table-to-markdown (beg end)
   (interactive "r")

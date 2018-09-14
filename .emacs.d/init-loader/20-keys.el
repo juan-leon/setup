@@ -48,14 +48,6 @@
 (mapc #'(lambda (arg) (global-set-key arg 'hippie-expand))
       '([(super tab)] [(meta ?º)] [(meta ?`)] [(meta VoidSymbol)] [(control VoidSymbol)]))
 
-;; Fast bookmarks
-(global-set-key [(control meta ?1)] (command (find-file init-loader-directory)))
-(global-set-key [(control meta ?2)] (command (find-file "~/www")))
-(global-set-key [(control meta ?3)] (command (find-file "~/cases")))
-(global-set-key [(control meta ?4)] (command (find-file "/var/log/")))
-(global-set-key [(control meta ?5)] (command (find-file "~/www/iats/code")))
-(global-set-key [(control meta ?6)] (command (find-file "~/hacks")))
-
 ;; Changes in the default emacs behaviour
 (global-set-key [(control z)]             'undo)
 (global-set-key [(control x) ?k]          'kill-this-buffer)

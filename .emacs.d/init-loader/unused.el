@@ -386,3 +386,26 @@
   :config (flx-ido-mode 1))
 
   (setq org-completion-use-ido t)
+
+
+;; ivy/counsel are fulfilling what they promise
+(use-package helm
+  :ensure t
+  :disabled
+  :defer t)
+
+(use-package helm-mode
+  :defer t
+  :disabled
+  :diminish helm-mode)
+
+(use-package helm-config  ;; used by helm-dash, used by counsel-dash
+  :demand
+  :disabled
+  :init
+  (setq helm-M-x-fuzzy-match           t
+        helm-buffers-fuzzy-matching    t
+        helm-full-frame                t
+        helm-ff-skip-boring-files      t
+        helm-buffer-max-length         80
+        helm-echo-input-in-header-line t))

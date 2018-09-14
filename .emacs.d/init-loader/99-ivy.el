@@ -1,31 +1,10 @@
-(use-package helm
-  :ensure t
-  :defer t)
-
-(use-package helm-mode
-  :defer t
-  :diminish helm-mode)
-
-(use-package helm-config  ;; used by help-dash, used by counsel-dash
-  :demand
-  :bind (([(super y)] . helm-show-kill-ring))
-  :init
-  (setq helm-M-x-fuzzy-match           t
-        helm-buffers-fuzzy-matching    t
-        helm-full-frame                t
-        helm-ff-skip-boring-files      t
-        helm-buffer-max-length         80
-        helm-echo-input-in-header-line t))
-
-(use-package helm-projectile
-  :ensure t)
-
 (use-package ivy
   :ensure t
   :diminish ivy-mode
   :bind (([(control ?c) (control ?r)] . ivy-resume)
          ([(meta kp-5)]     . ivy-switch-buffer)
          ([(meta kp-begin)] . ivy-switch-buffer)
+         ([(control ?\\)] . ivy-switch-buffer)
          ([(control ?c) ?v] . ivy-push-view)
          ([(control ?c) ?V] . ivy-pop-view)
          :map ivy-minibuffer-map
@@ -67,6 +46,7 @@
   :ensure t
   :after projectile
   :bind (([(super ?q)] . counsel-projectile)
+         ([(super ?\\)] . counsel-projectile)
          ([(super kp-5)] . counsel-projectile)))
 
 ;; counsel-M-x is a lot nicer when smex is installed
@@ -110,3 +90,47 @@
 (use-package counsel-notmuch
   :ensure t
   :bind (([(super M)] . counsel-notmuch)))
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Work on progress
+
+(defvar xxx/view-template "[%s]")
+
+(defun xxx/get-view-name ()
+  ;; try catch
+  (let ((project-name (or projectile-project-name
+                          (projectile-default-project-name (projectile-project-root)))))
+    (format xxx/view-template project-name)))
+
+(defun xxx/update-view-for-project ()
+  (interactive)
+  (let ((view-name (xxx/get-view-name))
+        ;; code stolen from ivy.el
+        (view (cl-labels
+                  ((ft (tr)
+                       (if (consp tr)
+                          (if (eq (car tr) t)
+                              (cons 'vert
+                                    (mapcar #'ft (cddr tr)))
+                            (cons 'horz
+                                  (mapcar #'ft (cddr tr))))
+                         (with-current-buffer (window-buffer tr)
+                           (cond (buffer-file-name
+                                  (list 'file buffer-file-name (point)))
+                                ((eq major-mode 'dired-mode)
+                                 (list 'file default-directory (point)))
+                                (t
+                                 (list 'buffer (buffer-name) (point))))))))
+                (ft (car (window-tree))))))
+    (when view-name
+      (let ((x (assoc view-name ivy-views)))
+        (if x
+            (setcdr x (list view))
+          (push (list view-name view) ivy-views))))))
+
+
+(global-set-key [(super ?=)] 'xxx/update-view-for-project)

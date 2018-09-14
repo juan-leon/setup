@@ -5,6 +5,7 @@
   (setq magit-revision-insert-related-refs nil
         git-commit-summary-max-length 70)
   :config
+  ;; (define-key magit-status-mode-map [(? )] 'magit-show-commit)
   (define-key magit-status-mode-map [backspace] 'juanleon/magit-in-supermodule)
   (define-key magit-mode-map [(control backspace)] 'juanleon/visit-gitlab)
   (add-hook 'git-commit-mode-hook #'turn-on-flyspell)
