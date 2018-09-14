@@ -96,7 +96,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; Work on progress
+;;; Work on progress: name the thing and integrate in use-package
 
 (defvar xxx/view-template "[%s]")
 
@@ -134,3 +134,16 @@
 
 
 (global-set-key [(super ?=)] 'xxx/update-view-for-project)
+
+(defun juanleon/projectile-switch-project-action ()
+  (let ((view (assoc (xxx/get-view-name) ivy-views)))
+    (if view
+        (progn
+          (delete-other-windows)
+          (ivy-set-view-recur (cadr view)))
+      (if (magit-git-repo-p (projectile-project-root))
+          (magit-status)
+        (projectile-dired)))))
+
+
+(setq projectile-switch-project-action 'juanleon/projectile-switch-project-action)
