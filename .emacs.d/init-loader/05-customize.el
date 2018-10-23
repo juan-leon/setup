@@ -6,6 +6,7 @@
  '(custom-safe-themes
    '("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default))
  '(magit-log-arguments '("-n48"))
+ '(magit-push-arguments nil)
  '(magit-rebase-arguments '("--keep-empty" "--autosquash"))
  '(magit-tag-arguments '("--annotate"))
  '(notmuch-saved-searches

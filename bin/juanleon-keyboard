@@ -1,9 +1,10 @@
 #!/bin/bash -eu
 
 layout=${1:-en}
-device=$(xinput --list --id-only "keyboard:Gaming KB Gaming KB")
+# `xinput --list --id-only "keyboard:Gaming KB Gaming KB")` does not work for
+# all keyboards :-(
+device=$(xinput --list | grep 'KB.*keyboard' | grep -oP 'id=[0-9]+' | grep -oP '[0-9]+')
 if test $layout == 'en'; then
-    # `xinput -list` for figuring out the decive number
     setxkbmap -device $device -layout us -option -option ctrl:nocaps -option compose:ralt
 elif test $layout == 'es'; then
     setxkbmap -layout es -option -option ctrl:nocaps

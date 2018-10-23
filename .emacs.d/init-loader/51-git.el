@@ -1,5 +1,6 @@
 (use-package magit
   :bind (([(super ?0)] . magit-status))
+  :commands magit-git-repo-p magit-status
   :ensure t
   :init
   (setq magit-revision-insert-related-refs nil

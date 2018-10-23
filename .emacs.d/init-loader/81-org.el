@@ -41,28 +41,29 @@
 <p class=\"creator\">%c</p>")))
 
   (setq org-capture-templates
-        '(("t" "Today" entry (file+headline "agenda/Inbox.org" "Today") "* TODO %? \n  %U\n")
-          ("m" "Mail" entry (file+headline "agenda/Inbox.org" "Today") "* TODO %? \n  %U\n%x")
+        '(("t" "Todo" entry (file "agenda/Inbox.org") "* TODO %? \n  %U\n")
+          ("m" "Mail" entry (file "agenda/Inbox.org") "* TODO %? \n  %U\n%x")
           ("T" "Tomorrow" entry (file+headline "agenda/Inbox.org" "Tomorrow") "* TODO %? \n  %U\n")
-          ("v" "Today with link" entry (file+headline "agenda/Inbox.org" "Today") "* TODO %?\n  %U\n  %i\n  %a\n")
-          ("c" "Case" entry (file+headline "agenda/Inbox.org" "Today") (function juanleon/org-case-template))
+          ("v" "Todo with link" entry (file "agenda/Inbox.org") "* TODO %?\n  %U\n  %i\n  %a\n")
+          ("c" "Case" entry (file "agenda/Inbox.org") (function juanleon/org-case-template))
           ("j" "Journal" entry (file+datetree "info/journal.org") "* %<%R:>%?\n")
           ("g" "Good News" entry (file+datetree "info/goodnews.org") "* %<%R:>%?\n")
           ("k" "Trick " entry (file "info/tricks.org") "* %?\n")
           ("K" "Trick with code" entry (file "info/tricks.org") "* %? \n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
           ;; https://addons.mozilla.org/en-US/firefox/addon/org-mode-capture/ (C-M-r)
-          ("x" "firefox" entry (file+headline "agenda/Inbox.org" "Today") "* TODO Review %c\n%U\n%i\n" :immediate-finish)
-          ("s" "scheduled" entry (file+headline "agenda/Inbox.org" "Scheduled")
+          ("x" "firefox" entry (file "agenda/Inbox.org") "* TODO Review %c\n%U\n%i\n" :immediate-finish t)
+          ("s" "scheduled" entry (file "agenda/agenda.org")
            "* %?\n  SCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))")
-          ("S" "scheduled mail" entry (file+headline "agenda/Inbox.org" "Scheduled")
+          ("S" "scheduled mail" entry (file "agenda/agenda.org")
            "* %?\n  SCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))\n%x")))
 
   (setq org-agenda-custom-commands
         '((" " "Inbox"
            ((tags "PRIORITY=\"A\"" ((org-agenda-overriding-header "High-prio:")))
-            (agenda "" ((org-agenda-span 14)))
+            (agenda "" ((org-agenda-span 14) (org-agenda-files '("~/Dropbox/org/agenda/agenda.org"))))
             (alltodo ""))
            ((org-agenda-files '("~/Dropbox/org/agenda/Inbox.org")))))))
+
 
 
 (use-package org-radiobutton

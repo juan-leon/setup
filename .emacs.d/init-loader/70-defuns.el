@@ -137,11 +137,6 @@
              (replace-match "/sudo:" nil nil buffer-file-name))
          (concat "/sudo::" buffer-file-name)))))
 
-
-(defun json-beautify-on-region (beg end)
-  (interactive "r")
-  (shell-command-on-region beg end "python -m json.tool" nil t))
-
 (defun juanleon/execute-buffer ()
   (interactive)
   (let ((compile-command nil))

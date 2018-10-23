@@ -74,6 +74,7 @@
 
   :config
   (defhydra hydra-zoom nil
+    "Change text size"
     ("+" text-scale-increase "in")
     ("-" text-scale-decrease "out"))
 
