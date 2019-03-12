@@ -33,9 +33,15 @@
   :ensure t
   :bind (([(meta ?x)] . counsel-M-x)
          ([(control ?x) (control ?f)] . counsel-find-file)
-         ([(control ?.)] . counsel-imenu)
+         ([(super ?.)] . counsel-imenu)
          ([(super b)] . counsel-bookmark)
-         ([(super y)] . counsel-yank-pop)))
+         ([(super y)] . counsel-yank-pop))
+  :config
+  ;; Counsel overrides my ivy-height configs :-(
+  (setq ivy-height-alist '((counsel-dash . 48)
+                           (counsel-dash-at-point . 48)
+                           (counsel-yank-pop . 64))))
+
 
 (use-package ivy-hydra
   :ensure t
@@ -82,15 +88,6 @@
   (let ((ivy-re-builders-alist '((t . ivy--regex-fuzzy)))
         (ivy-height 32))
     ad-do-it))
-
-;; Since I cannot have notmuch as a emacs package (incompatible with notmuch
-;; binaries installed as debian package), I need to manually disable the notmuch
-;; dependency on counsel-notmuch-pkg.el.  I am sure there is a less brittle way
-;; of doing this.
-(use-package counsel-notmuch
-  :ensure t
-  :bind (([(super M)] . counsel-notmuch)))
-
 
 
 

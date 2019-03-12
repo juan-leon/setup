@@ -32,11 +32,7 @@ function d_ssh {
 }
 
 function g {
-    if [ -d $REPODIR/$1/$2 ]; then
-        cd $REPODIR/$1/$2
-    else
-        cd $REPODIR/$1
-    fi
+    cd $REPODIR/$1
 }
 
 function i {
@@ -80,13 +76,9 @@ function _repodir {
     local cur prev;
     COMPREPLY=();
     _get_comp_words_by_ref cur prev;
-    [ $COMP_CWORD -gt 2 ] && return 0;
-    if [[ $COMP_CWORD -eq 2 ]]; then
-        COMPREPLY=($( compgen -W '`ls -p $REPODIR/$prev/ | grep / | sed "s|/||"`' -- "$cur" ));
-    else
-        [ -d "$REPODIR" ] && COMPREPLY=($( compgen -W '`ls -p $REPODIR | grep / | sed "s|/||"`' -- "$cur" ));
-    fi;
-    return 0
+    [ $COMP_CWORD -gt 1 ] && return 0;
+    [ -d "$REPODIR" ] || return 0
+    COMPREPLY=($( compgen -W '`ls -p $REPODIR | grep / | sed "s|/||"`' -- "$cur" ));
 }
 complete -F _repodir g
 

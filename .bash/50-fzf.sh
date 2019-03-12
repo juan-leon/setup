@@ -69,7 +69,7 @@ function r {
         query="--query $candidate"
     fi
     cd ~/www
-    cd $(FZF_DEFAULT_COMMAND='fd --type d -d 1' fzf-up -1 $query)
+    cd $(FZF_DEFAULT_COMMAND='fd --type d -d 1 && cat ~/.extra.dirs' fzf-up -1 $query)
 }
 
 alias g=r

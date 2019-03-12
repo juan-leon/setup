@@ -10,22 +10,13 @@
   (define-key magit-status-mode-map [backspace] 'juanleon/magit-in-supermodule)
   (define-key magit-mode-map [(control backspace)] 'juanleon/visit-gitlab)
   (add-hook 'git-commit-mode-hook #'turn-on-flyspell)
-  (magit-define-popup-action 'magit-rebase-popup ?R "Rockstar" 'magit-rockstar)
-  (magit-define-popup-action 'magit-commit-popup ?n "Reshelve" 'magit-reshelve)
-
-  (magit-define-popup-action 'magit-branch-popup ?I "iatsBranch" 'juanleon/iats-branch)
-  (magit-define-popup-action 'magit-branch-popup ?S "iatsSwitch" 'juanleon/iats-switch)
-  (magit-define-popup-action 'magit-pull-popup ?I "iatsPull" 'juanleon/iats-pull)
-  (magit-define-popup-action 'magit-push-popup ?I "iatsPush" 'juanleon/iats-push)
-  (magit-define-popup-action 'magit-merge-popup ?I "iatsMerge" 'juanleon/iats-merge)
-  (magit-define-popup-action 'magit-tag-popup ?I "iatsTag" 'juanleon/iats-tag)
-
-  (magit-define-popup-switch 'magit-log-popup ?F "First parent" "--first-parent")
-  (autoload 'org-read-date "org")
-  (defun magit-org-read-date (prompt &optional _default)
-    (org-read-date 'with-time nil nil prompt))
-  (magit-define-popup-option 'magit-log-popup ?s "Since date" "--since=" #'magit-org-read-date)
-  (magit-define-popup-option 'magit-log-popup ?u "Until date" "--until=" #'magit-org-read-date)
+  (transient-append-suffix 'magit-branch "n" '("I" "iatsBranch" juanleon/iats-branch))
+  (transient-append-suffix 'magit-branch "b" '("S" "iatsSwitch" juanleon/iats-switch))
+  (transient-append-suffix 'magit-pull "e" '("I" "iatsPull" juanleon/iats-pull))
+  (transient-append-suffix 'magit-push "t" '("I" "iatsPush" juanleon/iats-push))
+  (transient-append-suffix 'magit-rebase "f" '("R" "Rockstar" magit-rockstar))
+  (transient-append-suffix 'magit-rebase "R" '("N" "Reshelve" magit-reshelve))
+  (transient-append-suffix 'magit-run "S" '("T" "Open TEG" juanleon/visit-teg-from-branch))
 
   ;; Monkey patch because I like this behaviour
   (eval-after-load "magit-extras"
@@ -89,20 +80,9 @@
   (shell-command "iatsPush")
   (magit-refresh))
 
-(defun juanleon/iats-merge (rev)
-  (interactive (list (magit-read-other-branch-or-commit "Merge")))
-  (shell-command (concat "iatsMerge " rev))
-  (magit-refresh))
-
 (defun juanleon/iats-switch (rev)
   (interactive (list (magit-read-other-branch-or-commit "Branch")))
   (shell-command (concat "iatsSwitch " rev))
-  (magit-refresh))
-
-(defun juanleon/iats-tag (tag comment)
-  (interactive (list (magit-read-tag "Tag name")
-                     (read-from-minibuffer "Comment: ")))
-  (shell-command (format "iatsTag %s %s" tag comment))
   (magit-refresh))
 
 (defun juanleon/visit-gitlab ()
@@ -124,3 +104,8 @@
     (if no-fetch
         (funcall sentinel nil nil)
       (set-process-sentinel (magit-fetch "origin" nil) sentinel))))
+
+(defun juanleon/visit-teg-from-branch ()
+  "Visit teg case, based on branch name"
+  (interactive)
+  (shell-command "cases open --git"))

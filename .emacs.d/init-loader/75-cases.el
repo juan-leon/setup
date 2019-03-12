@@ -19,8 +19,11 @@
     "platform-goals"
     "tests-goals"
     "auto"
-    )
-  )
+    "mariano"
+    "cristian"
+    "daniel"
+    "victorp"
+    ))
 
 (defvar teg-templates '("platform" "tests"))
 
@@ -56,6 +59,7 @@
     (define-key m [?P]     'juanleon/cases-sort-by-prio)
     (define-key m [?R]     'juanleon/review-at-point)
     (define-key m [?a]     'juanleon/cases-add-new)
+    (define-key m [?o]     'juanleon/cases)
     (define-key m [?f]     'juanleon/cr-form)
     (define-key m [?m]     'juanleon/magit-at-point)
     (define-key m [?M]     'juanleon/magit-at-point-no-fetch)

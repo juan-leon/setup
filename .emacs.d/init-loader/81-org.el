@@ -60,6 +60,9 @@
   (setq org-agenda-custom-commands
         '((" " "Inbox"
            ((tags "PRIORITY=\"A\"" ((org-agenda-overriding-header "High-prio:")))
+            (tags "ongoing"
+                  ((org-agenda-files '("~/Dropbox/org/agenda/projects.org"))
+                   (org-agenda-overriding-header "Ongoing projects:")))
             (agenda "" ((org-agenda-span 14) (org-agenda-files '("~/Dropbox/org/agenda/agenda.org"))))
             (alltodo ""))
            ((org-agenda-files '("~/Dropbox/org/agenda/Inbox.org")))))))
@@ -83,3 +86,5 @@
     (goto-char beg)
     (while (re-search-forward "--\\+--" end t)
       (replace-match "--|--" nil nil))))
+
+(require 'org-notmuch)

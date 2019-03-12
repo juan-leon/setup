@@ -213,3 +213,12 @@
   :bind (:map flyspell-mode-map
         ("C-;" . flyspell-correct-word-generic))
   :custom (flyspell-correct-interface 'flyspell-correct-ivy))
+
+(use-package tramp
+  :config
+  ;; Speed up things
+  (setq remote-file-name-inhibit-cache nil
+        tramp-completion-reread-directory-timeout nil
+        vc-ignore-dir-regexp (format "\\(%s\\)\\|\\(%s\\)"
+                                     vc-ignore-dir-regexp
+                                     tramp-file-name-regexp)))

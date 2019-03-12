@@ -10,3 +10,4 @@ IGNORE*
 __ignore__*
 .tox/
 /*.egg-info/
+.mypy_cache

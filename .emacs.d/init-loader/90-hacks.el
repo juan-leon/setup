@@ -27,10 +27,10 @@
           ad-do-it)
       (backward-paragraph arg))))
 
-
 (defun open-test-file (lang)
-  (interactive (list (completing-read
-                      "Language: " '("py" "php" "sh" "ruby" "go" "perl"))))
+  (interactive (let ((ivy-sort-functions-alist nil))
+                 (list (completing-read
+                        "Language: " '("py" "sh" "php" "ruby" "go" "perl")))))
   (let ((filename
           (replace-regexp-in-string
            "\n$" "" (shell-command-to-string (concat "test-file " lang)))))

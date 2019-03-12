@@ -130,12 +130,14 @@
 (defun sudo-powerup ()
   (interactive)
   (if buffer-file-name
-      (find-alternate-file
-       (if (tramp-tramp-file-p buffer-file-name)
-           (progn
-             (string-match "^/\\w*:" buffer-file-name)
-             (replace-match "/sudo:" nil nil buffer-file-name))
-         (concat "/sudo::" buffer-file-name)))))
+      (let ((point (point)))
+        (find-alternate-file
+         (if (tramp-tramp-file-p buffer-file-name)
+             (progn
+               (string-match "^/\\w*:" buffer-file-name)
+               (replace-match "/sudo:" nil nil buffer-file-name))
+           (concat "/sudo::" buffer-file-name)))
+        (goto-char point))))
 
 (defun juanleon/execute-buffer ()
   (interactive)
