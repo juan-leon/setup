@@ -96,14 +96,14 @@
   (let* ((repo-dir (format "/home/juanleon/www/%s" repo))
         (ref (format "origin/%s" branch))
         (sentinel `(lambda (process event)
-                     (magit-log (list (concat "origin/master.." ,ref)) (list "-100"))
+                     (magit-log-other (list (concat "origin/master.." ,ref)) (list "-100"))
                      (if ,checkout (magit-checkout ,ref))
-                     (magit-diff (concat "origin/master..." ,ref) nil))))
+                     (magit-diff-range (concat "origin/master..." ,ref) nil))))
     (delete-other-windows)
     (dired repo-dir)
     (if no-fetch
         (funcall sentinel nil nil)
-      (set-process-sentinel (magit-fetch "origin" nil) sentinel))))
+      (set-process-sentinel (magit-fetch-all-prune) sentinel))))
 
 (defun juanleon/visit-teg-from-branch ()
   "Visit teg case, based on branch name"
