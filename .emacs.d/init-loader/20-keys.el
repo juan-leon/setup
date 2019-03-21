@@ -31,12 +31,9 @@
 (global-set-key [(pause)]          'delete-other-windows)
 (global-set-key [(control f3)]     'ff-find-other-file)
 (global-set-key [(f12)]            'gdb)
-(global-set-key [(control l)]      'recenter)
 (global-set-key [(meta ? )]        'cycle-spacing)
 (global-set-key [(super ?#)]       'juanleon/done-with-file)
-
-
-(and (fboundp 'cycle-spacing) (global-set-key (kbd "M-SPC") 'cycle-spacing))
+(global-set-key (kbd "M-SPC")      'cycle-spacing)
 
 
 (global-set-key [(control backspace)] (command (kill-line 0)))

@@ -4,6 +4,7 @@ alias dc='cd'
 alias e='emacsclient --alternate-editor /usr/bin/emacs'
 alias eb='emacsclient -n --alternate-editor /usr/bin/emacs'
 alias emacs='emacs -mm'
+alias magit='emacsclient -nw -e \(magit-status\)'
 
 alias l='ls -CF'
 alias la='ls -A'

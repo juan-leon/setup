@@ -27,6 +27,7 @@
   (setq org-agenda-files '("~/Dropbox/org/agenda"))
   (setq org-directory "~/Dropbox/org")
   (setq org-src-fontify-natively t)
+  (setq org-edit-src-content-indentation 0)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -87,4 +88,4 @@
     (while (re-search-forward "--\\+--" end t)
       (replace-match "--|--" nil nil))))
 
-(require 'org-notmuch)
+;; fixme (require 'org-notmuch)

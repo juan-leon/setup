@@ -29,6 +29,7 @@
  message-log-max                 2500
  nxml-child-indent               tab-width
  require-final-newline           t
+ recenter-positions              '(top middle bottom)
  search-ring-max                 32
  scroll-step                     1
  scroll-conservatively           1
@@ -156,8 +157,8 @@
 
 (use-package goto-chg
   :ensure t
-  :bind (([(super ?-)]. goto-last-change)
-         ([(super ?_)]. goto-last-change-reverse)))
+  :bind (([(super ?-)] . goto-last-change)
+         ([(super ?_)] . goto-last-change-reverse)))
 
 (use-package back-button
   :ensure t
@@ -195,3 +196,7 @@
 (use-package python-switch-quotes
   :ensure t
   :bind ([(control c) ?'] . python-switch-quotes))
+
+(use-package shrink-whitespace
+  :ensure t
+  :bind (([(control meta ? )] . shrink-whitespace)))

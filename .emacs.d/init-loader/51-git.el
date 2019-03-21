@@ -18,33 +18,18 @@
   (transient-append-suffix 'magit-rebase "R" '("N" "Reshelve" magit-reshelve))
   (transient-append-suffix 'magit-run "S" '("T" "Open TEG" juanleon/visit-teg-from-branch))
 
-  ;; Monkey patch because I like this behaviour
-  (eval-after-load "magit-extras"
-    '(defun magit-copy-buffer-revision (beg end &optional region)
-      (interactive (list (mark) (point)
-                         (prefix-numeric-value current-prefix-arg)))
-      (kill-ring-save beg end region)))
-
   (defun juanleon/magit-in-supermodule ()
-  (interactive)
-  (with-temp-buffer
-    (cd "..")
-    (if (magit-toplevel)
-        (magit-status-internal default-directory)))))
+    (interactive)
+    (with-temp-buffer
+      (cd "..")
+      (if (magit-toplevel)
+          (magit-status-internal default-directory)))))
 
 (use-package git-messenger
   :ensure t
   :bind ([(control ?x) ?v ?p] . git-messenger:popup-message)
-  :custom (git-messenger:show-detail t)
+  :init (setq git-messenger:show-detail t)
   :config (define-key git-messenger-map (kbd "m") 'git-messenger:copy-message))
-
-(use-package git-messenger
-  :bind ([(control ?x) ?v ?p] . git-messenger:popup-message)
-  :ensure t
-  :init
-  (setq git-messenger:show-detail t)
-  :config
-  (define-key git-messenger-map (kbd "m") 'git-messenger:copy-message))
 
 (use-package git-timemachine
   :ensure t)
@@ -109,3 +94,10 @@
   "Visit teg case, based on branch name"
   (interactive)
   (shell-command "cases open --git"))
+
+;; Config: in ~/.authinfo.gpg, this line
+;; machine XXX.XXX.XXX/api/v4 login XXX^forge XXX
+(use-package forge
+  :ensure t
+  :after magit
+  :bind (:map magit-mode-map ([(super ?f)] . forge-dispatch)))

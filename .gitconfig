@@ -65,3 +65,6 @@
 	detachedHead = false
 [gpg]
 	program = gpg2
+    
+[gitlab "gitlab.xcade.net/api/v4"]
+	user = juanleon.lahoz

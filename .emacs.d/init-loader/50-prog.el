@@ -88,3 +88,6 @@
   ;; xenial shellcheck does not support that option
   (setq flycheck-shellcheck-follow-sources nil)
   (add-hook 'after-init-hook #'global-flycheck-mode))
+
+(use-package hcl-mode
+  :ensure t)
