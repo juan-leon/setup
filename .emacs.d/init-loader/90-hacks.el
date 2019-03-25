@@ -131,7 +131,9 @@
 
 (use-package minions
   :ensure t
-  :config (minions-mode 1))
+  :config
+  (minions-mode 1)
+  (setq minions-mode-line-lighter "@"))
 
 (use-package dumb-jump
   :ensure t

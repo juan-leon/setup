@@ -222,3 +222,7 @@
         vc-ignore-dir-regexp (format "\\(%s\\)\\|\\(%s\\)"
                                      vc-ignore-dir-regexp
                                      tramp-file-name-regexp)))
+
+(use-package define-word
+  :ensure t
+  :commands define-word define-word-at-point)

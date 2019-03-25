@@ -200,3 +200,8 @@
 (use-package shrink-whitespace
   :ensure t
   :bind (([(control meta ? )] . shrink-whitespace)))
+
+(use-package easy-kill
+  :ensure t
+  :config
+  :bind (([(super delete)] . easy-kill)))

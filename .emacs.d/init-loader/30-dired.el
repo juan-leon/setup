@@ -91,3 +91,7 @@
               ("X" . dired-ranger-move)
               ("Y" . dired-ranger-paste)))
 
+(use-package dired-git-info
+  :ensure t
+  :after dired
+  :bind (:map dired-mode-map (")" . dired-git-info-mode)))
