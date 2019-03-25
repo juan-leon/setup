@@ -71,17 +71,20 @@
         (lambda (url)
           (other-window 1)
           (xwidget-webkit-browse-url url)))
+  ;; fixme check if present and install them (using zeal to do that nowadays,
+  ;; helm-dash-ensure-docset-installed is not working as expected)
   (defun counsel-dash-at-point ()
     (interactive)
-    (counsel-dash (thing-at-point 'symbol)))
-  ;; fixme check if present and install them
-  ;; fixme be smart regarding t mode of buffer
-  (counsel-dash-activate-docset "Emacs_Lisp")
-  (counsel-dash-activate-docset "MySQL")
-  (counsel-dash-activate-docset "PHP")
-  (counsel-dash-activate-docset "Python_2")
-  (counsel-dash-activate-docset "Bash"))
-
+    (let ((helm-dash-common-docsets
+           (cond
+            ((eq major-mode 'emacs-lisp-mode) '("Emacs_Lisp"))
+            ((eq major-mode 'python-mode) '("Python_3"))
+            ((eq major-mode 'sh-mode) '("Bash"))
+            ((eq major-mode 'php-mode) '("PHP"))
+            ((eq major-mode 'sql-mode) '("MySQL"))
+            ;; All of the above
+            (t '("Python_3" "Bash" "PHP" "MySQL" "Emacs_Lisp")))))
+      (counsel-dash (thing-at-point 'symbol)))))
 
 (defadvice projectile-switch-project (around be-fuzzy (arg) activate)
   "Use fuzzy matching"
