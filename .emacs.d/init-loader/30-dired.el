@@ -95,3 +95,11 @@
   :ensure t
   :after dired
   :bind (:map dired-mode-map (")" . dired-git-info-mode)))
+
+(use-package dired-subtree
+  :ensure t
+  :after dired
+  :config
+  (bind-keys :map dired-mode-map
+             ("i" . dired-subtree-insert)
+             (";" . dired-subtree-remove)))

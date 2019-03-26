@@ -142,7 +142,7 @@
           (delete-other-windows)
           (ivy-set-view-recur (cadr view)))
       (if (magit-git-repo-p (projectile-project-root))
-          (magit-status)
+          (magit-status-internal (projectile-project-root))
         (projectile-dired)))))
 
 

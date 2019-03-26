@@ -38,7 +38,6 @@
   (add-hook 'c-mode-common-hook 'juanleon/c-mode-setup)
   (add-hook 'java-mode-hook (lambda ()
                               (setq c-basic-offset 4
-                                    tab-width 4
                                     indent-tabs-mode t))))
 
 (use-package js
@@ -46,11 +45,11 @@
 
 
 (use-package compile
-  :bind (([(f8)]            . compile)
-         ([(f7)]            . juanleon/execute-buffer)
-         ([(control f6)]    . recompile)
-         ([(super kp-8)]    . previous-error)
-         ([(super kp-2)]    . next-error))
+  :bind (([(f8)]         . compile)
+         ([(f7)]         . juanleon/execute-buffer)
+         ([(control f6)] . recompile)
+         ([(super kp-8)] . previous-error)
+         ([(super kp-2)] . next-error))
   :init
   (setq compilation-scroll-output t
         next-error-highlight 'fringe-arrow)
@@ -63,18 +62,23 @@
   (add-hook 'compilation-finish-functions 'juanleon/notify-compilation-end))
 
 
-(use-package hideshow
-  :defer t
-  :diminish hs-minor-mode)
+(use-package quickrun
+  :ensure t
+  :bind (([(f5)]            . quickrun)
+         ([(control f5)]    . quickrun-with-arg))
+  :init (setq quickrun-focus-p nil))
 
 
 (use-package multi-compile
+  :ensure t
   :bind ([(f6)] . multi-compile-run)
   :init
-  (setq multi-compile-alist
+  (setq multi-compile-completion-system 'default
+        multi-compile-alist
         '(("\\.*/hacks/\\.*" . (("run" . "%path")))
           (python-mode . (("pyrev" "pyrev" (multi-compile-locate-file-dir ".git"))
-                          ("pyreview" "pyreview --cycles" (multi-compile-locate-file-dir ".git")))))))
+                          ("pyreview" "pyreview" (multi-compile-locate-file-dir ".git"))
+                          ("pymypy" "pymypy" (multi-compile-locate-file-dir ".git")))))))
 
 (use-package flycheck
   :ensure t
