@@ -193,7 +193,8 @@
 (use-package abbrev
   :defer 4
   :config
-  (abbrev-mode 1)
+  (add-hook 'text-mode-hook #'abbrev-mode)
+  (add-hook 'markdown-mode-hook #'abbrev-mode)
   (if (file-exists-p abbrev-file-name)
       (quietly-read-abbrev-file)))
 

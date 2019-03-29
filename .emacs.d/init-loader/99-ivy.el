@@ -35,7 +35,9 @@
          ([(control ?x) (control ?f)] . counsel-find-file)
          ([(super ?.)] . counsel-imenu)
          ([(super b)] . counsel-bookmark)
-         ([(super y)] . counsel-yank-pop))
+         ([(super y)] . counsel-yank-pop)
+         :map shell-mode-map
+         ([(control ?r)] . counsel-shell-history))
   :config
   ;; Counsel overrides my ivy-height configs :-(
   (setq ivy-height-alist '((counsel-dash . 48)

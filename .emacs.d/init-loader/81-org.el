@@ -43,20 +43,16 @@
 
   (setq org-capture-templates
         '(("t" "Todo" entry (file "agenda/Inbox.org") "* TODO %? \n  %U\n")
-          ("m" "Mail" entry (file "agenda/Inbox.org") "* TODO %? \n  %U\n%x")
-          ("T" "Tomorrow" entry (file+headline "agenda/Inbox.org" "Tomorrow") "* TODO %? \n  %U\n")
+          ("T" "Today" entry (file "agenda/Inbox.org")
+           "* TODO %?\n  SCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"\"))")
           ("v" "Todo with link" entry (file "agenda/Inbox.org") "* TODO %?\n  %U\n  %i\n  %a\n")
           ("c" "Case" entry (file "agenda/Inbox.org") (function juanleon/org-case-template))
           ("j" "Journal" entry (file+datetree "info/journal.org") "* %<%R:>%?\n")
           ("g" "Good News" entry (file+datetree "info/goodnews.org") "* %<%R:>%?\n")
           ("k" "Trick " entry (file "info/tricks.org") "* %?\n")
           ("K" "Trick with code" entry (file "info/tricks.org") "* %? \n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
-          ;; https://addons.mozilla.org/en-US/firefox/addon/org-mode-capture/ (C-M-r)
-          ("x" "firefox" entry (file "agenda/Inbox.org") "* TODO Review %c\n%U\n%i\n" :immediate-finish t)
           ("s" "scheduled" entry (file "agenda/agenda.org")
-           "* %?\n  SCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))")
-          ("S" "scheduled mail" entry (file "agenda/agenda.org")
-           "* %?\n  SCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))\n%x")))
+           "* %?\n  SCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))")))
 
   (setq org-agenda-custom-commands
         '((" " "Inbox"
