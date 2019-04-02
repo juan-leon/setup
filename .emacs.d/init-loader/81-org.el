@@ -43,7 +43,7 @@
 
   (setq org-capture-templates
         '(("t" "Todo" entry (file "agenda/Inbox.org") "* TODO %? \n  %U\n")
-          ("T" "Today" entry (file "agenda/Inbox.org")
+          ("T" "Today" entry (file "agenda/agenda.org")
            "* TODO %?\n  SCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"\"))")
           ("v" "Todo with link" entry (file "agenda/Inbox.org") "* TODO %?\n  %U\n  %i\n  %a\n")
           ("c" "Case" entry (file "agenda/Inbox.org") (function juanleon/org-case-template))
