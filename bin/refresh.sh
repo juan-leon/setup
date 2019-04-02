@@ -17,6 +17,8 @@ readonly FILES="
   bin/juanleon-lxc-ssh
   bin/juanleon-stop-music
   bin/juanleon-form-cr
+  bin/juanleon--markdown-mail
+  bin/mail-md.css
   bin/zz-prompt.sh
   .bash
   .emacs.d/init.el
