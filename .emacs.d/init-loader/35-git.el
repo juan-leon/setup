@@ -1,55 +1,3 @@
-(use-package magit
-  :bind (([(super ?0)] . magit-status))
-  :commands magit-git-repo-p magit-status
-  :ensure t
-  :init
-  (setq magit-revision-insert-related-refs nil
-        git-commit-summary-max-length 70)
-  :config
-  ;; (define-key magit-status-mode-map [(? )] 'magit-show-commit)
-  (define-key magit-status-mode-map [backspace] 'juanleon/magit-in-supermodule)
-  (define-key magit-mode-map [(control backspace)] 'juanleon/visit-gitlab)
-  (add-hook 'git-commit-mode-hook #'turn-on-flyspell)
-  (transient-append-suffix 'magit-branch "n" '("I" "iatsBranch" juanleon/iats-branch))
-  (transient-append-suffix 'magit-branch "b" '("S" "iatsSwitch" juanleon/iats-switch))
-  (transient-append-suffix 'magit-pull "e" '("I" "iatsPull" juanleon/iats-pull))
-  (transient-append-suffix 'magit-push "t" '("I" "iatsPush" juanleon/iats-push))
-  (transient-append-suffix 'magit-rebase "f" '("R" "Rockstar" magit-rockstar))
-  (transient-append-suffix 'magit-rebase "R" '("N" "Reshelve" magit-reshelve))
-  (transient-append-suffix 'magit-run "S" '("T" "Open TEG" juanleon/visit-teg-from-branch))
-
-  (defun juanleon/magit-in-supermodule ()
-    (interactive)
-    (with-temp-buffer
-      (cd "..")
-      (if (magit-toplevel)
-          (magit-status-internal default-directory)))))
-
-(use-package git-messenger
-  :ensure t
-  :bind ([(control ?x) ?v ?p] . git-messenger:popup-message)
-  :init (setq git-messenger:show-detail t)
-  :config (define-key git-messenger-map (kbd "m") 'git-messenger:copy-message))
-
-(use-package git-timemachine
-  :ensure t)
-
-(use-package magit-rockstar
-  :commands magit-rockstar magit-reshelve
-  :ensure t)
-
-(use-package git-link
-  :ensure t
-  :commands git-link git-link-commit
-  :config
-  (add-to-list 'git-link-remote-alist '("git.xcade.net"    git-link-github))
-  (add-to-list 'git-link-remote-alist '("gitlab.xcade.net" git-link-github))
-  (add-to-list 'git-link-remote-alist '("tcgit.xcade.net"  git-link-github))
-  (add-to-list 'git-link-commit-remote-alist '("git.xcade.net"    git-link-commit-github))
-  (add-to-list 'git-link-commit-remote-alist '("gitlab.xcade.net" git-link-commit-github))
-  (add-to-list 'git-link-commit-remote-alist '("tcgit.xcade.net"  git-link-commit-github)))
-
-
 (defun juanleon/iats-branch (branch)
   (interactive (list (magit-read-tag "Branch name: ")))
   (shell-command (concat "iatsBranch " branch))
@@ -94,6 +42,63 @@
   "Visit teg case, based on branch name"
   (interactive)
   (shell-command "cases open --git"))
+
+
+(use-package magit
+  :bind (([(super ?0)] . magit-status))
+  :commands magit-git-repo-p magit-status
+  :ensure t
+  :init
+  (setq magit-revision-insert-related-refs nil
+        git-commit-summary-max-length 70)
+  :config
+  ;; (define-key magit-status-mode-map [(? )] 'magit-show-commit)
+  (define-key magit-status-mode-map [backspace] 'juanleon/magit-in-supermodule)
+  (define-key magit-mode-map [(control backspace)] 'juanleon/visit-gitlab)
+  (add-hook 'git-commit-mode-hook #'turn-on-flyspell)
+  (transient-append-suffix 'magit-branch "n" '("I" "iatsBranch" juanleon/iats-branch))
+  (transient-append-suffix 'magit-branch "b" '("S" "iatsSwitch" juanleon/iats-switch))
+  (transient-append-suffix 'magit-pull "e" '("I" "iatsPull" juanleon/iats-pull))
+  (transient-append-suffix 'magit-push "t" '("I" "iatsPush" juanleon/iats-push))
+  (transient-append-suffix 'magit-rebase "f" '("R" "Rockstar" magit-rockstar))
+  (transient-append-suffix 'magit-rebase "R" '("N" "Reshelve" magit-reshelve))
+  (transient-append-suffix 'magit-run "S" '("T" "Open TEG" juanleon/visit-teg-from-branch))
+
+  (defun juanleon/magit-in-supermodule ()
+    (interactive)
+    (with-temp-buffer
+      (cd "..")
+      (if (magit-toplevel)
+          (magit-status-internal default-directory)))))
+
+
+(use-package git-messenger
+  :ensure t
+  :bind ([(control ?x) ?v ?p] . git-messenger:popup-message)
+  :init (setq git-messenger:show-detail t)
+  :config (define-key git-messenger-map (kbd "m") 'git-messenger:copy-message))
+
+
+(use-package git-timemachine
+  :ensure t)
+
+
+(use-package magit-rockstar
+  :commands magit-rockstar magit-reshelve
+  :ensure t)
+
+
+(use-package git-link
+  :ensure t
+  :commands git-link git-link-commit
+  :config
+  (add-to-list 'git-link-remote-alist '("git.xcade.net"    git-link-github))
+  (add-to-list 'git-link-remote-alist '("gitlab.xcade.net" git-link-github))
+  (add-to-list 'git-link-remote-alist '("tcgit.xcade.net"  git-link-github))
+  (add-to-list 'git-link-commit-remote-alist '("git.xcade.net"    git-link-commit-github))
+  (add-to-list 'git-link-commit-remote-alist '("gitlab.xcade.net" git-link-commit-github))
+  (add-to-list 'git-link-commit-remote-alist '("tcgit.xcade.net"  git-link-commit-github)))
+
 
 ;; Config: in ~/.authinfo.gpg, this line
 ;; machine XXX.XXX.XXX/api/v4 login XXX^forge XXX
