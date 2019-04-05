@@ -47,6 +47,20 @@
                                 ("UTC" "UTC")
                                 ("Europe/Madrid" "Madrid")))
 
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+
+(defun juanleon/minibuffer-setup-hook ()
+  (setq gc-cons-threshold most-positive-fixnum))
+
+(defun juanleon/minibuffer-exit-hook ()
+  (setq gc-cons-threshold (* 10 1024 1024)))
+
+;; Trick to feel emacs more responsive when using minibuffer (specially with ivy
+;; and long candidate lists)
+(add-hook 'minibuffer-setup-hook #'juanleon/minibuffer-setup-hook)
+(add-hook 'minibuffer-exit-hook #'juanleon/minibuffer-exit-hook)
+
 (use-package desktop
   :config
   (setq desktop-load-locked-desktop nil)
@@ -184,14 +198,6 @@
          ([(control iso-lefttab)] . switch-window-then-swap-buffer))
          :custom (switch-window-shortcut-style 'qwerty))
 
-(defun juanleon/minibuffer-setup-hook ()
-  (setq gc-cons-threshold most-positive-fixnum))
-
-(defun juanleon/minibuffer-exit-hook ()
-  (setq gc-cons-threshold (* 10 1024 1024)))
-
-(add-hook 'minibuffer-setup-hook #'juanleon/minibuffer-setup-hook)
-(add-hook 'minibuffer-exit-hook #'juanleon/minibuffer-exit-hook)
 
 (use-package python-switch-quotes
   :ensure t

@@ -59,10 +59,6 @@
 ;;;;
 ;;;; Text stuff
 
-(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
-
-
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
