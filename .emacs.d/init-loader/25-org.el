@@ -1,5 +1,8 @@
+;; TODO investigate org-notmuch
+;; (require 'org-notmuch) to deal with notmuch debian vs elpa issues
 
 (defun org-archive-done-tasks ()
+  "Archived all DONE tasks in buffer"
   (interactive)
   (org-map-entries
    (lambda ()
@@ -8,8 +11,22 @@
    "/DONE" 'file))
 
 (defun juanleon/org-case-template ()
-  "* TODO AA BB %? \n  %U\n"
-  (format "* TODO Case %s %%? \n  %%U\n  %s\n" (juanleon/cases-case-number) (juanleon/cases-info)))
+  "Create a TODO item from a case (in a cases buffer)"
+  (format "* TODO Case %s %%? \n  %%U\n  %s\n"
+          (juanleon/cases-case-number)
+          (juanleon/cases-info)))
+
+;; Used less and less, as I kind of prefer quoting tables to rendering them to
+;; nice html
+(defun juanleon/org-table-to-markdown (beg end)
+  (interactive "r")
+  (save-excursion
+    (goto-char beg)
+    (while (re-search-forward "--\|[^-]" end t)
+      (replace-match "-:|\n" nil nil))
+    (goto-char beg)
+    (while (re-search-forward "--\\+--" end t)
+      (replace-match "--|--" nil nil))))
 
 
 (use-package org
@@ -24,10 +41,10 @@
   (use-package org-bullets :ensure t)
   (require 'ox-md nil t)
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  (setq org-agenda-files '("~/Dropbox/org/agenda"))
-  (setq org-directory "~/Dropbox/org")
-  (setq org-src-fontify-natively t)
-  (setq org-edit-src-content-indentation 0)
+  (setq org-agenda-files '("~/Dropbox/org/agenda")
+        org-directory "~/Dropbox/org"
+        org-src-fontify-natively t
+        org-edit-src-content-indentation 0)
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -65,23 +82,11 @@
            ((org-agenda-files '("~/Dropbox/org/agenda/Inbox.org")))))))
 
 
-
 (use-package org-radiobutton
   :ensure t
   :config
   (global-org-radiobutton-mode 1))
 
+
 (use-package orgtbl-aggregate
   :ensure t)
-
-(defun juanleon/org-table-to-markdown (beg end)
-  (interactive "r")
-  (save-excursion
-    (goto-char beg)
-    (while (re-search-forward "--\|[^-]" end t)
-      (replace-match "-:|\n" nil nil))
-    (goto-char beg)
-    (while (re-search-forward "--\\+--" end t)
-      (replace-match "--|--" nil nil))))
-
-;; fixme (require 'org-notmuch)
