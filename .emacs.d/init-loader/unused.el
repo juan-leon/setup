@@ -409,3 +409,12 @@
         helm-ff-skip-boring-files      t
         helm-buffer-max-length         80
         helm-echo-input-in-header-line t))
+
+
+;; I don't use rope since a long time ago...
+(defun use-ropemacs ()
+  (interactive)
+  (add-to-list 'load-path "/usr/share/emacs/site-lisp/pymacs")
+  (require 'pymacs)
+  (pymacs-load "ropemacs" "rope-")
+  (setq ropemacs-confirm-saving 'nil))

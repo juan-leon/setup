@@ -106,14 +106,6 @@
       (goto-char (point-min))
       (forward-line (1- line)))))
 
-;; Most of the times I don't use rope
-(defun use-ropemacs ()
-  (interactive)
-  (add-to-list 'load-path "/usr/share/emacs/site-lisp/pymacs")
-  (require 'pymacs)
-  (pymacs-load "ropemacs" "rope-")
-  (setq ropemacs-confirm-saving 'nil))
-
 (defun toggle-split ()
   "Toggle vertical/horizontal window split."
   (interactive)
