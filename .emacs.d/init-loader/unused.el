@@ -1,5 +1,5 @@
 ;; Deactivated stuff.  Mostly things that need some polishing to be worth it
-;; using it.
+;; using it or things I do not use anymore but I do not discard using again.
 
 
 ;; load-theme-buffer-local is not polished enough to be worth using it
@@ -418,3 +418,39 @@
   (require 'pymacs)
   (pymacs-load "ropemacs" "rope-")
   (setq ropemacs-confirm-saving 'nil))
+
+;; I am not using cmus nowadays... spotify got me
+(defun cmus-increase-vol ()
+  (interactive)
+  (cmus-commmand "-v +10%"))
+
+(defun cmus-decrease-vol ()
+  (interactive)
+  (cmus-commmand "-v -10%"))
+
+(defun cmus-pause ()
+  (interactive)
+  (cmus-commmand "-u"))
+
+(defun cmus-next ()
+  (interactive)
+  (cmus-commmand "-n"))
+
+(defun cmus-replay ()
+  (interactive)
+  (cmus-commmand "-r"))
+
+(defun cmus-commmand (command)
+  (if (/= 0 (shell-command (concat "cmus-remote " command) nil "*cmus-error*"))
+      (message "cmus error")))
+
+  (defhydra hydra-cmus ()
+    "CMUS control"
+    ("+" cmus-increase-vol "+vol")
+    ("-" cmus-decrease-vol "-vol")
+    ("p" cmus-pause "pause" :exit t)
+    ("n" cmus-next "next" :exit t)
+    ("r" cmus-replay "replay" :exit t)
+    ("q" nil "do nothing" :exit t)))
+
+([(control f9)]  . hydra-cmus/body))

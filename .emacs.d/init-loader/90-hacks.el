@@ -68,8 +68,7 @@
   :bind (([(control ?=)]  . hydra-diff/body)
          ([(control f7)]  . hydra-next-error/body)
          ([(control f10)] . hydra-toggle/body)
-         ([(control f3)]  . hydra-zoom/body)
-         ([(control f9)]  . hydra-cmus/body))
+         ([(control f3)]  . hydra-zoom/body))
 
   :config
   (defhydra hydra-zoom nil
@@ -107,16 +106,8 @@
     ("h" hl-line-mode "Highlight lines" :exit t)
     ("n" display-line-numbers-mode "Line numbers" :exit t)
     ("w" whitespace-mode "whitespace" :exit t)
-    ("q" nil :exit t))
+    ("q" nil :exit t)))
 
-  (defhydra hydra-cmus ()
-    "CMUS control"
-    ("+" cmus-increase-vol "+vol")
-    ("-" cmus-decrease-vol "-vol")
-    ("p" cmus-pause "pause" :exit t)
-    ("n" cmus-next "next" :exit t)
-    ("r" cmus-replay "replay" :exit t)
-    ("q" nil "do nothing" :exit t)))
 
 (use-package minions
   :ensure t
