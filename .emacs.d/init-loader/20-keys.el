@@ -42,9 +42,6 @@
 (define-key emacs-lisp-mode-map [(f8)]
   (command (byte-compile-file (buffer-file-name))))
 
-(mapc #'(lambda (arg) (global-set-key arg 'hippie-expand))
-      '([(super tab)] [(meta ?º)] [(meta ?`)] [(meta VoidSymbol)] [(control VoidSymbol)]))
-
 ;; Changes in the default emacs behaviour
 (global-set-key [(control z)]             'undo)
 (global-set-key [(control x) ?k]          'kill-this-buffer)

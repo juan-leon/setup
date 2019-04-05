@@ -4,7 +4,7 @@ readonly TEXT=$(cat)
 readonly PLAIN=$(echo "$TEXT" | pandoc -f markdown -t plain)
 readonly HTML=$(echo "$TEXT" | pandoc -f markdown -t html)
 
-# This CSS file I got from Markdown Here thunderbird add on
+# This CSS file I got from Markdown Here thunderbird add on.
 # fixme: need to change dir for this file
 readonly CSS=$(cat ~/bin/mail-md.css)
 

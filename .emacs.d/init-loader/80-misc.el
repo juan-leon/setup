@@ -31,14 +31,19 @@
 ;;;; Minimize keystrokes for writing
 
 (use-package hippie-exp
+  :bind (([(super tab)] . hippie-expand)
+         ([(meta ?`)] . hippie-expand)  ; Sometimes super tab is stolen by WM
+         ([(meta ?º)] . hippie-expand)  ; deal with Spanish keyboards
+         ([(meta VoidSymbol)] . hippie-expand)
+         ([(control VoidSymbol)] . hippie-expand))
   :config
   (setq hippie-expand-try-functions-list
         '(try-expand-dabbrev
           try-complete-file-name-partially
           try-complete-file-name
-          try-expand-all-abbrevs
           try-expand-dabbrev-all-buffers
           try-expand-dabbrev-from-kill
+          try-expand-all-abbrevs
           try-complete-lisp-symbol-partially
           try-complete-lisp-symbol
           try-expand-line
