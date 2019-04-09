@@ -25,9 +25,11 @@
                            (counsel-dash-at-point . 48)
                            (counsel-yank-pop . 64))))
 
+
 (use-package swiper
   :ensure t
   :bind (([(control ?s)] . swiper)))
+
 
 (use-package counsel
   :ensure t
@@ -37,7 +39,8 @@
          ([(super b)] . counsel-bookmark)
          ([(super y)] . counsel-yank-pop)
          :map shell-mode-map
-         ([(control ?r)] . counsel-shell-history))
+         ([(control ?r)] . counsel-shell-history)
+         ([(super up)] . counsel-shell-history))
   :config
   ;; Counsel overrides my ivy-height configs :-(
   (setq ivy-height-alist '((counsel-dash . 48)
@@ -50,6 +53,7 @@
   :defer
   :commands hydra-ivy/body)
 
+
 (use-package counsel-projectile
   :ensure t
   :after projectile
@@ -57,11 +61,13 @@
          ([(super ?\\)] . counsel-projectile)
          ([(super kp-5)] . counsel-projectile)))
 
+
 ;; counsel-M-x is a lot nicer when smex is installed
 (use-package smex
   :ensure t
   :init (setq smex-save-file (concat user-emacs-directory ".smex-items"))
   :config (smex-auto-update 60))
+
 
 (use-package counsel-dash
   :ensure t
@@ -87,6 +93,7 @@
             ;; All of the above
             (t '("Python_3" "Bash" "PHP" "MySQL" "Emacs_Lisp")))))
       (counsel-dash (thing-at-point 'symbol)))))
+
 
 (defadvice projectile-switch-project (around be-fuzzy (arg) activate)
   "Use fuzzy matching"

@@ -33,6 +33,7 @@
     m)
   "Keymap for `squealer-mode'.")
 
+
 (define-minor-mode squealer-mode
   "Browse my squealer reports."
   :init-value nil
@@ -40,6 +41,7 @@
   :lighter "<squealer>"
   (read-only-mode 1)
   (stripes-mode 1))
+
 
 (defun squealer/list ()
   (interactive)
@@ -79,6 +81,7 @@
 
 
 (defvar container-path nil)
+
 
 (defadvice compilation-find-file (around relocate-to-container (marker filename directory &rest formats) activate)
   (if (and container-path (file-name-absolute-p filename))

@@ -1,12 +1,3 @@
-(defun juanleon/delete-trailing-blank-lines ()
-  "Deletes all blank lines at the end of the file."
-  (interactive)
-  (save-excursion
-    (save-restriction
-      (widen)
-      (goto-char (point-max))
-      (delete-blank-lines))))
-
 (defun find-anything-at-point ()
   "Find the variable or function or file at point."
   (interactive)
@@ -141,15 +132,6 @@
   (interactive)
   (xref-find-definitions (thing-at-point 'symbol)))
 
-;; Funny how packahe pyimport decided a poor's man version of same approach
-;; (instead of looking in the filesystem, it looks in the opened buffers)
-(defun juanleon/copy-import ()
-  (interactive)
-  (projectile-with-default-dir (projectile-project-root)
-    (let ((command (format
-                    "rg -g '*.py' --no-filename -N -w '^from\\b.*\\bimport\\b.*\\b%s' | head -1"
-                    (symbol-at-point))))
-      (kill-new (shell-command-to-string command)))))
 
 (defun juanleon/open-mail-at-point ()
   (interactive)

@@ -66,14 +66,6 @@
   (setq desktop-load-locked-desktop nil)
   (desktop-save-mode 1))
 
-(use-package wrap-region
-  :ensure t
-  :diminish wrap-region-mode
-  :config
-  (wrap-region-global-mode t)
-  (wrap-region-add-wrapper "`" "`" "q" '(markdown-mode ruby-mode))
-  (wrap-region-add-wrapper "```\n" "```" "Q" '(markdown-mode))
-  (wrap-region-add-wrapper "`" "`"))
 
 (use-package saveplace
   :custom (save-place-file (concat user-emacs-directory "history/places"))
@@ -164,10 +156,6 @@
   :ensure t
   :config (global-yascroll-bar-mode 1))
 
-(use-package expand-region
-  :ensure t
-  :bind (([(super ?1)] . er/expand-region)
-         ([(super ?ñ)] . er/expand-region)))
 
 (use-package goto-chg
   :ensure t
@@ -198,22 +186,3 @@
          ([(control iso-lefttab)] . switch-window-then-swap-buffer))
          :custom (switch-window-shortcut-style 'qwerty))
 
-
-(use-package python-switch-quotes
-  :ensure t
-  :bind ([(control c) ?'] . python-switch-quotes))
-
-(use-package shrink-whitespace
-  :ensure t
-  :bind (([(control meta ? )] . shrink-whitespace)))
-
-(use-package easy-kill
-  :ensure t
-  :config
-  :bind (([(super delete)] . easy-kill)))
-
-(use-package smartparens
-  :ensure t
-  :config
-  (require 'smartparens-config)
-  (smartparens-global-mode))

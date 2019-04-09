@@ -50,15 +50,13 @@
 
 
 ;; My randon functions
-(global-set-key [(super f2)]                'toggle-truncate-lines)
 (global-set-key [(super ?\;)]               'juanleon/comment-or-uncomment-region)
-(global-set-key [(control ?x) (control ?c)] 'close-frame)
+(global-set-key [(control ?x) (control ?c)] 'close-frame)    ; No accidental emacs kills
 (global-set-key [(super t)]                 'tmux-window-here)
 (global-set-key [(control ?x) (control ?r)] 'sudo-powerup)
 (global-set-key [(control pause)]           'toggle-split)
 (global-set-key [(super control backspace)] 'squealer/last-error)
 (global-set-key [(super backspace)]         'squealer/list)
-(global-set-key [(super f5)]                'juanleon/copy-import)
 (global-set-key [(meta ?.)]                 'juanleon/find-tag-at-point)
 
 (when (eq system-type 'darwin)
@@ -70,10 +68,6 @@
 (use-package bookmark
   :bind (([(super meta b)] . bookmark-bmenu-list)
          ([(super B)] . bookmark-set)))
-
-(use-package subword
-  :bind (([(meta left)]  . subword-backward)
-         ([(meta right)] . subword-forward)))
 
 (use-package golden-ratio
   :ensure t
@@ -94,14 +88,6 @@
   :defer t
   :custom (markdown-gfm-additional-languages '("bash")))
 
-(use-package multiple-cursors
-  :ensure t
-  :bind ([(control shift mouse-1)] . mc/add-cursor-on-click))
-
-(use-package move-text
-  :ensure t
-  :bind (([(super up)]   . move-text-up)
-         ([(super down)] . move-text-down)))
 
 (use-package helpful
   :ensure t

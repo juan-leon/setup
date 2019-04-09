@@ -1,9 +1,23 @@
-(add-hook 'python-mode-hook
-          (lambda ()
-            ;; (jedi:setup) tramp issue
-            (setq tab-width 4)
-            (add-hook 'before-save-hook 'juanleon/delete-trailing-blank-lines nil 'local)
-            (setq fill-column 79)))
+(defun juanleon/delete-trailing-blank-lines ()
+  "Deletes all blank lines at the end of the file."
+  (interactive)
+  (save-excursion
+    (save-restriction
+      (widen)
+      (goto-char (point-max))
+      (delete-blank-lines))))
+
+
+;; Funny how package pyimport decided a poor's man version of same approach
+;; (instead of looking in the filesystem, it looks in the opened buffers)
+(defun juanleon/copy-import ()
+  (interactive)
+  (projectile-with-default-dir (projectile-project-root)
+    (let ((command (format
+                    "rg -g '*.py' --no-filename -N -w '^from\\b.*\\bimport\\b.*\\b%s' | head -1"
+                    (symbol-at-point))))
+      (kill-new (shell-command-to-string command)))))
+
 
 (defun juanleon/workon (env)
   (interactive "sPython env name: ")
@@ -16,6 +30,16 @@
 
 (juanleon/workon "py37")
 
+
 (use-package jedi-core
   :ensure t
   :custom (jedi:tooltip-method nil))
+
+
+(add-hook 'python-mode-hook
+          (lambda ()
+            ;; (jedi:setup) tramp issue
+            (setq tab-width 4)
+            (add-hook 'before-save-hook 'juanleon/delete-trailing-blank-lines nil 'local)
+            (local-set-key [(super f5)] 'juanleon/copy-import)
+            (setq fill-column 79)))

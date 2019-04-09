@@ -19,7 +19,6 @@
   :config
   (setq comint-input-ignoredups  t
         comint-use-prompt-regexp nil)  ; Weird bugs otherwise
-  (define-key comint-mode-map [(super up)]  'helm-comint-input-ring)
   (defadvice comint-previous-input (around move-free (arg) activate)
     "No more 'Not at command line'"
     (if (comint-after-pmark-p)
@@ -131,23 +130,6 @@
   :commands copy-as-format
   :custom (copy-as-format-default "gitlab"))
 
-(defun fill-or-unfill ()
-  "Like `fill-paragraph', but unfill if used twice."
-  (interactive)
-  (let ((fill-column
-         (if (eq last-command 'fill-or-unfill)
-             (progn (setq this-command nil)
-                    (point-max))
-           fill-column)))
-    (call-interactively #'fill-paragraph)))
-
-(global-set-key [remap fill-paragraph] #'fill-or-unfill)
-
-;; This allows linting correctly files with no shebang (libraries), since I
-;; always use bash
-(add-hook 'sh-mode-hook (lambda () (sh-set-shell "bash")))
-
-
 (use-package sdcv-mode
   :init
   (autoload 'sdcv-search "sdcv")
@@ -186,4 +168,5 @@
     (interactive)
     (let ((message-send-hook '(juanleon/message-to-md)))
       (notmuch-mua-send-and-exit)))
+  :config
   (bind-key "C-c C-d" 'juanleon/message-send-md-formatted notmuch-message-mode-map))

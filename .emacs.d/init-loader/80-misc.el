@@ -152,7 +152,6 @@
 
 
 (use-package midnight
-  :ensure t
   :defer 30
   :init
   (setq clean-buffer-list-delay-general 3)
@@ -179,10 +178,6 @@
   :ensure t
   :config (which-key-mode 1))
 
-(use-package syntactic-close
-  :ensure t
-  :bind (([(super ?ç)] . syntactic-close)
-         ("C-]" . syntactic-close)))    ; vector notation screws up paren matching
 
 (use-package calc
   :defer t

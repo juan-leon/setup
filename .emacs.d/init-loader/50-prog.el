@@ -3,11 +3,13 @@
 (use-package fixme-mode
   :ensure t
   :defer t
-  :init (setq fixme-mode-warning-words '("FIXME" "TODO" "fixme" "HACK" "NOCOMMIT")))
+  :init (setq fixme-mode-warning-words '("FIXME" "TODO" "fixme" "HACK")))
+
 
 (use-package puppet-mode
   :ensure t
   :mode ("\\.pp\\'" . puppet-mode))
+
 
 (use-package go-mode
   :ensure t
@@ -23,6 +25,7 @@
                               (hs-minor-mode 1)
                               (local-set-key [(meta f3)] 'hs-show-block)
                               (local-set-key [(f3)]      'hs-hide-block))))
+
 
 (use-package cc-mode
   :defer t
@@ -40,8 +43,8 @@
                               (setq c-basic-offset 4
                                     indent-tabs-mode t))))
 
-(use-package js
-  :mode ("\\.js\\.template\\'" . js-mode))
+(use-package json-mode
+  :mode ("\\.js\\.template\\'" . json-mode))
 
 
 (use-package compile
@@ -80,6 +83,7 @@
                           ("pyreview" "pyreview" (multi-compile-locate-file-dir ".git"))
                           ("pymypy" "pymypy" (multi-compile-locate-file-dir ".git")))))))
 
+
 (use-package flycheck
   :ensure t
   :bind ([(control x)(?!)] . flycheck-mode)
@@ -93,5 +97,14 @@
   (setq flycheck-shellcheck-follow-sources nil)
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
+
 (use-package hcl-mode
   :ensure t)
+
+
+(use-package sh-script
+  :defer t
+  :config
+  ;; This allows linting correctly files with no shebang (libraries), since I
+  ;; always use bash
+  (add-hook 'sh-mode-hook (lambda () (sh-set-shell "bash"))))

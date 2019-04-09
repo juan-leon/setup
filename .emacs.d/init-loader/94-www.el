@@ -3,6 +3,7 @@
   :commands browse-url-interactive-arg
   :custom (browse-url-browser-function 'browse-url-firefox))
 
+
 (use-package xwidget
   :defer t
   :commands xwidget-webkit-browse-url
