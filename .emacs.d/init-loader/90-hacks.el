@@ -4,16 +4,6 @@
   (exec-path-from-shell-initialize))
 
 
-(use-package php-mode
-  :ensure t
-  :defer t
-  :config
-  ;; Monkey patch function to avoid buffer modified file flag bug
-  (defun php-syntax-propertize-function (start end) nil)
-  (define-key php-mode-map [(?`)]  (command (insert "$")))
-  (define-key php-mode-map [(control ?.)]  nil))
-
-
 (use-package comint
   :defer t
   :config
@@ -26,18 +16,6 @@
           ad-do-it)
       (backward-paragraph arg))))
 
-(defun open-test-file (lang)
-  (interactive (let ((ivy-sort-functions-alist nil))
-                 (list (completing-read
-                        "Language: " '("py" "sh" "php" "ruby" "go" "perl")))))
-  (let ((filename
-          (replace-regexp-in-string
-           "\n$" "" (shell-command-to-string (concat "test-file " lang)))))
-    (find-file filename)))
-
-(use-package discover-my-major
-  :ensure t
-  :bind ("C-h C-m" . discover-my-major))
 
 (use-package server
   :if window-system
@@ -114,59 +92,12 @@
   (minions-mode 1)
   (setq minions-mode-line-lighter "@"))
 
-(use-package dumb-jump
-  :ensure t
-  :bind ([(control meta ?.)] . dumb-jump-go)
-  :config
-  (dumb-jump-mode 1))
 
 (use-package toml-mode
   :ensure t
-  :defer t
   :mode ("\\.toml\\'" . toml-mode))
 
-(use-package copy-as-format
-  :ensure t
-  :commands copy-as-format
-  :custom (copy-as-format-default "gitlab"))
-
-(use-package sdcv-mode
-  :init
-  (autoload 'sdcv-search "sdcv")
-  :bind ([(control c) ?d] . sdcv-search))
 
 (use-package deadgrep
   :ensure t
   :commands deadgrep)
-
-;; I need to use the package installed by debian file to match the notmuch version
-(use-package notmuch
-  :preface
-  :commands notmuch-hello
-  :init
-  (autoload 'notmuch "notmuch-hello")
-  (setq send-mail-function    'smtpmail-send-it
-        mail-self-blind       t
-        smtpmail-local-domain "avature.net"
-        smtpmail-smtp-server  "mail.avature.net"
-        smtpmail-stream-type  'ssl
-        smtpmail-smtp-service 465
-        notmuch-fcc-dirs nil)
-
-  ;; mail-self-blind is somehow ignored
-  (add-hook 'message-setup-hook (lambda ()
-                                  (message-add-header
-                                   (concat "Bcc: " (notmuch-user-primary-email)))))
-
-  ;; Use C-c C-d to transforn into HTML a message in markdown
-  (defun juanleon/message-to-md ()
-    (interactive)
-    (save-excursion
-      (message-goto-body)
-      (shell-command-on-region (point) (point-max) "juanleon--markdown-mail" nil t)))
-  (defun juanleon/message-send-md-formatted ()
-    (interactive)
-    (let ((message-send-hook '(juanleon/message-to-md)))
-      (notmuch-mua-send-and-exit)))
-  :config
-  (bind-key "C-c C-d" 'juanleon/message-send-md-formatted notmuch-message-mode-map))

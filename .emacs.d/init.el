@@ -2,10 +2,12 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 
+
 (unless (require 'use-package nil :noerror)
   (package-refresh-contents)
   (package-install 'use-package)
   (require 'use-package))
+
 
 (use-package init-loader
   :ensure t

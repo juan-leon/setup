@@ -55,11 +55,6 @@
   :config (ac-config-default))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;
-;;;; Text stuff
-
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;
@@ -101,6 +96,11 @@
 
 (use-package shell
   :defer t
+  :bind (([(control x) (control z)] . shell)
+         ([(super z)] . shell)
+         :map shell-mode-map
+         ([(meta kp-up)] . juanleon/shell-rename)
+         ([(meta kp-8)]  . juanleon/shell-rename))
   :config
   (add-hook 'shell-mode-hook
             (lambda ()
@@ -109,9 +109,8 @@
   (defun juanleon/shell-rename()
     (interactive)
     (if (eq major-mode 'shell-mode)
-        (rename-buffer "shell" t)))
-  (define-key shell-mode-map [(meta kp-up)] 'juanleon/shell-rename)
-  (define-key shell-mode-map [(meta kp-8)]  'juanleon/shell-rename))
+        (rename-buffer "shell" t))))
+
 
 (use-package sql
   :bind ([(meta f4)] . sql-connect)
@@ -173,10 +172,6 @@
          ([(super f11)] . aya-create)
          ([(super f12)] . aya-expand))
   :ensure t)
-
-(use-package which-key
-  :ensure t
-  :config (which-key-mode 1))
 
 
 (use-package calc

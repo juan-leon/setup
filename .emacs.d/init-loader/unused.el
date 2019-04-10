@@ -1,5 +1,6 @@
 ;; Deactivated stuff.  Mostly things that need some polishing to be worth it
-;; using it or things I do not use anymore but I do not discard using again.
+;; using, or things I do not use anymore but I do not discard using again, since
+;; future is opaque.
 
 
 ;; load-theme-buffer-local is not polished enough to be worth using it
@@ -455,3 +456,72 @@
     ("q" nil "do nothing" :exit t)))
 
 ([(control f9)]  . hydra-cmus/body))
+
+
+;; Not using java nowadays
+
+(defun java-compile (makefile command)
+  "Search for a makefile from current dir and compile"
+  (with-temp-buffer
+    (while (and (not (and (file-exists-p makefile)
+                          (not (file-exists-p (concat "../" makefile)))))
+                (not (equal "/" default-directory)))
+      (cd ".."))
+    (compile command)))
+
+(defun java-quickie ()
+  "Compile current java buffer and run it if successful"
+  (interactive)
+  (let* ((source (file-name-nondirectory buffer-file-name))
+         (out    (file-name-sans-extension source))
+         (class  (concat out ".class")))
+    (shell-command (format "rm -f %s && javac %s" class source))
+    (if (file-exists-p class)
+        (shell-command (format "java %s" out) "*scratch*")
+      (compile (concat "javac " source)))))
+
+
+(defun code-full-cleanup ()
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (whitespace-cleanup)
+    (if (not indent-tabs-mode)
+        (while (re-search-forward "\t" nil t)
+          (replace-match (make-string tab-width ? ) nil nil)))
+    (indent-region (point-min) (point-max))))
+
+
+;; Not used in a long time... there are packages for that (in case I want to g
+;; that way)...
+(defun indent-by-shell-command ()
+  (interactive)
+  (when (and buffer-read-only
+             (memq major-mode '(c-mode c++-mode)))
+    (let ((buffer-modified-p (buffer-modified-p))
+          (inhibit-read-only t)
+          (line (line-number-at-pos)))
+      (shell-command-on-region (point-min) (point-max) "indent" nil t nil)
+      (set-buffer-modified-p buffer-modified-p)
+      (goto-char (point-min))
+      (forward-line (1- line)))))
+
+
+;; Helpful has something like this
+(defun find-anything-at-point ()
+  "Find the variable or function or file at point."
+  (interactive)
+  (cond ((not (eq (variable-at-point) 0))
+         (call-interactively 'describe-variable))
+        ((function-called-at-point)
+         (call-interactively 'describe-function))
+        (t
+         (call-interactively 'find-file-at-point))))
+
+
+;; Using define-word... easier to setup but without the nice (nd
+;; hard-to-collect) stardict dictionaries
+(use-package sdcv-mode
+  :init
+  (autoload 'sdcv-search "sdcv")
+  :bind ([(control c) ?d] . sdcv-search))

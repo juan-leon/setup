@@ -48,6 +48,10 @@
   :custom (switch-window-shortcut-style 'qwerty))
 
 
+(use-package window
+  :bind (([(pause)] . delete-other-windows)))
+
+
 (defun juanleon/toggle-split ()
   "Toggle vertical/horizontal window split."
   (interactive)
@@ -69,7 +73,6 @@
                  (set-window-dedicated-p window
                                          (not (window-dedicated-p window))))
                "dedicated" "normal")))
-
 
 (global-set-key [(super pause)]  'juanleon/toggle-split)
 (global-set-key [(control kp-1)] 'juanleon/toggle-window-dedicated)

@@ -20,6 +20,13 @@
   (add-hook 'text-mode-hook #'ws-butler-mode))
 
 
+(use-package dumb-jump
+  :ensure t
+  :bind ([(control meta ?.)] . dumb-jump-go)
+  :config
+  (dumb-jump-mode 1))
+
+
 (use-package fixme-mode
   :ensure t
   :defer t
@@ -74,6 +81,16 @@
                                     indent-tabs-mode t))))
 
 
+(use-package php-mode
+  :ensure t
+  :defer t
+  :config
+  ;; Monkey patch function to avoid buffer modified file flag bug
+  (defun php-syntax-propertize-function (start end) nil)
+  (define-key php-mode-map [(?`)]  (command (insert "$")))
+  (define-key php-mode-map [(control ?.)]  nil))
+
+
 (use-package json-mode
   :mode ("\\.js\\.template\\'" . json-mode))
 
@@ -82,6 +99,12 @@
   :ensure t
   :defer t
   :custom (markdown-gfm-additional-languages '("bash")))
+
+
+(use-package copy-as-format
+  :ensure t
+  :commands copy-as-format
+  :custom (copy-as-format-default "gitlab"))
 
 
 (use-package hcl-mode
@@ -94,3 +117,14 @@
   ;; This allows linting correctly files with no shebang (libraries), since I
   ;; always use bash
   (add-hook 'sh-mode-hook (lambda () (sh-set-shell "bash"))))
+
+
+(defun juanleon/open-test-file (lang)
+  "Quick test in language of choice"
+  (interactive (let ((ivy-sort-functions-alist nil))
+                 (list (completing-read
+                        "Language: " '("py" "sh" "php" "ruby" "go" "perl")))))
+  (let ((filename
+          (replace-regexp-in-string
+           "\n$" "" (shell-command-to-string (concat "test-file " lang)))))
+    (find-file filename)))

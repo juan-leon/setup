@@ -16,34 +16,27 @@
 (global-set-key [(control ?.)]     'tags-apropos)
 (global-set-key [(super f)]        'auto-fill-mode)
 (global-set-key [(menu)]           'menu-bar-open)
-(global-set-key [(control ?ç)]     'make-frame)
-(global-set-key [(control ?')]     'make-frame)
-(global-set-key [(super z)]        'shell)
 (global-set-key [(super g)]        'grep)
 (global-set-key [(super i)]        'rgrep)
 (global-set-key [(super l)]        'locate)
 (global-set-key [(super L)]        'locate-with-filter)
-(global-set-key [(pause)]          'delete-other-windows)
 (global-set-key [(control f3)]     'ff-find-other-file)
 (global-set-key [(meta ? )]        'cycle-spacing)
 
 
 (global-set-key [(control backspace)] (command (kill-line 0)))
-(global-set-key [(control menu)] 'menu-bar-mode)
 
 
 ;; Changes in the default emacs behaviour
 (global-set-key [(control z)]             'undo)
 (global-set-key [(control x) ?k]          'kill-this-buffer)
 (global-set-key [(control x) (control k)] 'kill-this-buffer)
-(global-set-key [(control x) (control z)] 'shell)            ; fixme: reuse this
 
 
 ;; My randon functions
 (global-set-key [(super ?\;)]               'juanleon/comment-or-uncomment-region)
-(global-set-key [(control ?x) (control ?c)] 'close-frame)    ; No accidental emacs kills
-(global-set-key [(super t)]                 'tmux-window-here)
-(global-set-key [(control ?x) (control ?r)] 'sudo-powerup)
+(global-set-key [(super t)]                 'juanleon/tmux-window-here)
+(global-set-key [(control ?x) (control ?r)] 'juanleon/sudo-powerup)
 (global-set-key [(meta ?.)]                 'juanleon/find-tag-at-point)
 
 (when (eq system-type 'darwin)
@@ -68,9 +61,3 @@
                      (mark " " (name 30 -1) " " filename))))
 
 
-(use-package helpful
-  :ensure t
-  :bind (([(control ?h) ?f]  . helpful-callable)
-         ([(control ?h) ?v]  . helpful-variable)
-         ([(control ?h) ?k]  . helpful-key)
-         ([(control return)] . helpful-at-point)))
