@@ -19,6 +19,18 @@
   :bind (([(super delete)] . easy-kill)))
 
 
+(use-package kmacro
+  :defer t
+  :bind (([(control f11)] . kmacro-start-macro-or-insert-counter)
+         ([(control f12)] . kmacro-end-or-call-macro))
+  :config
+  (defadvice kmacro-end-or-call-macro (around do-not-use-x (arg) activate)
+    "Do noy use system clipboard while executing a macro (speed trick)."
+    (let ((select-enable-clipboard nil)
+          (select-enable-primary nil))
+      ad-do-it)))
+
+
 ;; I use this for non-python too
 (use-package python-switch-quotes
   :ensure t
@@ -39,7 +51,9 @@
 
 (use-package subword
   :bind (([(meta left)]  . subword-backward)
-         ([(meta right)] . subword-forward)))
+         ([(meta right)] . subword-forward))
+  :init
+  (add-hook 'prog-mode-hook #'subword-mode))
 
 
 (use-package multiple-cursors
@@ -57,6 +71,18 @@
   :ensure t
   :bind (([(super ?ç)] . syntactic-close)
          ("C-]" . syntactic-close)))    ; vector notation screws up paren matching
+
+
+(use-package goto-chg
+  :ensure t
+  :bind (([(super ?-)] . goto-last-change)
+         ([(super ?_)] . goto-last-change-reverse)))
+
+
+(use-package align
+  :defer t
+  :bind (([(super ?a)] . align)
+         ([(super ?A)] . align-regexp)))
 
 
 (defun fill-or-unfill ()

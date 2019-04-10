@@ -12,13 +12,7 @@
   (defadvice gui-set-selection (after replicate-selection (type data) activate)
     "Different applications use different data sources"
     (if (equal type 'CLIPBOARD)
-        (gui-set-selection 'PRIMARY data)))
-
-  (defadvice kmacro-end-or-call-macro (around do-not-use-x (arg) activate)
-    "Do noy use system clipboard while executing a macro"
-    (let ((select-enable-clipboard nil)
-          (select-enable-primary nil))
-      ad-do-it)))
+        (gui-set-selection 'PRIMARY data))))
 
 ;; Disable niceties
 (mapc (lambda (mode) (funcall mode 0))

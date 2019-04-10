@@ -5,6 +5,7 @@
   (interactive)
   (squealer/insert "ORDER BY reportId DESC LIMIT 1"))
 
+
 (defun squealer/by-report-id (id &optional host)
   (squealer/insert (format "WHERE reportId = %s" id))
   (if host
@@ -26,6 +27,7 @@
     (add-to-list 'compilation-error-regexp-alist '("^#[0-9]+ \\[\\(/[^ ]*?\\):\\([0-9]+\\)\\]" 1 2))
     (add-to-list 'compilation-error-regexp-alist '("^#[0-9]+ \\(/[^ ]*?\\)(\\([0-9]+\\)):" 1 2))
     (add-to-list 'compilation-error-regexp-alist '("\\(/[^ ]*?\\):\\([0-9]+\\)$" 1 2))))
+
 
 (defvar squealer-mode-map
   (let ((m (make-sparse-keymap)))
@@ -88,3 +90,7 @@
       (let ((filename (concat container-path filename)))
         ad-do-it)
     ad-do-it))
+
+
+(global-set-key [(super control backspace)] 'squealer/last-error)
+(global-set-key [(super backspace)]         'squealer/list)

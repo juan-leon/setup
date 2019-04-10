@@ -65,6 +65,7 @@
 
 ;; I am not using gdb nowadays
 
+(global-set-key [(f12)] 'gdb)
 (eval-after-load "gdb-mi"
   '(progn
      (global-set-key [(f5)]      'leon/gud-print)

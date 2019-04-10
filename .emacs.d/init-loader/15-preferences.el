@@ -71,22 +71,10 @@
   :custom (save-place-file (concat user-emacs-directory "history/places"))
   :config (save-place-mode 1))
 
-(use-package buffer-move
-  :ensure t
-  :bind (([(control shift super up)]    . buf-move-up)
-         ([(control shift super down)]  . buf-move-down)
-         ([(control shift super left)]  . buf-move-left)
-         ([(control shift super right)] . buf-move-right)))
-
-(use-package ws-butler
-  :ensure t
-  :diminish ws-butler-mode
-  :init
-  (add-hook 'prog-mode-hook #'ws-butler-mode)
-  (add-hook 'text-mode-hook #'ws-butler-mode))
 
 (use-package uniquify
   :custom (uniquify-buffer-name-style 'post-forward-angle-brackets))
+
 
 (use-package ediff
   :defer t
@@ -96,11 +84,6 @@
   (ediff-split-window-function 'split-window-horizontally)
   (ediff-diff-options          " -bB "))
 
-(use-package winner
-  :config
-  (winner-mode 1)
-  (define-key winner-mode-map [(super prior)] 'winner-undo)
-  (define-key winner-mode-map [(super next)]  'winner-redo))
 
 (use-package bm
   :ensure t
@@ -108,6 +91,7 @@
   :bind (([(control Scroll_Lock)] . bm-toggle)
          ([(shift Scroll_Lock)]   . bm-previous)
          ([(Scroll_Lock)]         . bm-next)))
+
 
 ;; Fast switching buffers in same window
 (use-package buffer-stack
@@ -135,54 +119,17 @@
   (global-set-key [(meta kp-3)] (command (buffer-op-by-mode 'buffer-stack-down 'dired-mode)))
   (global-set-key [(meta kp-1)] (command (buffer-op-by-mode 'buffer-stack-up 'dired-mode))))
 
-(use-package rotate
-  :ensure t
-  :bind (([(super home)] . rotate-layout)
-         ([(super end)]  . rotate-window)))
-
-(use-package windmove
-  :bind (([(control next)]     . windmove-down)
-         ([(control prior)]    . windmove-up)
-         ([(control kp-6)]     . windmove-right)
-         ([(control kp-4)]     . windmove-left)
-         ([(control kp-right)] . windmove-right)
-         ([(control kp-left)]  . windmove-left))
-  :config
-  (defadvice windmove-do-window-select (around silent-windmove activate)
-    "Do not beep when no suitable window is found."
-    (condition-case () ad-do-it (error nil))))
 
 (use-package yascroll
   :ensure t
   :config (global-yascroll-bar-mode 1))
 
 
-(use-package goto-chg
-  :ensure t
-  :bind (([(super ?-)] . goto-last-change)
-         ([(super ?_)] . goto-last-change-reverse)))
-
 (use-package back-button
   :ensure t
-  :diminish back-button-mode
   :config (back-button-mode 1))
 
 (use-package ag
   :ensure t
   :commands ag ag-regexp)
-
-(defun juanleon/switch-buffer-or-window ()
-  (interactive)
-  (if (one-window-p)
-          (ivy-switch-buffer)
-        (switch-window)))
-
-(use-package switch-window
-  :ensure t
-  :commands switch-window
-  :bind (([(control tab)] . juanleon/switch-buffer-or-window)
-         ([(control insert)] . juanleon/switch-buffer-or-window)
-         ([(control shift tab)] . switch-window-then-swap-buffer)
-         ([(control iso-lefttab)] . switch-window-then-swap-buffer))
-         :custom (switch-window-shortcut-style 'qwerty))
 

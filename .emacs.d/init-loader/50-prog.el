@@ -1,9 +1,31 @@
+(use-package flycheck
+  :ensure t
+  :bind ([(control x)(?!)] . flycheck-mode)
+  :init
+  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
+  (setq flycheck-idle-change-delay 3
+        flycheck-check-syntax-automatically '(save idle-change mode-enabled)
+        flycheck-shellcheck-excluded-warnings '("SC2086"))
+  :config
+  ;; xenial shellcheck does not support that option
+  (setq flycheck-shellcheck-follow-sources nil)
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
+
+(use-package ws-butler
+  :ensure t
+  :diminish ws-butler-mode
+  :init
+  (add-hook 'prog-mode-hook #'ws-butler-mode)
+  (add-hook 'text-mode-hook #'ws-butler-mode))
 
 
 (use-package fixme-mode
   :ensure t
   :defer t
-  :init (setq fixme-mode-warning-words '("FIXME" "TODO" "fixme" "HACK")))
+  :init
+  (setq fixme-mode-warning-words '("FIXME" "TODO" "fixme" "HACK"))
+  (add-hook 'prog-mode-hook #'fixme-mode))
 
 
 (use-package puppet-mode
@@ -20,11 +42,19 @@
   :defer t
   :config
   (add-hook 'prog-mode-hook (lambda ()
-                              (subword-mode  1)
-                              (fixme-mode    1)
                               (hs-minor-mode 1)
                               (local-set-key [(meta f3)] 'hs-show-block)
                               (local-set-key [(f3)]      'hs-hide-block))))
+
+
+(use-package elisp-mode
+  :defer t
+  :commands emacs-lisp-mode
+  :bind (:map emacs-lisp-mode-map ([(f8)] . juanleon/byte-compile-this-file))
+  :config
+  (defun juanleon/byte-compile-this-file()
+    (interactive)
+    (byte-compile-file (buffer-file-name))))
 
 
 (use-package cc-mode
@@ -43,59 +73,15 @@
                               (setq c-basic-offset 4
                                     indent-tabs-mode t))))
 
+
 (use-package json-mode
   :mode ("\\.js\\.template\\'" . json-mode))
 
 
-(use-package compile
-  :bind (([(f8)]         . compile)
-         ([(f7)]         . juanleon/execute-buffer)
-         ([(control f6)] . recompile)
-         ([(super kp-8)] . previous-error)
-         ([(super kp-2)] . next-error))
-  :init
-  (setq compilation-scroll-output t
-        next-error-highlight 'fringe-arrow)
-  (defun juanleon/goto-compilation-buffer ()
-    (interactive)
-    (let ((buf (get-buffer "*compilation*")))
-      (and buf (switch-to-buffer buf))))
-  (global-set-key [(control f8)] 'juanleon/goto-compilation-buffer)
-  :config
-  (add-hook 'compilation-finish-functions 'juanleon/notify-compilation-end))
-
-
-(use-package quickrun
+(use-package markdown-mode
   :ensure t
-  :bind (([(f5)]            . quickrun)
-         ([(control f5)]    . quickrun-with-arg))
-  :init (setq quickrun-focus-p nil))
-
-
-(use-package multi-compile
-  :ensure t
-  :bind ([(f6)] . multi-compile-run)
-  :init
-  (setq multi-compile-completion-system 'default
-        multi-compile-alist
-        '(("\\.*/hacks/\\.*" . (("run" . "%path")))
-          (python-mode . (("pyrev" "pyrev" (multi-compile-locate-file-dir ".git"))
-                          ("pyreview" "pyreview" (multi-compile-locate-file-dir ".git"))
-                          ("pymypy" "pymypy" (multi-compile-locate-file-dir ".git")))))))
-
-
-(use-package flycheck
-  :ensure t
-  :bind ([(control x)(?!)] . flycheck-mode)
-  :init
-  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
-  (setq flycheck-idle-change-delay 3
-        flycheck-check-syntax-automatically '(save idle-change mode-enabled)
-        flycheck-shellcheck-excluded-warnings '("SC2086"))
-  :config
-  ;; xenial shellcheck does not support that option
-  (setq flycheck-shellcheck-follow-sources nil)
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+  :defer t
+  :custom (markdown-gfm-additional-languages '("bash")))
 
 
 (use-package hcl-mode
