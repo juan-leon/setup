@@ -105,9 +105,7 @@
   :defer t
   :config
   ;; Monkey patch function to avoid buffer modified file flag bug
-  (defun php-syntax-propertize-function (start end) nil)
-  (define-key php-mode-map [(?`)]  (command (insert "$")))
-  (define-key php-mode-map [(control ?.)]  nil))
+  (defun php-syntax-propertize-function (start end) nil))
 
 
 (use-package json-mode

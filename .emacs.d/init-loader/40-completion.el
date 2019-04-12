@@ -34,6 +34,7 @@
 (use-package counsel
   :ensure t
   :bind (([(meta ?x)] . counsel-M-x)
+         ([(menu)] . counsel-M-x)
          ([(control ?x) (control ?f)] . counsel-find-file)
          ([(super ?.)] . counsel-imenu)
          ([(super b)] . counsel-bookmark)

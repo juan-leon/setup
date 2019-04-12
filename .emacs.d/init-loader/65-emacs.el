@@ -14,3 +14,9 @@
 (use-package discover-my-major
   :ensure t
   :bind ("C-h C-m" . discover-my-major))
+
+
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (exec-path-from-shell-initialize))

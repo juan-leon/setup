@@ -1,26 +1,16 @@
 
-(global-set-key [(f2)] nil)
+(global-set-key [(f2)] nil)  ;; I am not a 2C user
 
 ;;;; Global keys
 
 ;; Emacs functions
 (global-set-key [(meta up)]        'backward-list)
 (global-set-key [(meta down)]      'forward-list)
-(global-set-key [(super m)]        'man)
 (global-set-key [(meta return)]    'xref-find-definitions)
 (global-set-key [(control ?.)]     'tags-apropos)
-(global-set-key [(menu)]           'menu-bar-open)
-(global-set-key [(super g)]        'grep)
-(global-set-key [(super i)]        'rgrep)
-(global-set-key [(super l)]        'locate)
-(global-set-key [(super L)]        'locate-with-filter)
-
-
-(global-set-key )
 
 
 ;; My randon functions
-(global-set-key [(super ?\;)]               ')
 (global-set-key [(super t)]                 'juanleon/tmux-window-here)
 (global-set-key [(control ?x) (control ?r)] 'juanleon/sudo-powerup)
 (global-set-key [(meta ?.)]                 'juanleon/find-tag-at-point)
@@ -44,6 +34,10 @@
          ([(control x) (control k)] . juanleon/kill-this-buffer)
          ([(control x) ?k] . juanleon/kill-this-buffer))
   :init
+  (setq kill-do-not-save-duplicates t
+        kill-ring-max 100
+        track-eol t
+        undo-ask-before-discard nil)
   (defun kill-line-0 ()
     (interactive)
     (kill-line 0))
@@ -53,3 +47,8 @@
     (cond
      ((window-minibuffer-p) (abort-recursive-edit))
      (t (kill-buffer (current-buffer))))))
+
+
+(use-package man
+  :bind (([(super m)] . man))
+  :config (setq Man-notify-method 'pushy))

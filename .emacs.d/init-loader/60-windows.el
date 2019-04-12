@@ -49,7 +49,10 @@
 
 
 (use-package window
-  :bind (([(pause)] . delete-other-windows)))
+  :bind (([(pause)] . delete-other-windows))
+  :config
+  (setq split-height-threshold 140
+        recenter-positions '(top middle bottom)))
 
 
 (defun juanleon/toggle-split ()

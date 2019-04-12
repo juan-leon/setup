@@ -2,6 +2,8 @@
   :bind (([(control ?x) (control ?c)] . juanleon/close-frame)
          ([(control ?')] . make-frame))
   :init
+  (setq use-dialog-box nil
+        visible-bell t)
   (if (eq system-type 'darwin)
       (set-face-attribute 'default nil :height 110)
     (set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 98))
@@ -59,3 +61,8 @@
 (use-package yascroll
   :ensure t
   :config (global-yascroll-bar-mode 1))
+
+
+(use-package menu-bar
+  :defer t
+  :bind (([(super menu)] . menu-bar-open)))

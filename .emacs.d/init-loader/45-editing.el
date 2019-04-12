@@ -123,7 +123,8 @@
 (use-package align
   :defer t
   :bind (([(super ?a)] . align)
-         ([(super ?A)] . align-regexp)))
+         ([(super ?A)] . align-regexp))
+  :config (setq align-to-tab-stop nil))
 
 
 (defun fill-or-unfill ()
