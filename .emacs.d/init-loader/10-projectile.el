@@ -14,13 +14,3 @@
   :config
   (define-key projectile-mode-map (kbd "C-p") 'projectile-command-map)
   (projectile-mode))
-
-(use-package projectile-ripgrep
-  :ensure t
-  :after projectile
-  :bind (:map projectile-command-map ([?0] . projectile-ripgrep)))
-
-(use-package ripgrep
-  :ensure t
-  :defer t
-  :custom (ripgrep-arguments (list "-M 200")))

@@ -525,3 +525,9 @@
   :init
   (autoload 'sdcv-search "sdcv")
   :bind ([(control c) ?d] . sdcv-search))
+
+;; Thunderlink is not working well
+(defun juanleon/open-mail-at-point ()
+  (interactive)
+  (let ((link (thing-at-point 'line)))
+    (shell-command (format "/usr/lib/thunderbird/thunderbird -thunderlink %s" link))))

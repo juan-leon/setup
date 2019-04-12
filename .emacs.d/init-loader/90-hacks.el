@@ -17,12 +17,6 @@
       (backward-paragraph arg))))
 
 
-(use-package server
-  :if window-system
-  :init (setq server-window 'switch-to-buffer-other-frame)
-  :defer 5
-  :config (unless (server-running-p)
-            (server-start)))
 
 (use-package avy
   :ensure t
@@ -86,18 +80,9 @@
     ("q" nil :exit t)))
 
 
-(use-package minions
-  :ensure t
-  :config
-  (minions-mode 1)
-  (setq minions-mode-line-lighter "@"))
 
 
 (use-package toml-mode
   :ensure t
   :mode ("\\.toml\\'" . toml-mode))
 
-
-(use-package deadgrep
-  :ensure t
-  :commands deadgrep)

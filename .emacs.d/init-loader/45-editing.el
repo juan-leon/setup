@@ -31,6 +31,48 @@
       ad-do-it)))
 
 
+(use-package hippie-exp
+  :bind (([(super tab)] . hippie-expand)
+         ([(meta ?`)] . hippie-expand)  ; Sometimes super tab is stolen by WM
+         ([(meta ?º)] . hippie-expand)) ; deal with Spanish keyboards
+  :config
+  (setq hippie-expand-try-functions-list
+        '(try-expand-dabbrev
+          try-complete-file-name-partially
+          try-complete-file-name
+          try-expand-dabbrev-all-buffers
+          try-expand-dabbrev-from-kill
+          try-expand-all-abbrevs
+          try-complete-lisp-symbol-partially
+          try-complete-lisp-symbol
+          try-expand-line
+          try-expand-list)))
+
+
+(use-package auto-complete
+  :ensure t
+  :config (ac-config-default))
+
+
+(use-package abbrev
+  :defer 4
+  :config
+  (setq save-abbrevs 'silently)
+  (add-hook 'text-mode-hook #'abbrev-mode)
+  (add-hook 'markdown-mode-hook #'abbrev-mode)
+  (if (file-exists-p abbrev-file-name)
+      (quietly-read-abbrev-file)))
+
+
+(use-package flyspell
+  :defer 5
+  :custom
+  (flyspell-abbrev-p t)
+  :config
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  (add-hook 'text-mode-hook 'flyspell-mode))
+
+
 ;; I use this for non-python too
 (use-package python-switch-quotes
   :ensure t
@@ -69,8 +111,7 @@
 
 (use-package syntactic-close
   :ensure t
-  :bind (([(super ?ç)] . syntactic-close)
-         ("C-]" . syntactic-close)))    ; vector notation screws up paren matching
+  :bind (("C-]" . syntactic-close)))    ; vector notation screws up paren matching
 
 
 (use-package goto-chg

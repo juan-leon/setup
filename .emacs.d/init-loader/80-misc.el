@@ -28,36 +28,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;
-;;;; Minimize keystrokes for writing
-
-(use-package hippie-exp
-  :bind (([(super tab)] . hippie-expand)
-         ([(meta ?`)] . hippie-expand)  ; Sometimes super tab is stolen by WM
-         ([(meta ?º)] . hippie-expand)  ; deal with Spanish keyboards
-         ([(meta VoidSymbol)] . hippie-expand)
-         ([(control VoidSymbol)] . hippie-expand))
-  :config
-  (setq hippie-expand-try-functions-list
-        '(try-expand-dabbrev
-          try-complete-file-name-partially
-          try-complete-file-name
-          try-expand-dabbrev-all-buffers
-          try-expand-dabbrev-from-kill
-          try-expand-all-abbrevs
-          try-complete-lisp-symbol-partially
-          try-complete-lisp-symbol
-          try-expand-line
-          try-expand-list)))
-
-
-(use-package auto-complete
-  :ensure t
-  :config (ac-config-default))
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;
 ;;;; Spelling
 
 (use-package ispell
@@ -150,11 +120,6 @@
   (add-to-list 'same-window-buffer-names "*SQL*"))
 
 
-(use-package midnight
-  :defer 30
-  :init
-  (setq clean-buffer-list-delay-general 3)
-  (midnight-delay-set 'midnight-delay "7:10pm"))
 
 (use-package yasnippet
   :ensure t
@@ -181,39 +146,9 @@
               ([(insert)] . calc-yank)
               ([(shift insert)] . calc-yank)))
 
-(use-package abbrev
-  :defer 4
-  :config
-  (add-hook 'text-mode-hook #'abbrev-mode)
-  (add-hook 'markdown-mode-hook #'abbrev-mode)
-  (if (file-exists-p abbrev-file-name)
-      (quietly-read-abbrev-file)))
 
-(use-package flyspell
-  :defer 5
-  :custom
-  (flyspell-abbrev-p t)
-  (save-abbrevs 'silently)
-  :config
-  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-  (add-hook 'text-mode-hook 'flyspell-mode))
 
-(use-package flyspell-correct-ivy
-  :after flyspell
-  :ensure t
-  :commands flyspell-correct-ivy
-  :bind (:map flyspell-mode-map
-        ("C-;" . flyspell-correct-word-generic))
-  :custom (flyspell-correct-interface 'flyspell-correct-ivy))
 
-(use-package tramp
-  :config
-  ;; Speed up things
-  (setq remote-file-name-inhibit-cache nil
-        tramp-completion-reread-directory-timeout nil
-        vc-ignore-dir-regexp (format "\\(%s\\)\\|\\(%s\\)"
-                                     vc-ignore-dir-regexp
-                                     tramp-file-name-regexp)))
 
 (use-package define-word
   :ensure t

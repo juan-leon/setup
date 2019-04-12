@@ -69,6 +69,15 @@
   :config (smex-auto-update 60))
 
 
+(use-package flyspell-correct-ivy
+  :after flyspell
+  :ensure t
+  :commands flyspell-correct-ivy
+  :bind (:map flyspell-mode-map
+        ("C-;" . flyspell-correct-word-generic))
+  :custom (flyspell-correct-interface 'flyspell-correct-ivy))
+
+
 (use-package counsel-dash
   :ensure t
   :defer t

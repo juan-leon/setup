@@ -22,10 +22,6 @@
       '(tool-bar-mode menu-bar-mode scroll-bar-mode
                       blink-cursor-mode horizontal-scroll-bar-mode))
 
-;; Enable niceties
-(mapc (lambda (mode) (funcall mode 1))
-      '(column-number-mode auto-image-file-mode show-paren-mode size-indication-mode))
-
 
 (use-package color-theme-sanityinc-solarized :ensure t)
 (use-package color-theme
@@ -58,3 +54,8 @@
     "Different applications use different data sources"
     (if (equal type 'CLIPBOARD)
         (gui-set-selection 'PRIMARY data))))
+
+
+(use-package yascroll
+  :ensure t
+  :config (global-yascroll-bar-mode 1))

@@ -1,3 +1,8 @@
+;; Enable niceties
+(mapc (lambda (mode) (funcall mode 1))
+      '(column-number-mode auto-image-file-mode show-paren-mode size-indication-mode))
+
+
 ;; For shorter keybindings
 (defmacro command (&rest body)
   `(lambda ()
@@ -61,19 +66,8 @@
 (add-hook 'minibuffer-setup-hook #'juanleon/minibuffer-setup-hook)
 (add-hook 'minibuffer-exit-hook #'juanleon/minibuffer-exit-hook)
 
-(use-package desktop
-  :config
-  (setq desktop-load-locked-desktop nil)
-  (desktop-save-mode 1))
 
 
-(use-package saveplace
-  :custom (save-place-file (concat user-emacs-directory "history/places"))
-  :config (save-place-mode 1))
-
-
-(use-package uniquify
-  :custom (uniquify-buffer-name-style 'post-forward-angle-brackets))
 
 
 (use-package ediff
@@ -93,36 +87,6 @@
          ([(Scroll_Lock)]         . bm-next)))
 
 
-;; Fast switching buffers in same window
-(use-package buffer-stack
-  :ensure t
-  :bind (([(meta kp-4)]     . buffer-stack-up)
-         ([(meta kp-left)]  . buffer-stack-up)
-         ([(meta kp-6)]     . buffer-stack-down)
-         ([(meta kp-right)] . buffer-stack-down)
-         ([(meta kp-2)]     . buffer-stack-bury)
-         ([(meta kp-down)]  . buffer-stack-bury)
-         ([(meta kp-8)]     . buffer-stack-untrack)
-         ([(meta kp-up)]    . buffer-stack-untrack))
-  :config
-  (add-to-list 'buffer-stack-untracked "*Backtrace*")
-  (defvar buffer-stack-mode)
-  (defun buffer-op-by-mode (op &optional mode)
-    (let ((buffer-stack-filter 'buffer-stack-filter-by-mode)
-          (buffer-stack-mode (or mode major-mode)))
-      (funcall op)))
-  (defun buffer-stack-filter-by-mode (buffer)
-    (with-current-buffer buffer
-      (equal major-mode buffer-stack-mode)))
-  (global-set-key [(meta kp-7)] (command (buffer-op-by-mode 'buffer-stack-up)))
-  (global-set-key [(meta kp-9)] (command (buffer-op-by-mode 'buffer-stack-down)))
-  (global-set-key [(meta kp-3)] (command (buffer-op-by-mode 'buffer-stack-down 'dired-mode)))
-  (global-set-key [(meta kp-1)] (command (buffer-op-by-mode 'buffer-stack-up 'dired-mode))))
-
-
-(use-package yascroll
-  :ensure t
-  :config (global-yascroll-bar-mode 1))
 
 
 (use-package back-button
@@ -133,3 +97,23 @@
   :ensure t
   :commands ag ag-regexp)
 
+
+
+(use-package projectile-ripgrep
+  :ensure t
+  :after projectile
+  :bind (:map projectile-command-map ([?0] . projectile-ripgrep)))
+
+
+
+(use-package deadgrep
+  :ensure t
+  :commands deadgrep)
+
+
+;; Cleaner modeline
+(use-package minions
+  :ensure t
+  :config
+  (minions-mode 1)
+  (setq minions-mode-line-lighter "@"))

@@ -8,8 +8,6 @@
       (delete-blank-lines))))
 
 
-;; Funny how package pyimport decided a poor's man version of same approach
-;; (instead of looking in the filesystem, it looks in the opened buffers)
 (defun juanleon/copy-import ()
   (interactive)
   (projectile-with-default-dir (projectile-project-root)

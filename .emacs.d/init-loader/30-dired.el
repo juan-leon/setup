@@ -50,6 +50,7 @@
               (set (make-local-variable 'frame-title-format)
                    (abbreviate-file-name (dired-current-directory))))))
 
+
 (use-package dired-x
   :after dired
   :bind (:map dired-mode-map ([(super h)] . dired-omit-mode))
@@ -60,6 +61,7 @@
   :after dired
   :bind (:map dired-mode-map ([?r] . wdired-change-to-wdired-mode)))
 
+
 (use-package dired-efap
   :ensure t
   :after dired
@@ -67,11 +69,13 @@
               ([f2] . dired-efap)
               ([down-mouse-1] . dired-efap-click)))
 
+
 (use-package dired-quick-sort
   :ensure t
   :after dired
   :config
   (dired-quick-sort-setup))
+
 
 (use-package peep-dired
   :ensure t
@@ -79,9 +83,11 @@
   :bind (:map dired-mode-map ([?P] . peep-dired))
   :config (setq peep-dired-cleanup-on-disable t))
 
+
 (use-package dired-narrow
   :ensure t
   :bind (:map dired-mode-map ([?/] . dired-narrow)))
+
 
 (use-package dired-ranger
   :ensure t
@@ -91,15 +97,8 @@
               ("X" . dired-ranger-move)
               ("Y" . dired-ranger-paste)))
 
+
 (use-package dired-git-info
   :ensure t
   :after dired
   :bind (:map dired-mode-map (")" . dired-git-info-mode)))
-
-(use-package dired-subtree
-  :ensure t
-  :after dired
-  :config
-  (bind-keys :map dired-mode-map
-             ("i" . dired-subtree-insert)
-             (";" . dired-subtree-remove)))

@@ -8,18 +8,6 @@
                (user-uid) default-directory))
     (error "This buffer has no directory")))
 
-(defun juanleon/comment-or-uncomment-region (beg end &optional arg)
-  "Comment or uncoment whole lines in region"
-  (interactive "*r\nP")
-  (comment-or-uncomment-region (save-excursion
-                                 (goto-char beg)
-                                 (beginning-of-line)
-                                 (point))
-                               (save-excursion
-                                 (goto-char end)
-                                 (end-of-line)
-                                 (point))
-                               arg))
 
 
 (defun juanleon/sudo-powerup ()
@@ -39,9 +27,3 @@
 (defun juanleon/find-tag-at-point ()
   (interactive)
   (xref-find-definitions (thing-at-point 'symbol)))
-
-
-(defun juanleon/open-mail-at-point ()
-  (interactive)
-  (let ((link (thing-at-point 'line)))
-    (shell-command (format "/usr/lib/thunderbird/thunderbird -thunderlink %s" link))))

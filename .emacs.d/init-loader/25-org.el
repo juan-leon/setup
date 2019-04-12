@@ -35,7 +35,6 @@
          ([(control c) ?a] . org-agenda)
          ([(control c) ?c] . org-capture)
          ([(control c) ?4] . org-archive-done-tasks)
-         ([(control c) ?1] . juanleon/open-mail-at-point)
          ([(super o)]      . org-switchb))
   :config
   (use-package org-bullets :ensure t)

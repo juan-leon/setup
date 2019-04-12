@@ -47,11 +47,30 @@
 
 (use-package prog-mode
   :defer t
+  :bind (:map prog-mode-map ([(super ?\;)] . juanleon/comment-or-uncomment-region))
   :config
-  (add-hook 'prog-mode-hook (lambda ()
-                              (hs-minor-mode 1)
-                              (local-set-key [(meta f3)] 'hs-show-block)
-                              (local-set-key [(f3)]      'hs-hide-block))))
+  (defun juanleon/comment-or-uncomment-region (beg end &optional arg)
+    "Comment or uncoment whole lines in region"
+    (interactive "*r\nP")
+    (comment-or-uncomment-region (save-excursion
+                                   (goto-char beg)
+                                   (beginning-of-line)
+                                   (point))
+                                 (save-excursion
+                                   (goto-char end)
+                                   (end-of-line)
+                                   (point))
+                                 arg)))
+
+
+(use-package hideshow
+  :after prog-mode
+  :defer t
+  :bind (:map prog-mode-map
+              ([(meta f3)] . hs-show-block)
+              ([(f3)]      . hs-hide-block))
+  :config
+  (add-hook 'prog-mode-hook #'hs-minor-mode))
 
 
 (use-package elisp-mode
