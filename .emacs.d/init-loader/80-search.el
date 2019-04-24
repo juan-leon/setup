@@ -33,3 +33,14 @@
 (use-package deadgrep
   :ensure t
   :commands deadgrep)
+
+
+(use-package xref
+  :bind (([(meta return)] . xref-find-definitions)
+         ([(control ?.)]  . xref-find-apropos)
+         ([(meta ?.)]     . xref-find-definitions)))
+
+
+(use-package occur-x
+  :ensure t
+  :config (add-hook 'occur-mode-hook 'turn-on-occur-x-mode))

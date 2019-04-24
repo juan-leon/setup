@@ -53,7 +53,6 @@
     "Toggle stuff"
     ("d" toggle-debug-on-error "debug-on-error" :exit t)
     ("D" toggle-debug-on-quit "debug-on-quit" :exit t)
-    ("g" golden-ratio-mode "Golden-ratio" :exit t)
     ("F" auto-fill-mode "Auto-fill" :exit t)
     ("l" toggle-truncate-lines "Truncate lines" :exit t)
     ("r" read-only-mode "Read-only" :exit t)
@@ -120,9 +119,6 @@
 
 
 
-(use-package occur-x
-  :ensure t
-  :config (add-hook 'occur-mode-hook 'turn-on-occur-x-mode))
 
 
 
@@ -181,3 +177,41 @@
   :config
   (minions-mode 1)
   (setq minions-mode-line-lighter "@"))
+
+
+(use-package man
+  :bind (([(super m)] . man))
+  :config (setq Man-notify-method 'pushy))
+
+
+(defun juanleon/tmux-window-here ()
+  "Open a new window on first session on current directory"
+  (interactive)
+  (if default-directory
+      (shell-command
+       (format "TMPDIR=/tmp/user/%d tmux new-window -c %s"
+               (user-uid) default-directory))
+    (error "This buffer has no directory")))
+
+(global-set-key [(super t)] 'juanleon/tmux-window-here)
+
+
+(use-package jit-lock
+  :defer t
+  :config
+  (setq jit-lock-stealth-time 5
+        jit-lock-stealth-nice 0.25))
+
+
+(use-package whitespace
+  :defer t
+  :config
+  (setq whitespace-line-column 100))
+
+
+(use-package time
+  :defer t
+  :config
+  (setq display-time-world-list '(("America/Argentina/Buenos_Aires" "Buenos Aires")
+                                  ("UTC" "UTC")
+                                  ("Europe/Madrid" "Madrid"))))

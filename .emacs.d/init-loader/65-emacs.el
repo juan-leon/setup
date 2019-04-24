@@ -20,3 +20,8 @@
   :ensure t
   :config
   (exec-path-from-shell-initialize))
+
+
+(use-package lisp
+  :bind (([(meta up)] . backward-list)
+         ([(meta down)]  . forward-list)))
