@@ -89,3 +89,9 @@
 
 (use-package orgtbl-aggregate
   :ensure t)
+
+
+(use-package stripe-buffer
+  :ensure t
+  :commands turn-on-stripe-table-mode
+  :custom-face (stripe-highlight ((t (:background "#e4e4d4")))))

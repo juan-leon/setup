@@ -77,7 +77,7 @@
   :keymap 'juanleon/cases-mode-map
   :lighter "<cases>"
   (read-only-mode 1)
-  (stripes-mode 1))
+  (turn-on-stripe-table-mode))
 
 (defun juanleon/cases-case-url ()
   (save-excursion
@@ -257,8 +257,6 @@
     (if number
         (shell-command (format "juanleon-form-cr %s %s" fetch number))
     (message "No case in this line"))))
-
-(require 'stripes)
 
 
 

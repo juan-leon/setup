@@ -42,7 +42,7 @@
   :keymap squealer-mode-map
   :lighter "<squealer>"
   (read-only-mode 1)
-  (stripes-mode 1))
+  (turn-on-stripe-table-mode))
 
 
 (defun squealer/list ()
