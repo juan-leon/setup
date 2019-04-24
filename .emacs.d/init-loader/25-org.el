@@ -39,6 +39,7 @@
   :config
   (use-package org-bullets :ensure t)
   (require 'ox-md nil t)
+  (require 'org-tempo)
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
   (setq org-agenda-files '("~/Dropbox/org/agenda")
         org-directory "~/Dropbox/org"
