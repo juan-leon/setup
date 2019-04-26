@@ -1,6 +1,7 @@
 (use-package flycheck
   :ensure t
-  :bind ([(control x)(?!)] . flycheck-mode)
+  :bind (([(control x)(?!)] . flycheck-mode)
+         ([(f2)] . flycheck-list-errors))
   :init
   (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
   (setq flycheck-idle-change-delay 3
@@ -10,39 +11,6 @@
   ;; xenial shellcheck does not support that option
   (setq flycheck-shellcheck-follow-sources nil)
   (add-hook 'after-init-hook #'global-flycheck-mode))
-
-
-(use-package ws-butler
-  :ensure t
-  :diminish ws-butler-mode
-  :init
-  (add-hook 'prog-mode-hook #'ws-butler-mode)
-  (add-hook 'text-mode-hook #'ws-butler-mode))
-
-
-(use-package dumb-jump
-  :ensure t
-  :bind ([(control meta ?.)] . dumb-jump-go)
-  :config
-  (dumb-jump-mode 1))
-
-
-(use-package fixme-mode
-  :ensure t
-  :defer t
-  :init
-  (setq fixme-mode-warning-words '("FIXME" "TODO" "fixme" "HACK"))
-  (add-hook 'prog-mode-hook #'fixme-mode))
-
-
-(use-package puppet-mode
-  :ensure t
-  :mode ("\\.pp\\'" . puppet-mode))
-
-
-(use-package go-mode
-  :ensure t
-  :mode ("\\.go\\'" . go-mode))
 
 
 (use-package prog-mode
@@ -63,6 +31,35 @@
                                  arg)))
 
 
+(use-package ws-butler
+  :ensure t
+  :diminish ws-butler-mode
+  :init
+  (add-hook 'prog-mode-hook #'ws-butler-mode)
+  (add-hook 'text-mode-hook #'ws-butler-mode))
+
+
+(use-package whitespace
+  :defer t
+  :config
+  (setq whitespace-line-column 100))
+
+
+(use-package dumb-jump
+  :ensure t
+  :bind ([(control meta ?.)] . dumb-jump-go)
+  :config
+  (dumb-jump-mode 1))
+
+
+(use-package fixme-mode
+  :ensure t
+  :defer t
+  :init
+  (setq fixme-mode-warning-words '("FIXME" "TODO" "fixme" "HACK"))
+  (add-hook 'prog-mode-hook #'fixme-mode))
+
+
 (use-package hideshow
   :after prog-mode
   :defer t
@@ -71,6 +68,21 @@
               ([(f3)]      . hs-hide-block))
   :config
   (add-hook 'prog-mode-hook #'hs-minor-mode))
+
+
+(use-package puppet-mode
+  :ensure t
+  :mode ("\\.pp\\'" . puppet-mode))
+
+
+(use-package go-mode
+  :ensure t
+  :mode ("\\.go\\'" . go-mode))
+
+
+(use-package toml-mode
+  :ensure t
+  :mode ("\\.toml\\'" . toml-mode))
 
 
 (use-package elisp-mode

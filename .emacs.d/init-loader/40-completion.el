@@ -67,7 +67,9 @@
 (use-package smex
   :ensure t
   :init (setq smex-save-file (concat user-emacs-directory ".smex-items"))
-  :config (smex-auto-update 60))
+  :config
+  (smex-initialize)
+  (smex-auto-update 60))
 
 
 (use-package flyspell-correct-ivy

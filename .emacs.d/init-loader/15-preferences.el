@@ -63,3 +63,8 @@
     (cond
      ((window-minibuffer-p) (abort-recursive-edit))
      (t (kill-buffer (current-buffer))))))
+
+(when (eq system-type 'darwin)
+  (global-set-key [(home)] 'move-beginning-of-line)
+  (global-set-key [(end)] 'end-of-line)
+  (global-set-key [(shift hyper help)] 'yank))

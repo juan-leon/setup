@@ -34,10 +34,10 @@
   (defun buffer-stack-filter-by-mode (buffer)
     (with-current-buffer buffer
       (equal major-mode buffer-stack-mode)))
-  (global-set-key [(meta kp-7)] (command (buffer-op-by-mode 'buffer-stack-up)))
-  (global-set-key [(meta kp-9)] (command (buffer-op-by-mode 'buffer-stack-down)))
-  (global-set-key [(meta kp-3)] (command (buffer-op-by-mode 'buffer-stack-down 'dired-mode)))
-  (global-set-key [(meta kp-1)] (command (buffer-op-by-mode 'buffer-stack-up 'dired-mode))))
+  (global-set-key [(meta kp-7)] (lambda () (interactive) (buffer-op-by-mode 'buffer-stack-up)))
+  (global-set-key [(meta kp-9)] (lambda () (interactive) (buffer-op-by-mode 'buffer-stack-down)))
+  (global-set-key [(meta kp-3)] (lambda () (interactive) (buffer-op-by-mode 'buffer-stack-down 'dired-mode)))
+  (global-set-key [(meta kp-1)] (lambda () (interactive) (buffer-op-by-mode 'buffer-stack-up 'dired-mode))))
 
 
 (use-package midnight

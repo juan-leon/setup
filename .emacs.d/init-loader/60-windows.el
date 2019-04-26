@@ -50,9 +50,17 @@
 
 (use-package window
   :bind (([(pause)] . delete-other-windows))
-  :config
+  :init
   (setq split-height-threshold 140
         recenter-positions '(top middle bottom)))
+
+
+;; Cleaner modeline
+(use-package minions
+  :ensure t
+  :config
+  (minions-mode 1)
+  (setq minions-mode-line-lighter "@"))
 
 
 (defun juanleon/toggle-split ()

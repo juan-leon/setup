@@ -15,11 +15,6 @@
   (let ((dired-actual-switches "--group-directories-first -l"))
     (revert-buffer)))
 
-(defun juanleon/dired-at-other-repo ()
-  (interactive)
-  (with-temp-buffer
-    (dired "~/www")))
-
 (defun juanleon/dired-browse-html ()
   (interactive)
   (eww-open-file (dired-get-file-for-visit)))
@@ -29,8 +24,6 @@
   :demand
   :bind (([(control ?x) (control ?d)] . dired-jump)
          ([(control meta ?0)] . juanleon/dired-at-repo)
-         ([(control meta ?')] . juanleon/dired-at-other-repo)
-         ([(control meta ?-)] . juanleon/dired-at-other-repo)
          ([(super u)]         . juanleon/dired-recursive-by-extension)
          :map dired-mode-map
          ([?U] . dired-unmark-backward)

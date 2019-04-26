@@ -26,10 +26,8 @@
 
 
 (use-package color-theme-sanityinc-solarized :ensure t)
-(use-package color-theme
-  :ensure t
-  :demand
-  :config
+(use-package custom
+  :init
   (defvar juanleon-light-theme 'sanityinc-solarized-light)
   (defvar juanleon-dark-theme  'sanityinc-solarized-dark)
   (load-theme juanleon-light-theme t)
