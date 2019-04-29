@@ -13,7 +13,7 @@
 (use-package ripgrep
   :ensure t
   :defer t
-  :custom (ripgrep-arguments (list "-M 200")))
+  :config (setq ripgrep-arguments (list "-M 200")))
 
 
 (use-package wgrep

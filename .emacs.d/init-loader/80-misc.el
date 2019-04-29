@@ -39,10 +39,10 @@
 (use-package ediff
   :defer t
   :init (setq-default ediff-ignore-similar-regions t)
-  :custom
-  (ediff-window-setup-function 'ediff-setup-windows-plain)
-  (ediff-split-window-function 'split-window-horizontally)
-  (ediff-diff-options          " -bB "))
+  :config
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain
+        ediff-split-window-function 'split-window-horizontally
+        ediff-diff-options          " -bB "))
 
 
 (use-package man

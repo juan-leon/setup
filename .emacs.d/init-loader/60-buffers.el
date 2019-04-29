@@ -1,16 +1,16 @@
 (use-package ibuffer
   :bind ([remap list-buffers] . ibuffer)
-  :custom
-  (ibuffer-formats '((mark modified read-only
-                           " " (name 42 42)
-                           " " (size 9 9 :right)
-                           " " (mode 21 21 :left :elide)
-                           " " filename-and-process)
-                     (mark " " (name 30 -1) " " filename))))
+  :config
+  (setq ibuffer-formats '((mark modified read-only
+                                " " (name 42 42)
+                                " " (size 9 9 :right)
+                                " " (mode 21 21 :left :elide)
+                                " " filename-and-process)
+                          (mark " " (name 30 -1) " " filename))))
 
 
 (use-package uniquify
-  :custom (uniquify-buffer-name-style 'post-forward-angle-brackets))
+  :config (setq uniquify-buffer-name-style 'post-forward-angle-brackets))
 
 
 ;; Fast switching buffers in same window

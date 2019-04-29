@@ -36,8 +36,9 @@
 
 
 (use-package saveplace
-  :custom (save-place-file (concat user-emacs-directory "history/places"))
-  :config (save-place-mode 1))
+  :config
+  (setq save-place-file (concat user-emacs-directory "history/places"))
+  (save-place-mode 1))
 
 
 (use-package bookmark

@@ -66,9 +66,8 @@
 
 (use-package flyspell
   :defer 5
-  :custom
-  (flyspell-abbrev-p t)
   :config
+  (setq flyspell-abbrev-p t)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
   (add-hook 'text-mode-hook 'flyspell-mode))
 

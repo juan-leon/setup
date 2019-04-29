@@ -19,9 +19,9 @@
          ([(control kp-right)] . windmove-right)
          ([(control kp-left)]  . windmove-left))
   :config
-  (defadvice windmove-do-window-select (around silent-windmove activate)
-    "Do not beep when no suitable window is found."
-    (condition-case () ad-do-it (error nil))))
+  (setq windmove-create-window t)
+  (windmove-display-default-keybindings) ; S-M-arrow command: create/show
+  (windmove-delete-default-keybindings))  ; C-x S-arrow: delete
 
 
 (use-package buffer-move
@@ -45,7 +45,7 @@
     (if (one-window-p)
         (ivy-switch-buffer)
       (switch-window)))
-  :custom (switch-window-shortcut-style 'qwerty))
+  :config (setq switch-window-shortcut-style 'qwerty))
 
 
 (use-package window

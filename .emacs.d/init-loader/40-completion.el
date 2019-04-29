@@ -78,7 +78,7 @@
   :commands flyspell-correct-ivy
   :bind (:map flyspell-mode-map
         ("C-;" . flyspell-correct-word-generic))
-  :custom (flyspell-correct-interface 'flyspell-correct-ivy))
+  :config (setq flyspell-correct-interface 'flyspell-correct-ivy))
 
 
 (use-package counsel-dash

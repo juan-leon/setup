@@ -31,7 +31,7 @@
 
 (use-package jedi-core
   :ensure t
-  :custom (jedi:tooltip-method nil))
+  :config (setq jedi:tooltip-method nil))
 
 
 (add-hook 'python-mode-hook

@@ -1,0 +1,9 @@
+#!/bin/bash -eu
+
+cat <<EOF | sudo tee /etc/resolv.conf >/dev/null
+nameserver 10.64.26.195
+nameserver 127.0.1.1
+search xcade.net
+EOF
+
+nmcli --ask con up id "Frankfurt Avature VPN - Dev user" passwd-file ~/.ssh/vpn.grp

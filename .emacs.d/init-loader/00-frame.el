@@ -26,6 +26,8 @@
 
 
 (use-package color-theme-sanityinc-solarized :ensure t)
+
+
 (use-package custom
   :init
   (defvar juanleon-light-theme 'sanityinc-solarized-light)

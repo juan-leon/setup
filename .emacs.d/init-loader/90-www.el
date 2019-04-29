@@ -1,7 +1,7 @@
 (use-package browse-url
   :defer t
   :commands browse-url-interactive-arg
-  :custom (browse-url-browser-function 'browse-url-firefox))
+  :config (setq browse-url-browser-function 'browse-url-firefox))
 
 
 (use-package xwidget

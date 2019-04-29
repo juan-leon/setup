@@ -127,13 +127,13 @@
 (use-package markdown-mode
   :ensure t
   :defer t
-  :custom (markdown-gfm-additional-languages '("bash")))
+  :config (setq markdown-gfm-additional-languages '("bash")))
 
 
 (use-package copy-as-format
   :ensure t
   :commands copy-as-format
-  :custom (copy-as-format-default "gitlab"))
+  :config (setq copy-as-format-default "gitlab"))
 
 
 (use-package hcl-mode

@@ -3,7 +3,7 @@
   :bind (([(super ?j)] . avy-goto-word-1)
          ([(super ?k)] . avy-goto-char-timer)
          ([(super ?l)] . avy-goto-line))
-  :init
+  :config
   (setq avy-keys '(up down left right)
         avy-lead-faces '(avy-lead-face
                          avy-lead-face-0
