@@ -5,9 +5,6 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default))
- '(flycheck-json-python-json-executable "python3.7")
- '(flycheck-python-flake8-executable "/home/juanleon/.envs/lint/bin/flake8")
- '(flycheck-python-pycompile-executable "/home/juanleon/.envs/lint/bin/python")
  '(forge-alist
    '(("github.com" "api.github.com" "github.com" forge-github-repository)
      ("gitlab.com" "gitlab.com/api/v4" "gitlab.com" forge-gitlab-repository)
@@ -29,12 +26,7 @@
  '(safe-local-variable-values
    '((org-startup-with-inline-images . t)
      (org-use-property-inheritance . t)
-     (org-confirm-babel-evaluate)
-     (test-case-name . twisted\.test\.test_usage)
-     (eval add-to-list 'before-save-hook code-full-cleanup)
-     (nxml-child-indent . 2)
-     (eval make-variable-buffer-local 'before-save-hook)
-     (eval add-to-list 'before-save-hook))))
+     (org-confirm-babel-evaluate))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -3,14 +3,19 @@
   :bind (([(control x)(?!)] . flycheck-mode)
          ([(f2)] . flycheck-list-errors))
   :init
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  :config
   (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
   (setq flycheck-idle-change-delay 3
         flycheck-check-syntax-automatically '(save idle-change mode-enabled)
-        flycheck-shellcheck-excluded-warnings '("SC2086"))
-  :config
-  ;; xenial shellcheck does not support that option
-  (setq flycheck-shellcheck-follow-sources nil)
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+        ;; json
+        flycheck-json-python-json-executable "python3.7"
+        ;; python
+        flycheck-python-flake8-executable "/home/juanleon/.envs/lint/bin/flake8"
+        flycheck-python-pycompile-executable "/home/juanleon/.envs/lint/bin/python"
+        ;; bash
+        flycheck-shellcheck-excluded-warnings '("SC2086")
+        flycheck-shellcheck-follow-sources nil)) ; xenial shellcheck does not support that
 
 
 (use-package prog-mode
@@ -33,10 +38,11 @@
 
 (use-package ws-butler
   :ensure t
-  :diminish ws-butler-mode
   :init
   (add-hook 'prog-mode-hook #'ws-butler-mode)
-  (add-hook 'text-mode-hook #'ws-butler-mode))
+  (add-hook 'text-mode-hook #'ws-butler-mode)
+  :config
+  (setq ws-butler-global-exempt-modes nil))
 
 
 (use-package whitespace
