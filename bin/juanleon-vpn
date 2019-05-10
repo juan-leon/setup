@@ -6,4 +6,5 @@ nameserver 127.0.1.1
 search xcade.net
 EOF
 
+juanleon-keyboard
 nmcli --ask con up id "Frankfurt Avature VPN - Dev user" passwd-file ~/.ssh/vpn.grp

@@ -42,7 +42,6 @@
          ([(super insert)] . overwrite-mode)
          ([(control delete)] . kill-whole-line)
          ([(super f)] . auto-fill-mode)
-         ([(meta ?g)] . goto-line)
          ([(meta ? )] . cycle-spacing)
          ;; Changes in the default emacs behaviour
          ([(control z)] . undo)

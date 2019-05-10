@@ -29,7 +29,7 @@ function trap_dbg {
     # This is a dirty trick to avoid additional prompt lines when hitting ENTER.
     # I did not find any more straight-forward way of doing that.
     local command="$BASH_COMMAND"
-    if test "$command" != "set_bash_prompt"; then
+    if test "$command" != "set_bash_prompt" && test "$command" != "return"; then
         last_cmd="$command"
     fi
 }
@@ -55,12 +55,15 @@ function set_bash_prompt {
     fi
     if test "$TERM" == dumb; then
         PS1='[\w]: '
+        trap trap_dbg DEBUG
         return
     elif test "$EUID" = 0; then
         PS1="$open_bracket${color_back_red}ROOT:$color_red\w$close_bracket$exit_code: "
+        trap trap_dbg DEBUG
         return
     elif test -z "$last_cmd"; then
         PS1="$hostname$w: "
+        trap trap_dbg DEBUG
         return
     fi
     local repo
