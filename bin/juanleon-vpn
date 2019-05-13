@@ -1,10 +1,11 @@
 #!/bin/bash -eu
 
-cat <<EOF | sudo tee /etc/resolv.conf >/dev/null
-nameserver 10.64.26.195
-nameserver 127.0.1.1
-search xcade.net
-EOF
+# Not needed anymore, fuck yeah!
+# cat <<EOF | sudo tee /etc/resolv.conf >/dev/null
+# nameserver 10.64.26.195
+# nameserver 127.0.0.53
+# search xcade.net
+# EOF
 
 juanleon-keyboard
-nmcli --ask con up id "Frankfurt Avature VPN - Dev user" passwd-file ~/.ssh/vpn.grp
+nmcli --ask con up id "Frankfurt Avature VPN - Tech Admin Users" passwd-file ~/.ssh/vpn.grp

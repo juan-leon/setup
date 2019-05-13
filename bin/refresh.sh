@@ -5,7 +5,6 @@ readonly FILES="
   .gitconfig
   .gitignore.global
   .tmux.conf
-  .multitailrc
   bin/bt
   bin/test-file
   bin/pyrev

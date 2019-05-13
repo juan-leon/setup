@@ -16,8 +16,9 @@
 (use-package yasnippet
   :ensure t
   :bind (:map yas-minor-mode-map ([(super ?`)] . yas-expand))
-  :config
+  :init
   (yas-global-mode)
+  :config
   ;; Tab is for completion/indent
   (define-key yas-minor-mode-map [(tab)] nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil))
@@ -30,7 +31,6 @@
   :ensure t)
 
 
-
 (use-package define-word
   :ensure t
   :commands define-word define-word-at-point)
@@ -38,8 +38,9 @@
 
 (use-package ediff
   :defer t
-  :init (setq-default ediff-ignore-similar-regions t)
+  :init
   :config
+  (setq-default ediff-ignore-similar-regions t)
   (setq ediff-window-setup-function 'ediff-setup-windows-plain
         ediff-split-window-function 'split-window-horizontally
         ediff-diff-options          " -bB "))
