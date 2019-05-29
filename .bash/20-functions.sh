@@ -1,6 +1,6 @@
 function v_ssh {
     if test "$TERM" = "screen-256color"; then
-        tmux rename-window "#[bg=yellow,fg=black]$1"
+        tmux rename-window -t $TMUX_PANE "#[bg=yellow,fg=black]$1"
     fi
     vagrant ssh $1
     cd .
@@ -8,7 +8,7 @@ function v_ssh {
 
 function l_ssh {
     if test "$TERM" = "screen-256color"; then
-        tmux rename-window "#[bg=yellow,fg=black]$1"
+        tmux rename-window -t $TMUX_PANE "#[bg=yellow,fg=black]$1"
     fi
     lxc exec $1 bash
     cd .
@@ -17,7 +17,7 @@ function l_ssh {
 function r_ssh {
     if [[ ! "$1" =~ ^- ]]; then
         if test "$TERM" = "screen-256color"; then
-            tmux rename-window "#[bg=green]$1"
+            tmux rename-window -t $TMUX_PANE "#[bg=green]$1"
         fi
     fi
     /usr/bin/ssh "$@"
@@ -26,7 +26,7 @@ function r_ssh {
 
 function d_ssh {
     if test "$TERM" = "screen-256color"; then
-        tmux rename-window "#[bg=green]$1"
+        tmux rename-window -t $TMUX_PANE "#[bg=green]$1"
     fi
     docker exec -ti $1 bash
 }
