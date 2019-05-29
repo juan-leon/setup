@@ -69,3 +69,17 @@
   (setq jit-lock-stealth-time 5
         jit-lock-stealth-nice 0.25))
 
+
+(use-package executable
+  :defer t
+  :init
+  (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p))
+
+(defun spotify-commmand (command)
+  (if (/= 0 (shell-command (concat "juanleon-spotify " command) nil "*spotify-error*"))
+      (message "spotify error")))
+
+
+(global-set-key [(XF86AudioPlay)] (lambda () (interactive) (spotify-commmand "PlayPause")))
+(global-set-key [(XF86AudioPrev)] (lambda () (interactive) (spotify-commmand "prev")))
+(global-set-key [(XF86AudioNext)] (lambda () (interactive) (spotify-commmand "next")))
