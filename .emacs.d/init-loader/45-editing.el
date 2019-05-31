@@ -1,6 +1,5 @@
 (use-package wrap-region
   :ensure t
-  :diminish wrap-region-mode
   :config
   (wrap-region-global-mode t)
   (wrap-region-add-wrapper "`" "`" "q" '(markdown-mode ruby-mode))

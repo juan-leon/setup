@@ -1,6 +1,5 @@
 (use-package ivy
   :ensure t
-  :diminish ivy-mode
   :bind (([(control ?c) (control ?r)] . ivy-resume)
          ([(meta kp-5)]     . ivy-switch-buffer)
          ([(meta kp-begin)] . ivy-switch-buffer)

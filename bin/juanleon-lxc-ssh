@@ -24,6 +24,6 @@ scp ~/.tmux.conf ~/.gitconfig $host: >/dev/null
 scp ~/bin/zz-prompt.sh $host:/etc/profile.d >/dev/null
 
 if test -v TMUX; then
-    tmux rename-window "#[bg=green]$host";
+    tmux rename-window -t $TMUX_PANE "#[bg=green]$host";
 fi
 ssh $host
