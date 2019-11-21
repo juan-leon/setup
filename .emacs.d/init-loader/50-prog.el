@@ -41,6 +41,7 @@
   :init
   (add-hook 'prog-mode-hook #'ws-butler-mode)
   (add-hook 'text-mode-hook #'ws-butler-mode)
+  (add-hook 'toml-mode-hook #'ws-butler-mode)
   :config
   (setq ws-butler-global-exempt-modes nil))
 
@@ -143,6 +144,7 @@
 
 
 (use-package hcl-mode
+  :mode ("\\.tf\\'" . hcl-mode)
   :ensure t)
 
 

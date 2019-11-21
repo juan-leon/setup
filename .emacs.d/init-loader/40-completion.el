@@ -42,6 +42,7 @@
          ([(control ?r)] . counsel-shell-history)
          ([(super up)] . counsel-shell-history))
   :config
+  (ivy-configure 'counsel-M-x :initial-input "")
   ;; Counsel overrides my ivy-height configs :-(
   (setq ivy-height-alist '((counsel-dash . 48)
                            (counsel-dash-at-point . 48)

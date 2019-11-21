@@ -60,6 +60,8 @@
 
 (use-package yascroll
   :ensure t
+  ;; It became buggy
+  :disabled
   :config (global-yascroll-bar-mode 1))
 
 

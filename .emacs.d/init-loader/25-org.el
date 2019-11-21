@@ -1,7 +1,7 @@
 ;; TODO investigate org-notmuch
 ;; (require 'org-notmuch) to deal with notmuch debian vs elpa issues
 
-(defun org-archive-done-tasks ()
+(defun juanleon/org-archive-done-tasks ()
   "Archived all DONE tasks in buffer"
   (interactive)
   (org-map-entries
@@ -34,7 +34,7 @@
   :bind (([(control c) ?l] . org-store-link)
          ([(control c) ?a] . org-agenda)
          ([(control c) ?c] . org-capture)
-         ([(control c) ?4] . org-archive-done-tasks)
+         ([(control c) ?4] . juanleon/org-archive-done-tasks)
          ([(super o)]      . org-switchb))
   :config
   (use-package org-bullets :ensure t)
@@ -44,7 +44,14 @@
   (setq org-agenda-files '("~/Dropbox/org/agenda")
         org-directory "~/Dropbox/org"
         org-src-fontify-natively t
-        org-edit-src-content-indentation 0)
+        org-edit-src-content-indentation 0
+        org-support-shift-select t
+        org-deadline-warning-days 1)
+
+  (setq org-refile-use-outline-path 'file
+        org-outline-path-complete-in-steps nil
+        org-refile-targets '(("~/Dropbox/org/agenda/agenda.org" :maxlevel . 1)
+                             ("~/Dropbox/org/agenda/Inbox.org" :maxlevel . 1)))
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -68,8 +75,10 @@
           ("g" "Good News" entry (file+datetree "info/goodnews.org") "* %<%R:>%?\n")
           ("k" "Trick " entry (file "info/tricks.org") "* %?\n")
           ("K" "Trick with code" entry (file "info/tricks.org") "* %? \n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
+          ("f" "Follow up" entry (file "agenda/agenda.org")
+           "* TODO Follow up %?\n  SCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+3d\"))")
           ("s" "scheduled" entry (file "agenda/agenda.org")
-           "* %?\n  SCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))")))
+           "* TODO %?\n  SCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))")))
 
   (setq org-agenda-custom-commands
         '((" " "Inbox"

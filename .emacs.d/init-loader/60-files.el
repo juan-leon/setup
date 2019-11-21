@@ -31,7 +31,8 @@
 
 (use-package desktop
   :config
-  (setq desktop-load-locked-desktop nil)
+  (setq desktop-load-locked-desktop nil
+        desktop-modes-not-to-save '(tags-table-mode dired-mode))
   (desktop-save-mode 1))
 
 

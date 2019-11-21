@@ -1,11 +1,18 @@
 #!/bin/bash -eu
 
+# In bionic for some reason I have two keyboards (I suspect that work and home
+# keyboards are listed somehow, as I never restart laptop)
+function devices {
+    # `xinput --list --id-only "keyboard:Gaming KB Gaming KB")` does not work for
+    # all of my keyboards :-(
+    xinput --list | grep 'KB.*keyboard' | grep -oP 'id=[0-9]+' | grep -oP '[0-9]+'
+}
+
 layout=${1:-en}
-# `xinput --list --id-only "keyboard:Gaming KB Gaming KB")` does not work for
-# all keyboards :-(
-device=$(xinput --list | grep -m 1 'KB.*keyboard' | grep -oP 'id=[0-9]+' | grep -oP '[0-9]+')
-if test $layout == 'en'; then
-    setxkbmap -device $device -layout us -option -option ctrl:nocaps -option compose:ralt
-elif test $layout == 'es'; then
-    setxkbmap -layout es -option -option ctrl:nocaps
-fi
+for device in $(devices); do
+    if test $layout == 'en'; then
+        setxkbmap -device $device -layout us -option ctrl:nocaps -option compose:ralt
+    elif test $layout == 'es'; then
+        setxkbmap -layout es -option ctrl:nocaps
+    fi
+done
