@@ -35,6 +35,10 @@ function g {
     cd $REPODIR/$1
 }
 
+function v {
+    workon $1 && cd $REPODIR/$1
+}
+
 function i {
     cd /var/www/vhosts/iatsSites/$1;
 }
@@ -81,6 +85,16 @@ function _repodir {
     COMPREPLY=($( compgen -W '`ls -p $REPODIR | grep / | sed "s|/||"`' -- "$cur" ));
 }
 complete -F _repodir g
+
+function _v_ {
+    local cur prev;
+    COMPREPLY=();
+    _get_comp_words_by_ref cur prev;
+    [ $COMP_CWORD -gt 1 ] && return 0;
+    [ -d "$REPODIR" ] || return 0
+    COMPREPLY=($( compgen -W '`ls -p $WORKON_HOME | grep / | sed "s|/||"`' -- "$cur" ));
+}
+complete -F _v_ v
 
 
 function revagrant {

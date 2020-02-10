@@ -28,3 +28,22 @@
       (notmuch-mua-send-and-exit)))
   :config
   (bind-key "C-c C-d" 'juanleon/message-send-md-formatted notmuch-message-mode-map))
+
+
+(defun juanleon/thundermail ()
+  (interactive)
+  (save-buffer)
+  (save-excursion
+    (shell-command-on-region (point-min) (point-max) "compose-mail"))
+  (bury-buffer))
+
+
+(defun juanleon/compose-mail ()
+  "Open an email compose window"
+  (interactive)
+  (juanleon/open-test-file "mail")
+  (whitespace-mode 1)
+  (ws-butler-mode 0)
+  (counsel-bbdb-reload)
+  (local-set-key [(control return)] 'counsel-bbdb-complete-mail)
+  (local-set-key [(control meta return)] 'juanleon/thundermail))

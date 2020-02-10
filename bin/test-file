@@ -26,6 +26,7 @@ bash = TestFile('sh', 'sh')
 rb = TestFile('rb', 'rb')
 go = TestFile('go', 'go')
 perl = TestFile('perl', 'perl')
+mail = TestFile('md', 'mail')
 
 template_map = {
     'py': python,
@@ -36,7 +37,9 @@ template_map = {
     'ruby': rb,
     'go': go,
     'perl': perl,
+    'mail': mail,
 }
+
 
 def find_next(extension, directory):
     regexp = re.compile(extension + '([0-9]*)\.' + extension + '$')

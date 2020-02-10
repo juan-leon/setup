@@ -81,7 +81,7 @@
            "* TODO %?\n  SCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+2d\"))")))
 
   (setq org-agenda-custom-commands
-        '((" " "Inbox"
+        '(("x" "Inbox"
            ((tags "PRIORITY=\"A\"" ((org-agenda-overriding-header "High-prio:")))
             (tags "ongoing"
                   ((org-agenda-files '("~/Dropbox/org/agenda/projects.org"))

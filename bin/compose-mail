@@ -1,0 +1,93 @@
+#!/home/juanleon/.envs/aws-reports/bin/python
+
+import io
+import re
+import subprocess
+from tempfile import NamedTemporaryFile
+
+import click
+
+STYLE = '/home/juanleon/bin/mails/buttondown.css'
+SUBJECT = re.compile(r'^Subject:\s*(.*)$')
+TO = re.compile(r'^To:\s*(.*)$')
+CC = re.compile(r'^Cc:\s*(.*)$')
+
+
+@click.command()
+@click.option('--message', required=False, type=click.File(), default='-')
+def main(message: io.TextIOWrapper) -> None:
+    with NamedTemporaryFile() as body:
+        subject, to, cc = create_body(message, body)
+        raw = f'{body.name}.raw'
+        process = subprocess.run(
+            [
+                'pandoc', '-f', 'markdown', '-t', 'html', '-s', '-c', STYLE,
+                '--self-contained', '-o', raw, body.name
+            ], stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+        )
+    if process.returncode:
+        print('Thunderbird error:', process.stdout.decode())
+    else:
+        process_body(raw, f'{raw}.proc')
+        launch(f'{raw}.proc', subject, to, cc)
+
+
+def create_body(message: io.TextIOWrapper, body):
+    cat = False
+    subject, to, cc = '', '', ''
+    for line in message.readlines():
+        if cat:
+            body.write(f'{line}'.encode())
+            continue
+        match = SUBJECT.match(line)
+        if match:
+            subject = match.group(1)
+            continue
+        match = TO.match(line)
+        if match:
+            to = match.group(1)
+            continue
+        match = CC.match(line)
+        if match:
+            cc = match.group(1)
+            continue
+        body.write(f'{line}'.encode())
+        cat = True
+    body.flush()
+    return subject, to, cc
+
+
+def process_body(input: str, output: str):
+    br = False
+    with open(input) as raw:
+        with open(output, 'w') as proc:
+            for line in raw.readlines():
+                line = line.rstrip()
+                if '<pre' in line:
+                    br = True
+                if br:
+                    proc.write(f'{line}<br>\n')
+                else:
+                    proc.write(f'{line}\n')
+                if '</pre' in line:
+                    br = False
+
+
+def launch(message: str, subject: str, to: str, cc: str) -> None:
+    options = ''
+    if subject:
+        options += f',subject={subject}'.strip()
+    if to:
+        options += f',to={to}'.strip()
+    if cc:
+        options += f',cc={cc}'.strip()
+    process = subprocess.run(
+        ['thunderbird', '-compose', f'format=1,message={message}{options}'],
+        stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+    )
+    if process.returncode:
+        print('Thunderbird error:', process.stdout.decode())
+
+
+if __name__ == '__main__':
+    main()

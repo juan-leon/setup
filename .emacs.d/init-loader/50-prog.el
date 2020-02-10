@@ -160,7 +160,7 @@
   "Quick test in language of choice"
   (interactive (let ((ivy-sort-functions-alist nil))
                  (list (completing-read
-                        "Language: " '("py" "sh" "php" "ruby" "go" "perl")))))
+                        "Language: " '("py" "sh" "php" "mail" "ruby" "go" "perl")))))
   (let ((filename
           (replace-regexp-in-string
            "\n$" "" (shell-command-to-string (concat "test-file " lang)))))

@@ -23,6 +23,7 @@
     "cristian"
     "daniel"
     "victorp"
+    "devops-cr"
     ))
 
 (defvar teg-templates '("platform" "tests"))
@@ -34,8 +35,6 @@
   (let* ((buf (get-buffer-create (format "*cases-%s*" list-name)))
          (inhibit-read-only t))
     (switch-to-buffer buf)
-    (make-local-variable 'teg-list)
-    (setq teg-list list-name)
     (erase-buffer)
     (shell-command
      (format "cases %s list -K --format orgtbl %s %s"
@@ -43,7 +42,9 @@
              (if sort-by (format "--sort-by '%s'" sort-by) "")
              list-name)
      buf buf)
-    (juanleon/cases-mode)))
+    (juanleon/cases-mode)
+    (make-local-variable 'teg-list)
+    (setq teg-list list-name)))
 
 (defvar juanleon/cases-mode-map
   (let ((m (make-sparse-keymap)))

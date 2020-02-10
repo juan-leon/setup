@@ -18,6 +18,7 @@ readonly FILES="
   bin/juanleon-vpn
   bin/juanleon-form-cr
   bin/juanleon--markdown-mail
+  bin/compose-mail
   bin/mail-md.css
   bin/zz-prompt.sh
   .bash
