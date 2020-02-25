@@ -131,12 +131,6 @@
   :mode ("\\.js\\.template\\'" . json-mode))
 
 
-(use-package markdown-mode
-  :ensure t
-  :defer t
-  :config (setq markdown-gfm-additional-languages '("bash")))
-
-
 (use-package copy-as-format
   :ensure t
   :commands copy-as-format
@@ -152,7 +146,7 @@
   :defer t
   :config
   ;; This allows linting correctly files with no shebang (libraries), since I
-  ;; always use bash
+  ;; never use other shells
   (add-hook 'sh-mode-hook (lambda () (sh-set-shell "bash"))))
 
 
@@ -165,3 +159,12 @@
           (replace-regexp-in-string
            "\n$" "" (shell-command-to-string (concat "test-file " lang)))))
     (find-file filename)))
+
+
+(use-package markdown-mode
+  :ensure t
+  :defer t
+  :config
+  (setq markdown-gfm-additional-languages '("bash"))
+  ;; I wonder if I will regret this...
+  (modify-syntax-entry ?' "\"" text-mode-syntax-table))

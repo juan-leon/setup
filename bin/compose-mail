@@ -8,6 +8,7 @@ from tempfile import NamedTemporaryFile
 import click
 
 STYLE = '/home/juanleon/bin/mails/buttondown.css'
+STYLE = '/home/juanleon/bin/mails/mail-md.css'
 SUBJECT = re.compile(r'^Subject:\s*(.*)$')
 TO = re.compile(r'^To:\s*(.*)$')
 CC = re.compile(r'^Cc:\s*(.*)$')
@@ -66,7 +67,7 @@ def process_body(input: str, output: str):
                 if '<pre' in line:
                     br = True
                 if br:
-                    proc.write(f'{line}<br>\n')
+                    proc.write(f'{line}<br>')
                 else:
                     proc.write(f'{line}\n')
                 if '</pre' in line:

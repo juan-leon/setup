@@ -100,6 +100,12 @@
 (use-package orgtbl-aggregate
   :ensure t)
 
+(use-package org-journal
+  :ensure t
+  :defer t
+  :custom (org-journal-dir "~/Dropbox/org/journal/")
+  (org-journal-date-format "%A, %d/%m/%y"))
+
 
 (use-package stripe-buffer
   :ensure t

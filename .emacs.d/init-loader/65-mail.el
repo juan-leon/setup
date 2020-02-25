@@ -38,12 +38,17 @@
   (bury-buffer))
 
 
+(use-package counsel-bbdb
+  :commands counsel-bbdb-reload counsel-bbdb-complete-mail
+  :after bbdb
+  :ensure t)
+
 (defun juanleon/compose-mail ()
   "Open an email compose window"
   (interactive)
   (juanleon/open-test-file "mail")
-  (whitespace-mode 1)
-  (ws-butler-mode 0)
+  ;; (whitespace-mode 1)
+  ;; (ws-butler-mode 0)
   (counsel-bbdb-reload)
   (local-set-key [(control return)] 'counsel-bbdb-complete-mail)
   (local-set-key [(control meta return)] 'juanleon/thundermail))
