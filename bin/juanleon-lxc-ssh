@@ -5,7 +5,7 @@ host=${2:-lxd}
 if [[ $container =~ ^[0-9]+$ ]]; then
     container=$(lxc list volatile.last_state.power=RUNNING -c n | grep $container | grep -m 1 -oP 'debtool[-a-z0-9]+')
 fi
-ip=$(lxc list "$container" -c 4 | grep -oP '10.[.0-9]+')
+ip=$(lxc list "$container" -c 4 | grep eth0 | grep -oP '10.[.0-9]+')
 echo "Using container $container and IP $ip"
 
 lxc exec "$container" -- mkdir -p /home/ubuntu/.ssh

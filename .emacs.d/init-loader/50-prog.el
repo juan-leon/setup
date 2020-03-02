@@ -142,6 +142,11 @@
   :ensure t)
 
 
+(use-package protobuf-mode
+  :mode ("\\.proto\\'" . protobuf-mode)
+  :ensure t)
+
+
 (use-package sh-script
   :defer t
   :config

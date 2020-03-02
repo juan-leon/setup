@@ -103,7 +103,9 @@
 (use-package org-journal
   :ensure t
   :defer t
-  :custom (org-journal-dir "~/Dropbox/org/journal/")
+  :bind ([(control j)] . org-journal-new-entry)
+  :custom
+  (org-journal-dir "~/Dropbox/org/journal/")
   (org-journal-date-format "%A, %d/%m/%y"))
 
 
