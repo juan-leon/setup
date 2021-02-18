@@ -31,6 +31,10 @@ function d_ssh {
     docker exec -ti $1 bash
 }
 
+function bail {
+    tail -100f "$1" | bat -l log --paging never
+}
+
 function g {
     cd $REPODIR/$1
 }

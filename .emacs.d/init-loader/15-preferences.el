@@ -67,3 +67,9 @@
   (global-set-key [(home)] 'move-beginning-of-line)
   (global-set-key [(end)] 'end-of-line)
   (global-set-key [(shift hyper help)] 'yank))
+
+
+;; Tricks to improve performance when long lines are present
+(setq-default bidi-paragraph-direction 'left-to-right)
+(setq bidi-inhibit-bpa t)
+(global-so-long-mode 1)

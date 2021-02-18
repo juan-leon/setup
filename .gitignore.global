@@ -11,3 +11,5 @@ __ignore__*
 .tox/
 /*.egg-info/
 .mypy_cache
+.dir-locals.el
+*.egg-info

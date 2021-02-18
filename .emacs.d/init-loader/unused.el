@@ -125,6 +125,15 @@
                'append)))
 
 
+(add-hook 'compilation-mode-hook
+          (lambda ()
+            (font-lock-add-keywords nil
+               '(("^\t--ldflags.*"
+                  (0 '(face nil font-lock-face nil
+                       compilation-message nil help-echo nil mouse-face nil) t)))
+               'append)))
+
+
 
 ;; This is fixed, but my faith on PHP mode is not great
 (eval-after-load "php-mode"

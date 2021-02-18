@@ -72,7 +72,8 @@
           ("v" "Todo with link" entry (file "agenda/Inbox.org") "* TODO %?\n  %U\n  %i\n  %a\n")
           ("c" "Case" entry (file "agenda/Inbox.org") (function juanleon/org-case-template))
           ("j" "Journal" entry (file+datetree "info/journal.org") "* %<%R:>%?\n")
-          ("g" "Good News" entry (file+datetree "info/goodnews.org") "* %<%R:>%?\n")
+          ("g" "Good News" entry (file+datetree "info/goodnews.org") "* %<%R:> %?\n")
+          ("l" "Today I learned" entry (file+datetree "info/til.org") "* %<%R:> %?\n")
           ("k" "Trick " entry (file "info/tricks.org") "* %?\n")
           ("K" "Trick with code" entry (file "info/tricks.org") "* %? \n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
           ("f" "Follow up" entry (file "agenda/agenda.org")
@@ -83,7 +84,7 @@
   (setq org-agenda-custom-commands
         '(("x" "Inbox"
            ((tags "PRIORITY=\"A\"" ((org-agenda-overriding-header "High-prio:")))
-            (tags "ongoing"
+            (tags-todo "ongoing"
                   ((org-agenda-files '("~/Dropbox/org/agenda/projects.org"))
                    (org-agenda-overriding-header "Ongoing projects:")))
             (agenda "" ((org-agenda-span 14) (org-agenda-files '("~/Dropbox/org/agenda/agenda.org"))))
@@ -107,7 +108,7 @@
          :map org-mode-map
          ([(control j)] . org-journal-new-entry))
   :custom
-  (org-journal-dir "~/Dropbox/org/journal/")
+  (org-journal-dir "/home/plain/Dropbox/org/journal/")
   (org-journal-date-format "%A, %d/%m/%y"))
 
 

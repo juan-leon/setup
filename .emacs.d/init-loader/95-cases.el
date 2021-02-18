@@ -22,7 +22,7 @@
     "mariano"
     "cristian"
     "daniel"
-    "victorp"
+    "juan-dev"
     "devops-cr"
     ))
 

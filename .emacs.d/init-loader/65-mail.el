@@ -40,12 +40,12 @@
 
 (use-package counsel-bbdb
   :commands counsel-bbdb-reload counsel-bbdb-complete-mail
+  :config (require 'bbdb)
   :ensure t)
 
 
 (use-package bbdb
   :defer
-  :after counsel-bbdb
   :ensure t)
 
 

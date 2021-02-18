@@ -21,6 +21,10 @@
     (let ((buf (get-buffer "*compilation*")))
       (and buf (switch-to-buffer buf))))
 
+  (defun colorize-compilation-buffer ()
+    (ansi-color-apply-on-region compilation-filter-start (point)))
+  (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
   (defun juanleon/execute-buffer ()
     (interactive)
     (let ((compile-command nil))

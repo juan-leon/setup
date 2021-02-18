@@ -104,5 +104,11 @@
 ;; machine XXX.XXX.XXX/api/v4 login XXX^forge XXX
 (use-package forge
   :ensure t
+  :commands juanleon/mr
   :after magit
-  :bind (:map magit-mode-map ([(super ?f)] . forge-dispatch)))
+  :bind (:map magit-mode-map ([(super ?f)] . forge-dispatch))
+  :config
+    (defun juanleon/mr ()
+    (interactive)
+    (forge-create-pullreq
+     (format "origin/%s" (magit-get-current-branch)) "origin/master")))

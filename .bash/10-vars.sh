@@ -1,6 +1,7 @@
 export EDITOR='/usr/bin/emacsclient --alternate-editor /usr/bin/emacs'
 if test -f ~/.domainname; then
-    export EMAIL=juanleon.lahoz@$(cat ~/.domainname)
+    declare -x EMAIL
+    EMAIL="juanleon.lahoz@$(cat ~/.domainname)"
 fi
 
 PATH=/home/juanleon/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/juanleon/.local/bin
@@ -12,5 +13,7 @@ if test -e /usr/share/virtualenvwrapper/virtualenvwrapper.sh; then
 fi
 
 REPODIR=/home/juanleon/www
+export DEBFULLNAME=juanleon
+export DEBEMAIL=$EMAIL
 
 # eval $(ssh-agent)

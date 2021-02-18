@@ -26,3 +26,8 @@ alias wire-log='multitail -n 500 -cS wire /var/log/wire/wire.log'
 alias wlog='multitail -n 500 -CS wire'
 
 alias ssh=r_ssh
+
+export EXA_COLORS="uu=0;36"
+alias ll='exa -l'
+alias lrt='exa -lsnew'
+alias lrtt='exa -lsnew --color=always | tail'

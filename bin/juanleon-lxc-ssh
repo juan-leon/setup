@@ -22,6 +22,8 @@ storm add $host root@$ip:22
 scp ~/.bash_remote $host:.bash_aliases >/dev/null
 scp ~/.tmux.conf ~/.gitconfig $host: >/dev/null
 scp ~/bin/zz-prompt.sh $host:/etc/profile.d >/dev/null
+scp ~/ssh_home/bin/{rg,fd,fzf} $host:/usr/bin
+scp ~/bin/bat $host:/usr/bin
 
 if test -v TMUX; then
     tmux rename-window -t $TMUX_PANE "#[bg=green]$host";
