@@ -100,11 +100,6 @@ function _v_ {
 }
 complete -F _v_ v
 
-
-function revagrant {
-    vagrant destroy -f "$1" && vagrant up "$1" | tee "$1-up.log" ; notify-send "VAGRANT FINISHED"
-}
-
-function reprovision {
-    vagrant provision "$1" | tee "$1-provision.log" ; notify-send "VAGRANT FINISHED"
+function tiempo {
+    curl wttr.in/Madrid?FQ v2.wttr.in/Madrid?F
 }

@@ -31,3 +31,5 @@ export EXA_COLORS="uu=0;36"
 alias ll='exa -l'
 alias lrt='exa -lsnew'
 alias lrtt='exa -lsnew --color=always | tail'
+
+alias tz='TZ_LIST="America/Argentina/Buenos_Aires;ARG,UTC" tz -q'
