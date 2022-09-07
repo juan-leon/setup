@@ -83,3 +83,14 @@
 (global-set-key [(XF86AudioPlay)] (lambda () (interactive) (spotify-commmand "PlayPause")))
 (global-set-key [(XF86AudioPrev)] (lambda () (interactive) (spotify-commmand "prev")))
 (global-set-key [(XF86AudioNext)] (lambda () (interactive) (spotify-commmand "next")))
+
+
+(use-package speed-type
+  :defer t
+  :commands speed-type
+  :init
+  (setq speed-type-gb-book-list '(1342 11 1952 1661 74 1232 23
+        135 5200 2591 844 84 98 2701 1400 16328 174 46 4300 345
+        1080 2500 829 1260 6130 1184 768 32032 521 1399 55 21279
+        159 164 36 62 32032 50133 375 209 53419 1300 308 30240
+        32154 64)))

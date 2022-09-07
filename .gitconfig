@@ -36,15 +36,41 @@
 [push]
   default = upstream
 
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+
+[delta]
+    line-numbers = true
+    side-by-side = false
+
+    syntax-theme = Dracula
+    plus-style = syntax "#003800"
+
+#    minus-style = syntax "#3f0001"
+#    plus-style = "syntax #012800"
+#    minus-style = "syntax #340001"
+#    syntax-theme = Monokai Extended
+#    navigate = true
+
+[interactive]
+    diffFilter = delta --color-only
+
 [diff]
-  # tool = ediff
-  tool = meld
+    renameLimit = 100000
 
-[difftool "ediff"]
-  cmd = emacsclient -c -a \"\"  --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
 
-[merge]
-  tool = ediff
+# [diff]
+#   # tool = ediff
+#   tool = meld
+# 
+# [difftool "ediff"]
+#   cmd = emacsclient -c -a \"\"  --eval \"(ediff-files \\\"$LOCAL\\\" \\\"$REMOTE\\\")\"
+# 
+# [merge]
+#   tool = ediff
 
 [mergetool "ediff"]
   cmd = emacsclient -c -a \"\"  --eval \"(ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\")\"
@@ -73,3 +99,6 @@
 	user = juanleon.lahoz
 [github "gitlab.xcade.net"]
 	user = juanleon.lahoz
+
+[url "git@github.com:"]
+	pushinsteadof = https://github.com/

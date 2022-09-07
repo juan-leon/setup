@@ -2,6 +2,8 @@
 /*.war
 /*.tgz
 /*.deb
+/.venv
+/notes.org
 .#*
 *~
 *.pyc
@@ -13,3 +15,6 @@ __ignore__*
 .mypy_cache
 .dir-locals.el
 *.egg-info
+cobertura.xml
+tarpaulin-report.html
+flycheck_*

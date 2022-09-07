@@ -27,6 +27,8 @@ rb = TestFile('rb', 'rb')
 go = TestFile('go', 'go')
 perl = TestFile('perl', 'perl')
 mail = TestFile('md', 'mail')
+js = TestFile('js', 'js')
+ts = TestFile('ts', 'ts')
 
 template_map = {
     'py': python,
@@ -38,6 +40,8 @@ template_map = {
     'go': go,
     'perl': perl,
     'mail': mail,
+    'js': js,
+    'ts': ts,
 }
 
 

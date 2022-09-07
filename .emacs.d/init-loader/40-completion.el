@@ -156,7 +156,9 @@
       (let ((x (assoc view-name ivy-views)))
         (if x
             (setcdr x (list view))
-          (push (list view-name view) ivy-views))))))
+          (progn
+            (message "View %s updated" view-name)
+            (push (list view-name view) ivy-views)))))))
 
 
 (global-set-key [(super ?=)] 'xxx/update-view-for-project)
@@ -168,7 +170,7 @@
           (delete-other-windows)
           (ivy-set-view-recur (cadr view)))
       (if (magit-git-repo-p (projectile-project-root))
-          (magit-status-internal (projectile-project-root))
+          (magit-status (projectile-project-root))
         (projectile-dired)))))
 
 

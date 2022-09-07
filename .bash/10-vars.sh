@@ -18,3 +18,5 @@ export DEBEMAIL=$EMAIL
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # eval $(ssh-agent)
+
+export PEX_ROOT=/home/plain/pex

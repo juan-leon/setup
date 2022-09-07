@@ -4,6 +4,7 @@
   :bind (([(control ?=)]  . hydra-diff/body)
          ([(control f7)]  . hydra-next-error/body)
          ([(control f10)] . hydra-toggle/body)
+         ([(f12)] . hydra-clock/body)
          ([(control f3)]  . hydra-zoom/body))
 
   :config
@@ -19,6 +20,16 @@
     ("d" diff "diff" :color blue)
     ("w" compare-windows "windows" :color blue)
     ("v" vc-diff "versioned" :color blue))
+
+  (defhydra hydra-clock nil
+    "Show diffs"
+    ("i" org-clock-in "Clock in" :color blue)
+    ("o" org-clock-out "Clock out" :color blue)
+    ("l" org-clock-in-last "Clock in last" :color blue)
+    ("x" (lambda () (interactive) (org-clock-in-last '(4))) "Clock in interactive" :color blue)
+    ("q" org-clock-cancel "Cancel" :color blue)
+    ("j" org-clock-goto "Goto" :color blue)
+    ("d" org-clock-display "Display" :color blue))
 
   (defhydra hydra-next-error ()
     "Error Selection"

@@ -10,6 +10,13 @@
      (setq org-map-continue-from (outline-previous-heading)))
    "/DONE" 'file))
 
+(defun juanleon/org-done-and-archive ()
+  "Flag an agenda item as sone and archive it"
+  (interactive)
+  (org-agenda-todo "DONE")
+  (org-agenda-archive)
+  (org-save-all-org-buffers))
+
 (defun juanleon/org-case-template ()
   "Create a TODO item from a case (in a cases buffer)"
   (format "* TODO Case %s %%? \n  %%U\n  %s\n"
@@ -35,7 +42,9 @@
          ([(control c) ?a] . org-agenda)
          ([(control c) ?c] . org-capture)
          ([(control c) ?4] . juanleon/org-archive-done-tasks)
-         ([(super o)]      . org-switchb))
+         ([(super o)]      . org-switchb)
+         :map org-agenda-mode-map
+         ([(super t)]      . juanleon/org-done-and-archive))
   :config
   (use-package org-bullets :ensure t)
   (require 'ox-md nil t)
@@ -46,7 +55,9 @@
         org-src-fontify-natively t
         org-edit-src-content-indentation 0
         org-support-shift-select t
-        org-deadline-warning-days 1)
+        org-deadline-warning-days 1
+        org-clock-history-length 20
+        org-priority-lowest ?D)
 
   (setq org-refile-use-outline-path 'file
         org-outline-path-complete-in-steps nil
@@ -73,7 +84,8 @@
           ("c" "Case" entry (file "agenda/Inbox.org") (function juanleon/org-case-template))
           ("j" "Journal" entry (file+datetree "info/journal.org") "* %<%R:>%?\n")
           ("g" "Good News" entry (file+datetree "info/goodnews.org") "* %<%R:> %?\n")
-          ("l" "Today I learned" entry (file+datetree "info/til.org") "* %<%R:> %?\n")
+          ("M" "Speed typing" entry (file+datetree "info/typing.org") "* %<%R:> %?\n")
+          ("l" "Today I learned" entry (file+datetree "info/til.org") "* %<%R:> %?")
           ("k" "Trick " entry (file "info/tricks.org") "* %?\n")
           ("K" "Trick with code" entry (file "info/tricks.org") "* %? \n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
           ("f" "Follow up" entry (file "agenda/agenda.org")
@@ -83,12 +95,14 @@
 
   (setq org-agenda-custom-commands
         '(("x" "Inbox"
-           ((tags "PRIORITY=\"A\"" ((org-agenda-overriding-header "High-prio:")))
+           ((tags "PRIORITY=\"A\"" ((org-agenda-overriding-header "Today/Asap:")))
+            (tags "PRIORITY=\"B\"" ((org-agenda-overriding-header "High-prio:")))
+            (agenda "" ((org-agenda-span 14) (org-agenda-files '("~/Dropbox/org/agenda/agenda.org"))))
             (tags-todo "ongoing"
                   ((org-agenda-files '("~/Dropbox/org/agenda/projects.org"))
                    (org-agenda-overriding-header "Ongoing projects:")))
-            (agenda "" ((org-agenda-span 14) (org-agenda-files '("~/Dropbox/org/agenda/agenda.org"))))
-            (alltodo ""))
+            (tags "PRIORITY=\"C\"" ((org-agenda-overriding-header "Reading material:")))
+            (tags "PRIORITY=\"D\"" ((org-agenda-overriding-header "Low-prio:"))))
            ((org-agenda-files '("~/Dropbox/org/agenda/Inbox.org")))))))
 
 

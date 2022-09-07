@@ -11,7 +11,7 @@ alias la='ls -A'
 alias lrt='ls -lrt'
 alias lrtt='ls -lrt --color | tail'
 
-alias s='git status'
+alias s='git status -sb'
 alias gls='git --no-pager ls -6; echo'
 
 alias egrep='egrep --color=auto'

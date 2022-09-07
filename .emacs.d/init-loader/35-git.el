@@ -50,6 +50,7 @@
   :ensure t
   :init
   (setq magit-revision-insert-related-refs nil
+        magit-display-buffer-function 'magit-display-buffer-fullcolumn-most-v1
         git-commit-summary-max-length 70)
   :config
   ;; (define-key magit-status-mode-map [(? )] 'magit-show-commit)
@@ -69,7 +70,7 @@
     (with-temp-buffer
       (cd "..")
       (if (magit-toplevel)
-          (magit-status-internal default-directory)))))
+          (magit-status default-directory)))))
 
 
 (use-package git-messenger
@@ -111,4 +112,11 @@
     (defun juanleon/mr ()
     (interactive)
     (forge-create-pullreq
-     (format "origin/%s" (magit-get-current-branch)) "origin/master")))
+     (format "origin/%s" (magit-get-current-branch)) "origin/master"))
+
+    (defun juanleon/assign-mr ()
+      (interactive)
+      (insert "\n/assign juanleon.lahoz\n/reviewer"))
+
+    (add-hook 'forge-post-mode-hook (lambda ()
+                                      (local-set-key [(super ?a)] 'juanleon/assign-mr))))

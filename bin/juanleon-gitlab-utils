@@ -1,6 +1,7 @@
 #!/bin/bash -eu
 
-readonly BASE_URL=${GITLAB_URL:-https://gitlab.xcade.net/avature}
+readonly BASE_URL=${GITLAB_URL:-https://gitlab.xcade.net}
+readonly GITLAB_REMOTE='git@gitlab.xcade.net:'
 
 current_commit=''
 
@@ -10,9 +11,14 @@ function commit {
 }
 
 function current_repo {
-    local repo
-    repo="$(basename "$(git remote get-url origin)")"
-    echo ${repo%.*}
+    local repo remote
+    remote="$(git remote get-url origin)"
+    remote=${remote%.git}
+    if [[ "$remote" =~ ^$GITLAB_REMOTE.* ]]; then
+        echo ${remote##git@gitlab.xcade.net:}
+    else
+        basename "$remote"
+    fi
 }
 
 function get_gitlab_url {
