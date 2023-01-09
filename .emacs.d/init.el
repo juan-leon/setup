@@ -8,6 +8,8 @@
   (package-install 'use-package)
   (require 'use-package))
 
+;; Doing this as temp workaround for a f package bug with emacs-snapshot
+(require 'shortdoc)
 
 (use-package init-loader
   :ensure t

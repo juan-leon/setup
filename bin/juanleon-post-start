@@ -1,0 +1,25 @@
+#!/bin/bash
+
+setxkbmap -option ctrl:nocaps
+thunderbird &>/dev/null & disown
+firefox &>/dev/null & disown
+rm -f ~/.emacs.d/.emacs.desktop.lock
+emacs &>/dev/null & disown
+chromium-browser &>/dev/null & disown
+rocketchat-desktop &>/dev/null & disown
+
+xmodmap -e "pointer = 1 2 3 4 5 6 0 0 0" 2>/dev/null
+juanleon-keyboard en
+systemctl --user start fetch-mail.timer
+systemctl --user start clean-leaks.timer
+systemctl --user start departed.timer
+
+exec tmux
+
+# tmux new-session -d -t survivor & disown
+# MOVE OUTSIDE User Login Control Group
+# sleep 1
+# tmux attach -t survivor
+#
+# See https://gist.github.com/lionell/34c6d2bc58df11462fb73d034b2d21d1
+# For a persistent tmux

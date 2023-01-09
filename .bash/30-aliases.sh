@@ -33,3 +33,5 @@ alias lrt='exa -lsnew'
 alias lrtt='exa -lsnew --color=always | tail'
 
 alias tz='TZ_LIST="America/Argentina/Buenos_Aires;ARG,UTC" tz -q'
+
+alias switch='TS_WORK_ON_ALL_REPOS=true ts switch'

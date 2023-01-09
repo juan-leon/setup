@@ -4,12 +4,6 @@
          ([(super i)] . rgrep)))
 
 
-(use-package locate
-  :defer t
-  :bind (([(super l)] . locate)
-         ([(super L)] . locate-with-filter)))
-
-
 (use-package ripgrep
   :ensure t
   :defer t
@@ -25,11 +19,7 @@
         wgrep-enable-key "e"))
 
 
-(use-package ag
-  :ensure t
-  :commands ag ag-regexp)
-
-
+;; Nice wrapper around rg, for those few non-projectile direds
 (use-package deadgrep
   :ensure t
   :commands deadgrep)

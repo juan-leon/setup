@@ -175,3 +175,43 @@
   (setq markdown-gfm-additional-languages '("bash"))
   ;; I wonder if I will regret this...
   (modify-syntax-entry ?' "\"" text-mode-syntax-table))
+
+
+(use-package lsp-mode
+  :ensure t
+  :defer t
+  :init
+  (setq lsp-keymap-prefix "s-l")
+  :hook ((go-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+
+;; optionally
+(use-package lsp-ui
+  :ensure t
+  :defer t
+  :commands lsp-ui-mode)
+
+(use-package lsp-ivy
+  :ensure t
+  :defer t
+  :commands lsp-ivy-workspace-symbol)
+
+(use-package lsp-treemacs
+  :ensure t
+  :defer t
+  :commands lsp-treemacs-errors-list)
+
+(use-package rustic
+  :ensure t
+  :bind (:map rustic-mode-map
+              ("M-j" . lsp-ui-imenu)
+              ("M-?" . lsp-find-references)
+              ("C-c C-d l" . flycheck-list-errors)
+              ("C-c C-d a" . lsp-execute-code-action)
+              ("C-c C-d r" . lsp-rename)
+              ("C-c C-d q" . lsp-workspace-restart)
+              ("C-c C-d Q" . lsp-workspace-shutdown)
+              ("C-c C-d s" . lsp-rust-analyzer-status))
+  :config
+  (setq rustic-format-trigger 'on-save))

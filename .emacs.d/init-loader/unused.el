@@ -3,6 +3,33 @@
 ;; future is opaque.
 
 
+(use-package locate
+  :defer t
+  :bind (([(super l)] . locate)
+         ([(super L)] . locate-with-filter)))
+
+
+(use-package ag
+  :ensure t
+  :commands ag ag-regexp)
+
+(use-package jedi
+  :disabled
+  :ensure t
+  :config
+  (setq jedi:tooltip-method nil
+        jedi:environment-root "/home/juanleon/.jedienv"
+        jedi:environment-virtualenv
+        '("virtualenv" "-p" "python3.7" "--system-site-packages" "--quiet")))
+
+
+
+; Part of projectile now
+(use-package projectile-ripgrep
+  :ensure t
+  :after projectile)
+
+
 ;; load-theme-buffer-local is not polished enough to be worth using it
 
 (add-hook 'inferior-python-mode-hook

@@ -20,3 +20,4 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # eval $(ssh-agent)
 
 export PEX_ROOT=/home/plain/pex
+export TS_WORK_ON_ALL_REPOS=true

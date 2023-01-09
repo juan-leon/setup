@@ -14,9 +14,7 @@ readonly FILES="
   bin/juanleon-teg
   bin/juanleon-window
   bin/juanleon-lxc-ssh
-  bin/juanleon-stop-music
-  bin/juanleon-vpn
-  bin/juanleon-form-cr
+  bin/juanleon-post-start
   bin/juanleon--markdown-mail
   bin/compose-mail
   bin/mail-md.css

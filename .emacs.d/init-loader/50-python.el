@@ -26,15 +26,5 @@
   :mode ("\\.py\\'" . python-mode)
   :bind (:map python-mode-map ([(super f5)] . juanleon/copy-import))
   :config
-  (juanleon/workon "py37")
+  (juanleon/workon "py311")
   (add-hook 'python-mode-hook #'juanleon/python-mode-setup))
-
-
-(use-package jedi
-  :disabled
-  :ensure t
-  :config
-  (setq jedi:tooltip-method nil
-        jedi:environment-root "/home/juanleon/.jedienv"
-        jedi:environment-virtualenv
-        '("virtualenv" "-p" "python3.7" "--system-site-packages" "--quiet")))

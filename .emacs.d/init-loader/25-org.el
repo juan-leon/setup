@@ -95,15 +95,16 @@
 
   (setq org-agenda-custom-commands
         '(("x" "Inbox"
-           ((tags "PRIORITY=\"A\"" ((org-agenda-overriding-header "Today/Asap:")))
-            (tags "PRIORITY=\"B\"" ((org-agenda-overriding-header "High-prio:")))
+           ((tags "PRIORITY=\"A\"" ((org-agenda-overriding-header "Today:")))
+            (tags "PRIORITY=\"B\"" ((org-agenda-overriding-header "Progress this week:")))
             (agenda "" ((org-agenda-span 14) (org-agenda-files '("~/Dropbox/org/agenda/agenda.org"))))
-            (tags-todo "ongoing"
-                  ((org-agenda-files '("~/Dropbox/org/agenda/projects.org"))
-                   (org-agenda-overriding-header "Ongoing projects:")))
-            (tags "PRIORITY=\"C\"" ((org-agenda-overriding-header "Reading material:")))
-            (tags "PRIORITY=\"D\"" ((org-agenda-overriding-header "Low-prio:"))))
-           ((org-agenda-files '("~/Dropbox/org/agenda/Inbox.org")))))))
+            (tags "PRIORITY=\"C\"" ((org-agenda-overriding-header "Reviewed this weekly:")))
+            (tags "PRIORITY=\"D\"" ((org-agenda-overriding-header "To be classified:"))))
+           ((org-agenda-files '("~/Dropbox/org/agenda/Inbox.org"))))
+          ("p" "Projects"
+           ((todo "TODO"
+                       ((org-agenda-overriding-header "Ongoing projects:"))))
+           ((org-agenda-files '("~/Dropbox/org/agenda/Projects.org")))))))
 
 
 (use-package org-radiobutton
