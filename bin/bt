@@ -53,7 +53,7 @@ function do_show_unmerged {
     for branch in $(branches --no-merged origin/master); do
         echo
         echo $branch
-        git ls -10 origin/master..$branch
+        git ld -10 origin/master..$branch
     done
 }
 

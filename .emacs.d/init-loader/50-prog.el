@@ -43,6 +43,7 @@
   (add-hook 'text-mode-hook #'ws-butler-mode)
   ;; Why are those below not inheriting from prog-mode?
   (add-hook 'toml-mode-hook #'ws-butler-mode)
+  (add-hook 'svelte-mode-hook #'delete-trailing-whitespace)
   (add-hook 'protobuf-mode-hook #'ws-butler-mode)
   :config
   (setq ws-butler-global-exempt-modes nil))
@@ -128,6 +129,11 @@
   ;; Monkey patch function to avoid buffer modified file flag bug
   (defun php-syntax-propertize-function (start end) nil))
 
+;; (use-package svelte-mode
+;;   :ensure t
+;;   :defer t
+;;   :mode ("\\.svelte\\'" . svelte-mode)
+;;   :hook ((svelte-mode . prog-mode)))
 
 (use-package json-mode
   :mode ("\\.js\\.template\\'" . json-mode))
@@ -183,6 +189,7 @@
   :init
   (setq lsp-keymap-prefix "s-l")
   :hook ((go-mode . lsp)
+         (rustic-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
 
@@ -204,6 +211,7 @@
 
 (use-package rustic
   :ensure t
+  :mode ("\\.rs\\'" . rustic-mode)
   :bind (:map rustic-mode-map
               ("M-j" . lsp-ui-imenu)
               ("M-?" . lsp-find-references)

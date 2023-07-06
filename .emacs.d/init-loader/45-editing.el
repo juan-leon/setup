@@ -9,7 +9,8 @@
 
 (use-package expand-region
   :ensure t
-  :bind (([(super ?1)] . er/expand-region)))
+  :bind (([(super ?1)] . er/expand-region)
+         ([(super ?e)] . er/expand-region)))
 
 
 (use-package easy-kill

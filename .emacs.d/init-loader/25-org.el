@@ -88,6 +88,7 @@
           ("l" "Today I learned" entry (file+datetree "info/til.org") "* %<%R:> %?")
           ("k" "Trick " entry (file "info/tricks.org") "* %?\n")
           ("K" "Trick with code" entry (file "info/tricks.org") "* %? \n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
+          ("E" "Eleo" entry (file "agenda/Kids.org") "* TODO %? \n  %U\n")
           ("f" "Follow up" entry (file "agenda/agenda.org")
            "* TODO Follow up %?\n  SCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+3d\"))")
           ("s" "scheduled" entry (file "agenda/agenda.org")
@@ -101,6 +102,8 @@
             (tags "PRIORITY=\"C\"" ((org-agenda-overriding-header "Reviewed this weekly:")))
             (tags "PRIORITY=\"D\"" ((org-agenda-overriding-header "To be classified:"))))
            ((org-agenda-files '("~/Dropbox/org/agenda/Inbox.org"))))
+          ("E" "Interesting stuff to check out" ((alltodo ""))
+           ((org-agenda-files '("~/Dropbox/org/agenda/Kids.org"))))
           ("p" "Projects"
            ((todo "TODO"
                        ((org-agenda-overriding-header "Ongoing projects:"))))

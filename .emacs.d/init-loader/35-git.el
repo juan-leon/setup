@@ -45,7 +45,8 @@
 
 
 (use-package magit
-  :bind (([(super ?0)] . magit-status))
+  :bind (([(super ?0)] . magit-status)
+         ([(control ?\))] . magit-status))
   :commands magit-git-repo-p magit-status
   :ensure t
   :init
@@ -116,7 +117,7 @@
 
     (defun juanleon/assign-mr ()
       (interactive)
-      (insert "\n/assign juanleon.lahoz\n/reviewer"))
+      (insert "\n/assign susana.ledesma\n/reviewer quimey.vivas"))
 
     (add-hook 'forge-post-mode-hook (lambda ()
                                       (local-set-key [(super ?a)] 'juanleon/assign-mr))))

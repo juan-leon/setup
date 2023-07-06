@@ -2,7 +2,6 @@
 (mapc (lambda (mode) (funcall mode 1))
       '(column-number-mode auto-image-file-mode show-paren-mode size-indication-mode))
 
-
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (setq-default

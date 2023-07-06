@@ -35,6 +35,9 @@
            (name 30 -1)
            " " filename)))
  '(jedi:tooltip-method nil)
+ '(lsp-file-watch-ignored-directories
+   '("[/\\\\]\\.git\\'" "[/\\\\]\\.github\\'" "[/\\\\]\\.circleci\\'" "[/\\\\]\\.hg\\'" "[/\\\\]\\.bzr\\'" "[/\\\\]_darcs\\'" "[/\\\\]\\.svn\\'" "[/\\\\]_FOSSIL_\\'" "[/\\\\]\\.idea\\'" "[/\\\\]\\.ensime_cache\\'" "[/\\\\]\\.eunit\\'" "[/\\\\]node_modules" "[/\\\\]\\.yarn\\'" "[/\\\\]\\.fslckout\\'" "[/\\\\]\\.tox\\'" "[/\\\\]dist\\'" "[/\\\\]dist-newstyle\\'" "[/\\\\]\\.stack-work\\'" "[/\\\\]\\.bloop\\'" "[/\\\\]\\.metals\\'" "[/\\\\]target\\'" "[/\\\\]\\.ccls-cache\\'" "[/\\\\]\\.vscode\\'" "[/\\\\]\\.venv\\'" "[/\\\\]\\.mypy_cache\\'" "[/\\\\]\\.deps\\'" "[/\\\\]build-aux\\'" "[/\\\\]autom4te.cache\\'" "[/\\\\]\\.reference\\'" "bazel-[^/\\\\]+\\'" "[/\\\\]\\.meta\\'" "[/\\\\]Library\\'" "[/\\\\]\\.lsp\\'" "[/\\\\]\\.clj-kondo\\'" "[/\\\\]\\.shadow-cljs\\'" "[/\\\\]\\.babel_cache\\'" "[/\\\\]\\.cpcache\\'" "[/\\\\]\\checkouts\\'" "[/\\\\]\\.gradle\\'" "[/\\\\]\\.m2\\'" "[/\\\\]bin/Debug\\'" "[/\\\\]obj\\'" "[/\\\\]_opam\\'" "[/\\\\]\\.cache\\'" "[/\\\\]\\.elixir_ls\\'" "[/\\\\]\\.direnv\\'"))
+ '(lsp-pyls-plugins-flake8-config "/home/juanleon/.flake8")
  '(magit-log-arguments '("-n48"))
  '(magit-push-arguments nil)
  '(magit-rebase-arguments '("--keep-empty" "--autosquash"))
@@ -81,4 +84,4 @@
  '(git-timemachine-minibuffer-detail-face ((t (:foreground "deep sky blue"))))
  '(org-agenda-date-weekend ((t (:inherit org-agenda-date :foreground "dark gray"))))
  '(org-journal-dir "~/Dropbox/org/journal/")
- '(stripe-highlight ((t (:background "#e4e4d4")))))
+ '(stripe-highlight ((t (:background "#e4e4d4"))) t))

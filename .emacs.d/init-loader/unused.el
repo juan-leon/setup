@@ -2,17 +2,20 @@
 ;; using, or things I do not use anymore but I do not discard using again, since
 ;; future is opaque.
 
-
+;; Rarely used; not worth the key binding
 (use-package locate
   :defer t
   :bind (([(super l)] . locate)
          ([(super L)] . locate-with-filter)))
 
 
+;; rg is enough (projectile-ripgrep and deadgrep cover all my needs)
 (use-package ag
   :ensure t
   :commands ag ag-regexp)
 
+
+;; Going the lsp way for python too
 (use-package jedi
   :disabled
   :ensure t
@@ -23,15 +26,7 @@
         '("virtualenv" "-p" "python3.7" "--system-site-packages" "--quiet")))
 
 
-
-; Part of projectile now
-(use-package projectile-ripgrep
-  :ensure t
-  :after projectile)
-
-
 ;; load-theme-buffer-local is not polished enough to be worth using it
-
 (add-hook 'inferior-python-mode-hook
           (lambda nil
             (load-theme-buffer-local 'tango-dark (current-buffer))))
@@ -43,7 +38,6 @@
             (load-theme-buffer-local 'tango-dark (current-buffer))))
 
 
-
 ;; This is nice, and I leave here as example, but always end using
 ;; 'dired-at-other-repo
 
@@ -53,36 +47,9 @@
 (require 'popwin)
 (require 'button)
 (popwin-mode 1)
-(setq git-repositories
-      (list
-       "~/www/debhelpers"
-       "~/www/githooktools"
-       "~/www/iats/code"
-       "~/www/iatsadmin"
-       "~/www/iatsgithooks"
-       "~/www/iatsreqs"
-       "~/www/iatstesttools"
-       "~/www/iatstools"
-       "~/www/mergequeue"
-       "~/www/sibyl"
-       "~/www/squealer"
-       "~/www/vagrant"
-       "~/repos/git"
-       )
-      )
-
-(defun select-git-repository-from-list()
-  (interactive)
-  (with-output-to-temp-buffer "*git-repositories*"
-    (with-current-buffer "*git-repositories*"
-      (dolist (repo git-repositories)
-        (insert-text-button repo 'action `(lambda (x) (delete-window) (magit-status ,repo)))
-        (newline)))))
-(global-set-key (kbd "C-c \\") 'select-git-repository-from-list)
 
 
 ;; Useful, but I am using projectile for most of the stuff I need tags for.
-
 (defun recreate-tags()
   (interactive)
   (projectile-with-default-dir (projectile-project-root)
@@ -92,7 +59,6 @@
 
 
 ;; I am not using gdb nowadays
-
 (global-set-key [(f12)] 'gdb)
 (eval-after-load "gdb-mi"
   '(progn
@@ -127,9 +93,6 @@
 
 
 ;; I am not using java/maven nowadays
-
-
-
 (global-set-key [(meta f5)]
                 (command (java-compile "pom.xml" "mvn clean install")))
 (global-set-key [(meta f6)]
@@ -138,6 +101,7 @@
                 (command (java-compile "pom.xml" "mvn install")))
 (global-set-key [(meta f8)]
                 (command (java-compile "build.xml" "ant undeploy ; mvn install && ant deploy")))
+
 
 ;; Remove maven false positives
 (add-hook 'compilation-mode-hook
@@ -151,7 +115,7 @@
                             compilation-message nil help-echo nil mouse-face nil) t)))
                'append)))
 
-
+;; ??? This looks for inserting vars into golang based binaries at compile time
 (add-hook 'compilation-mode-hook
           (lambda ()
             (font-lock-add-keywords nil
@@ -159,7 +123,6 @@
                   (0 '(face nil font-lock-face nil
                        compilation-message nil help-echo nil mouse-face nil) t)))
                'append)))
-
 
 
 ;; This is fixed, but my faith on PHP mode is not great
@@ -304,9 +267,7 @@
   (start-process "zeal" nil "zeal" "--query" (concat lang ":" symbol)))
 
 
-
 ;; I rarely used that anymore, replace bindings by move-line
-
 (global-set-key [(super up)]                'prev-function-name-face)
 (global-set-key [(super down)]              'next-function-name-face)
 
@@ -353,7 +314,6 @@
 
 
 ;; packages disabled for a long timer
-
 (use-package ctags
   :ensure t
   :disabled
@@ -562,7 +522,8 @@
   (autoload 'sdcv-search "sdcv")
   :bind ([(control c) ?d] . sdcv-search))
 
-;; Thunderlink is not working well
+
+;; Thunderlink is not working well :-(
 (defun juanleon/open-mail-at-point ()
   (interactive)
   (let ((link (thing-at-point 'line)))
