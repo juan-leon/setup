@@ -110,14 +110,15 @@
   :after magit
   :bind (:map magit-mode-map ([(super ?f)] . forge-dispatch))
   :config
-    (defun juanleon/mr ()
+  (setq forge-notifications-selection '())
+  (defun juanleon/mr ()
     (interactive)
     (forge-create-pullreq
      (format "origin/%s" (magit-get-current-branch)) "origin/master"))
 
-    (defun juanleon/assign-mr ()
-      (interactive)
-      (insert "\n/assign susana.ledesma\n/reviewer quimey.vivas"))
+  (defun juanleon/assign-mr ()
+    (interactive)
+    (insert "\n/assign susana.ledesma\n/reviewer quimey.vivas"))
 
-    (add-hook 'forge-post-mode-hook (lambda ()
-                                      (local-set-key [(super ?a)] 'juanleon/assign-mr))))
+  (add-hook 'forge-post-mode-hook (lambda ()
+                                    (local-set-key [(super ?a)] 'juanleon/assign-mr))))

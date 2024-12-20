@@ -3,6 +3,7 @@
 /*.tgz
 /*.deb
 /.venv
+/.env
 /notes.org
 .#*
 *~

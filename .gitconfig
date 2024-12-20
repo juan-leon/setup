@@ -5,9 +5,10 @@
   # name = IATS Merger
   signkey = 6A1D5802
   signingkey = 6A1D5802
+  # signingkey = /home/juanleon/.ssh/id_rsa
 
 [core]
-  editor = /usr/bin/emacsclient --alternate-editor /usr/bin/emacs
+  editor = emacs.emacsclient --alternate-editor emacs
   excludesfile = ~/.gitignore.global
 
 [receive]
@@ -61,6 +62,9 @@
 [diff]
     renameLimit = 100000
 
+[commit]
+    gpgsign = true
+
 
 # [diff]
 #   # tool = ediff
@@ -93,6 +97,7 @@
 	detachedHead = false
 [gpg]
 	program = gpg2
+	# format = ssh
 [gitlab "gitlab.xcade.net"]
 	user = juanleon.lahoz
 [gitlab "gitlab.xcade.net/api/v4"]
@@ -104,3 +109,12 @@
 	pushinsteadof = https://github.com/
 #[init]
 #	defaultBranch = master
+[credential "https://gitlab.xcade.net"]
+	helper = 
+	helper = !/usr/bin/glab auth git-credential
+[branch]
+	sort = -committerdate
+[maintenance]
+	repo = /home/juanleon/www/puppet-hieradata
+[gpg "ssh"]
+	allowedSignersFile = /home/juanleon/.ssh/allowed_signers

@@ -3,8 +3,13 @@
 systemctl --user start fetch-mail.timer
 systemctl --user start clean-leaks.timer
 systemctl --user start departed.timer
+systemctl --user start short-av.timer
+systemctl --user start scrapit.timer
 
 sudo systemctl stop sophos-spl.service
+
+# sudo route del -net 172.17.0.0  gw 0.0.0.0 netmask 255.255.0.0 dev br-484dd52062cf
+sudo iptables -I DOCKER-USER -j ACCEPT
 exec tmux
 
 # tmux new-session -d -t survivor & disown

@@ -9,7 +9,7 @@
   (setq flycheck-idle-change-delay 3
         flycheck-check-syntax-automatically '(save idle-change mode-enabled)
         ;; json
-        flycheck-json-python-json-executable "python3.7"
+        flycheck-json-python-json-executable "python3.11"
         ;; python
         flycheck-python-flake8-executable "/home/juanleon/.envs/lint/bin/flake8"
         flycheck-python-pycompile-executable "/home/juanleon/.envs/lint/bin/python"
@@ -136,7 +136,10 @@
 ;;   :hook ((svelte-mode . prog-mode)))
 
 (use-package json-mode
-  :mode ("\\.js\\.template\\'" . json-mode))
+  :mode ("\\.js\\.template\\'" . json-mode)
+  :config
+  (add-hook 'json-mode-hook (lambda ()
+                              (set (make-local-variable 'js-indent-level) 2))))
 
 
 (use-package copy-as-format

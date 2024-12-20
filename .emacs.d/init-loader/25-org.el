@@ -42,6 +42,7 @@
          ([(control c) ?a] . org-agenda)
          ([(control c) ?c] . org-capture)
          ([(control c) ?4] . juanleon/org-archive-done-tasks)
+         ([(super ?\')]      . org-switchb)
          ([(super o)]      . org-switchb)
          :map org-agenda-mode-map
          ([(super t)]      . juanleon/org-done-and-archive))

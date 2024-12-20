@@ -1,5 +1,5 @@
 (use-package frame
-  :bind (([(control ?x) (control ?c)] . juanleon/close-frame)
+  :bind (([(control ?x) (control ?c)] . toggle-debug-on-error)
          ([(control ?')] . make-frame))
   :init
   (setq use-dialog-box nil

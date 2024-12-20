@@ -1,6 +1,6 @@
 (defun juanleon/copy-import ()
   (interactive)
-  (projectile-with-default-dir (projectile-project-root)
+  (let ((default-directory (projectile-project-root)))
     (let ((command (format
                     "rg -g '*.py' --no-filename -N -w '^from\\b.*\\bimport\\b.*\\b%s' | head -1"
                     (symbol-at-point))))

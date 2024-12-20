@@ -16,8 +16,8 @@ lxc exec "$container" -- mkdir -p /root/.ssh
         lxc exec "$container" -- tee /home/ubuntu/.ssh/authorized_keys /root/.ssh/authorized_keys
 ) >/dev/null
 
-storm delete $host 2>/dev/null || true
-storm add $host root@$ip:22
+# storm delete $host 2>/dev/null || true
+# storm add $host root@$ip:22
 
 scp ~/.bash_remote $host:.bash_aliases >/dev/null
 scp ~/.tmux.conf ~/.gitconfig $host: >/dev/null
